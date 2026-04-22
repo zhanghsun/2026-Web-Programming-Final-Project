@@ -269,40 +269,36 @@
 </div>
 
 <script>
-    const mapModal = document.getElementById("mapModal");
-    const infoBox = document.getElementById("infoBox");
+        const mapModal = document.getElementById("mapModal");
+        const infoBox = document.getElementById("infoBox");
 
-    // 預載入圖片路徑，確保你檔案目錄正確
-    // 底圖檔案名修正為 ncu_ecology_map.png
-    const mapImage = document.querySelector('img.main-map');
-    
-    // 開啟地圖並強制讓所有點位重新計算
-    function openMap() {
-        mapModal.style.display = "block";
-    }
-
-    function closeMap() {
-        mapModal.style.display = "none";
-        closeInfo();
-    }
-
-    function showInfo(name, text) {
-        document.getElementById("infoTitle").innerText = name;
-        document.getElementById("infoText").innerText = text;
-        infoBox.style.display = "block";
-    }
-
-    function closeInfo() {
-        infoBox.style.display = "none";
-    }
-
-    // 點擊 Modal 黑色背景區域時也能關閉地圖
-    window.onclick = function(event) {
-        if (event.target == mapModal) {
-            closeMap();
+        function openMap() {
+            mapModal.style.display = "block";
         }
-    }
-</script>
+
+        function closeMap() {
+            mapModal.style.display = "none";
+            closeInfo();
+        }
+
+        function showInfo(name, text) {
+            document.getElementById("infoTitle").innerText = name;
+            document.getElementById("infoText").innerText = text;
+            infoBox.classList.add("show");
+        }
+
+        function closeInfo() {
+            infoBox.classList.remove("show");
+        }
+
+        window.onclick = function(event) {
+            if (event.target == mapModal) {
+                closeMap();
+            }
+        }
+    </script>
+
+
 
 </body>
 </html>
