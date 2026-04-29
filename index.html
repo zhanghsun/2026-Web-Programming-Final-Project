@@ -116,12 +116,12 @@
         /* --- Interactive Spots --- */
         .spot {
             position: absolute;
-            width: 50px; /* 調整圓圈大小以匹配地圖細節 */
-            height: 50px;
+            width: 55px; /* 調整圓圈大小以匹配地圖細節 */
+            height: 55px;
             cursor: pointer;
             transition: 0.3s;
-            transform: translate(-50%, -50%);
-            animation: breathe 2.5s infinite ease-in-out;
+            animation:  popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards,
+                        unifiedBounce 2.5s infinite ease-in-out;
         }
         .spot img {
             width: 100%; height: 100%;
