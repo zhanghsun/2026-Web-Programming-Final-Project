@@ -100,6 +100,18 @@
             border-radius: 10px; 
             border: 3px solid #6e9f6e; 
             display: block; /* 確保圖片下方沒有多餘間隙 */
+            border: 3px solid #6e9f6e; 
+            border-radius: 10px;
+        }
+        /* Canvas 用於繪製路線 */
+        #routeCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4;
         }
 
         /* 截圖中的 X 關閉按鈕位置在右上角 */
@@ -108,7 +120,6 @@
             top: 10px; right: 20px;
             color: black; font-size: 40px; font-weight: bold; cursor: pointer;
             z-index: 1000;
-            transition: 0.2s;
         }
         .close:hover { color: red; }
 
@@ -142,7 +153,50 @@
 
         .spot:hover { transform: translate(-50%, -50%) scale(1.3)  ; z-index: 10; }
         .spot:hover img { border-color: white; box-shadow: 0 5px 20px rgba(0,0,0,0.6); }
+        /* 「我的位置」標記樣式 */
+        .user-location {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #2196F3;
+            border: 3px solid white;
+            border-radius: 50% 50% 50% 0;
+            transform: translate(-50%, -100%) rotate(-45deg);
+            z-index: 20;
+            cursor: move;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* 初始狀態稍微淡出，提示使用者尚未設定 */
+            opacity: 0.6;
+        }
+        .user-location.active {
+            opacity: 1;
+            background: #ff5722; /* 設定位置後變色作為視覺反饋 */
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.7);
+        }
+        .user-location::after {
+            content: "";
+            width: 14px;
+            height: 14px;
+            background: white;
+            position: absolute;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
+        .location-tip {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 100;
+            pointer-events: none;
+            transition: 0.3s;
+        }
          
 
         /* --- Info Box (The Description) --- */
@@ -273,16 +327,99 @@
 <script>
         const mapModal = document.getElementById("mapModal");
         const infoBox = document.getElementById("infoBox");
+        const userMarker = document.getElementById("userMarker");
+        const routeCanvas = document.getElementById("routeCanvas");
+        const ctx = routeCanvas.getContext("2d");
+        const mapWrapper = document.getElementById("mapWrapper");
+        const tipBox = document.getElementById("tipBox");
+        const routeNotice = document.getElementById("routeNotice");
+
+        let isLocationSet = false;
 
         function openMap() {
             mapModal.style.display = "block";
+            setTimeout(resizeCanvas, 100);
         }
 
         function closeMap() {
             mapModal.style.display = "none";
             closeInfo();
+            clearRoute();
         }
 
+        function resetLocation() {
+        isLocationSet = false;
+        userMarker.classList.remove('active');
+        tipBox.style.display = "block";
+        tipBox.innerText = "👉 請先點擊地圖設定您的「目前位置」";
+        }
+
+        function resizeCanvas() {
+            routeCanvas.width = mapWrapper.clientWidth;
+            routeCanvas.height = mapWrapper.clientHeight;
+        }
+    
+        // 地圖點擊處理
+        function handleMapClick(event) {
+            // 如果點到生物點位，交給生物點位的 onclick 處理，不在此處移動 Marker
+            if (event.target.closest('.spot')) return;
+    
+            const rect = mapWrapper.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+    
+            // 更新位置
+            userMarker.style.left = x + "%";
+            userMarker.style.top = y + "%";
+            
+            // 標記為已設定
+            if (!isLocationSet) {
+                isLocationSet = true;
+                userMarker.classList.add('active');
+                tipBox.innerText = "✅ 位置已設定！現在點擊點位可規劃路線。";
+                setTimeout(() => { tipBox.style.opacity = "0"; }, 2000);
+            }
+    
+            clearRoute(); // 移動後清除舊線
+        }
+    
+        // 點位互動邏輯
+        function spotInteraction(element, name, text) {
+            if (!isLocationSet) {
+                // 情況 A：尚未設定位置 -> 只跳介紹
+                routeNotice.style.display = "none";
+                showInfo(name, text);
+                // 提示一下使用者要設定位置
+                tipBox.style.opacity = "1";
+                tipBox.innerText = "💡 提示：設定「目前位置」後可顯示路線！";
+            } else {
+                // 情況 B：已設定位置 -> 跳介紹 + 畫線
+                routeNotice.style.display = "block";
+                showInfo(name, text);
+                drawRoute(element);
+            }
+        }
+    
+        function drawRoute(targetEl) {
+            resizeCanvas();
+            const userX = parseFloat(userMarker.style.left) / 100 * routeCanvas.width;
+            const userY = parseFloat(userMarker.style.top) / 100 * routeCanvas.height;
+            const targetX = parseFloat(targetEl.style.left) / 100 * routeCanvas.width;
+            const targetY = parseFloat(targetEl.style.top) / 100 * routeCanvas.height;
+    
+            ctx.clearRect(0, 0, routeCanvas.width, routeCanvas.height);
+            ctx.beginPath();
+            ctx.setLineDash([8, 4]);
+            ctx.moveTo(userX, userY);
+            ctx.lineTo(targetX, targetY);
+            ctx.strokeStyle = "#ff5722"; // 使用醒目的橘色與 Marker 呼應
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+    
+        function clearRoute() {
+            ctx.clearRect(0, 0, routeCanvas.width, routeCanvas.height);
+        }
         function showInfo(name, text) {
             document.getElementById("infoTitle").innerText = name;
             document.getElementById("infoText").innerText = text;
@@ -293,6 +430,7 @@
             infoBox.style.display = "none";
         }
 
+        window.onresize = resizeCanvas;
         window.onclick = function(event) {
             if (event.target == mapModal) {
                 closeMap();
