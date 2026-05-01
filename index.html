@@ -108,7 +108,7 @@
             z-index: 1000;
         }
 
-        /* --- Interactive Spots (完全保留你原本的位置) --- */
+        /* --- Interactive Spots --- */
         .spot {
             position: absolute;
             width: 55px !important;
@@ -146,7 +146,6 @@
         .panel-content { padding: 40px 30px; }
         .panel-header { border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; margin-bottom: 20px; }
         
-        /* 標題與頭像的容器 */
         .title-with-avatar {
             display: flex;
             align-items: center;
@@ -154,10 +153,12 @@
             margin-bottom: 5px;
         }
         .panel-header h2 { margin: 0; color: #8fdf8f; font-size: 28px; }
+
+        /* 這裡改成了正方形樣式 */
         .panel-header img.header-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px; /* 這裡設定微圓角，若要全方型可改為 0 */
             border: 2px solid #8fdf8f;
             object-fit: cover;
         }
@@ -219,13 +220,12 @@
     </div>
 </div>
 
-<!-- Map Modal -->
 <div id="mapModal" class="modal">
     <div class="map-wrapper">
         <span class="close" onclick="closeMap()">&times;</span>
         <img class="main-map" src="ncu_ecology_map.png" alt="NCU Ecology Map">
 
-        <!-- 點位 (使用原本座標) -->
+        <!-- 點位 -->
         <div class="spot" style="top: 28.6%; left: 60.3%;" onclick="displayInfo('squirrel')">
             <img src="animal1.jpg">
         </div>
@@ -259,7 +259,6 @@
     </div>
 </div>
 
-<!-- Side Panel (修改後的結構) -->
 <div id="sidePanel" class="side-panel">
     <button class="close-panel-btn" onclick="closePanel()">&times;</button>
     <div class="panel-content">
@@ -292,8 +291,6 @@
 </div>
 
 <script>
-    // --- 動植物資料中心 ---
-    // 我幫你多加了 'avatar' 欄位，填入對應的圖片檔名
     const speciesData = {
         'squirrel': {
             name: '赤腹松鼠',
@@ -303,19 +300,15 @@
             dist: `<ul>
                 <li><strong>原生分布：</strong> 主要分布於東亞與東南亞</li>
                 <li><strong>台灣地區：</strong> 幾乎全島皆可見，從低海拔到中海拔山區都能生存</li>
-                <li><strong>外來分布：</strong> 在日本、歐洲部分地區因人為引入而建立族群，甚至成為入侵種</li>
                 <li><strong>棲地類型：</strong> 偏好樹木茂密的環境，如闊葉林、人工林，也能適應都市綠地</li>
             </ul>`,
             threats: `<ul>
                 <li><strong>棲地破壞：</strong> 都市開發與森林砍伐，使其原本的樹林棲地減少</li>
-                <li><strong>外來種競爭：</strong> 部分地區可能受到其他松鼠或外來物種競爭資源</li>
                 <li><strong>人為干擾：</strong> 過度接近人類活動區域，可能改變其覓食與行為模式</li>
             </ul>`,
             conservation: `<ul>
                 <li><strong>棲地保護：</strong> 維護森林、生態綠地與校園樹林</li>
                 <li><strong>環境教育：</strong> 宣導不要餵食野生動物，避免改變其自然習性</li>
-                <li><strong>法規管理：</strong> 限制非法捕捉與販售野生動物</li>
-                <li><strong>生態監測：</strong> 持續觀察族群數量與分布，確保生態平衡</li>
             </ul>`
         },
         'magpie': {
@@ -326,18 +319,15 @@
             dist: `<ul>
                 <li><strong>原生分布：</strong> 台灣特有種</li>
                 <li><strong>台灣地區：</strong> 低海拔至中海拔森林，中大校園內極常見</li>
-                <li><strong>外來分布：</strong> 國外偶有非法走私個體，但目前無野外建立族群紀錄</li>
                 <li><strong>棲地類型：</strong> 偏好闊葉林或人為開發程度低的次生林</li>
             </ul>`,
             threats: `<ul>
                 <li><strong>棲地破碎化：</strong> 都市開發導致低海拔森林棲地減少，影響其築巢與覓食範圍</li>
                 <li><strong>人為干擾：</strong> 育雛期間因護巢行為較強，常與人類產生衝突導致巢位受破壞</li>
-                <li><strong>環境藥劑：</strong> 校園周邊若過度使用除草劑或農藥，可能透過食物鏈影響其健康</li>
             </ul>`,
             conservation: `<ul>
                 <li><strong>棲地保護：</strong> 維護校園森林與大型樹木的完整性，提供安全的築巢環境</li>
                 <li><strong>環境教育：</strong> 宣導「不餵食、不干擾」，並教育師生理解其護巢的天性</li>
-                <li><strong>生態監測：</strong> 持續觀察校園內家族的繁殖成功率，確保族群永續發展</li>
             </ul>`
         },
         'lizard': {
@@ -348,18 +338,15 @@
             dist: `<ul>
                 <li><strong>原生分布：</strong> 台灣特有種</li>
                 <li><strong>台灣地區：</strong> 全島低海拔至中海拔山區，分布廣泛</li>
-                <li><strong>外來分布：</strong> 隨木材貿易意外引入至日本部分島嶼，造成生態影響</li>
                 <li><strong>棲地類型：</strong> 偏好有樹木的環境，常見於樹幹與草叢間</li>
             </ul>`,
             threats: `<ul>
                 <li><strong>棲地破碎化：</strong> 校園建物過多或樹木間距過大，限制其在樹冠層間移動與避敵</li>
-                <li><strong>外來種競爭：</strong> 部分地區受到外來種（如沙氏變色蜥）競爭食物來源與生存空間</li>
                 <li><strong>人為干擾：</strong> 行人過度驚擾或校園流浪貓狗的捕食壓力，影響其族群穩定</li>
             </ul>`,
             conservation: `<ul>
                 <li><strong>棲地保護：</strong> 維護校園森林與綠帶的連結性，保留樹木作為其活動與日曬場所</li>
-                <li><strong>環境教育：</strong> 宣導「遠觀而不捕捉」，讓師生了解其在控制昆蟲數量上的生態功能</li>
-                <li><strong>生態監測：</strong> 持續觀察校園內樹幹上的族群分佈，確保生態鍊中階掠食者的平衡</li>
+                <li><strong>環境教育：</strong> 宣導「遠觀而不捕捉」，讓師生了解其生態功能</li>
             </ul>`
         },
         'frog': {
@@ -370,18 +357,15 @@
             dist: `<ul>
                 <li><strong>原生分布：</strong> 東亞、東南亞及南亞大部分地區</li>
                 <li><strong>台灣地區：</strong> 全島平地及低海拔山區最常見的蛙類</li>
-                <li><strong>外來分布：</strong> 隨農產品貿易意外引入至日本與部分太平洋島嶼</li>
                 <li><strong>棲地類型：</strong> 稻田、草地、水溝及校園潮濕綠地</li>
             </ul>`,
             threats: `<ul>
                 <li><strong>棲地破碎化：</strong> 校園內過多的水泥地與排水溝，阻隔了澤蛙移動與繁殖的路徑</li>
-                <li><strong>農藥與化學汙染：</strong> 陸域草皮或水池若過度噴灑化學藥劑，會直接透過皮膚傷害兩棲類</li>
-                <li><strong>人為干擾：</strong> 夜間強光照射或不當捕捉，會影響其求偶鳴叫與正常的覓食行為</li>
+                <li><strong>農藥與化學汙染：</strong> 會直接透過皮膚傷害兩棲類</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>棲地保護：</strong> 保留校園內的草澤與落葉堆，提供其避敵與保濕的生存空間</li>
-                <li><strong>環境教育：</strong> 宣導減少化學藥劑使用，保護校園天然的「生物捕蚊器」</li>
-                <li><strong>生態監測：</strong> 觀察雨後鳴叫的族群分佈，作為校園水陸環境健康的指標</li>
+                <li><strong>棲地保護：</strong> 保留校園內的草澤與落葉堆，提供生存空間</li>
+                <li><strong>環境教育：</strong> 保護校園天然的「生物捕蚊器」</li>
             </ul>`
         },
         'dragonfly': {
@@ -392,18 +376,15 @@
             dist: `<ul>
                 <li><strong>原生分布：</strong> 廣泛分佈於東亞、南亞及東南亞</li>
                 <li><strong>台灣地區：</strong> 普遍分佈於全島低海拔山區與平地</li>
-                <li><strong>外來分布：</strong> 目前無顯著跨洲的人為引入建立族群紀錄</li>
                 <li><strong>棲地類型：</strong> 水池、溝渠、沼澤等緩流或靜止水域</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>棲地破壞：</strong> 校園水池或溼地若過度水泥化，會導致其幼蟲（水蠆）失去生存空間</li>
-                <li><strong>水質污染：</strong> 生活廢水或化學藥劑流入水域，會直接影響幼蟲發育與獵物數量</li>
-                <li><strong>人為干擾：</strong> 過度的水生植物修剪或水池清理，會破壞其成蟲羽化與產卵的環境</li>
+                <li><strong>棲地破壞：</strong> 校園水池或溼地若過度水泥化，導致幼蟲失去生存空間</li>
+                <li><strong>水質污染：</strong> 生活廢水或化學藥劑流入水域</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>棲地保護：</strong> 維護校園生態池的自然植被，保留倒木或水生植物供其棲息</li>
-                <li><strong>環境教育：</strong> 宣導減少水域污染，並讓師生了解蜻蜓作為生物指標的重要性</li>
-                <li><strong>生態監測：</strong> 持續觀察水域周邊的族群數量，確保水域生態系統的健康平衡</li>
+                <li><strong>棲地保護：</strong> 維護校園生態池的自然植被</li>
+                <li><strong>環境教育：</strong> 了解蜻蜓作為生物指標的重要性</li>
             </ul>`
         },
         'cedar': {
@@ -412,20 +393,17 @@
             scientific: 'Calocedrus formosana',
             classification: '松柏綱 Coniferopsida／松柏目 Pinales／柏科 Cupressaceae',
             dist: `<ul>
-                <li><strong>原生分布：</strong> 台灣特有種</li>
+                <li><strong>原生分布：</strong> 台灣特特有種</li>
                 <li><strong>台灣地區：</strong> 北部及中部中低海拔山區，校園常有栽植</li>
-                <li><strong>外來分布：</strong> 目前無顯著野外外來分布，僅有少數國外植物園引種試種</li>
-                <li><strong>棲地類型：</strong> 偏好濕潤的山谷或溪澗旁，能耐陰影</li>
+                <li><strong>棲地類型：</strong> 偏好濕潤的山谷或溪澗旁</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>病蟲害侵襲：</strong> 易受蚜蟲或介殼蟲危害，導致針葉枯萎或生長衰弱</li>
-                <li><strong>環境適應力：</strong> 若排水不良或土壤過度板結，容易引發根部腐爛</li>
-                <li><strong>人為破壞：</strong> 肖楠木材質地優良，在野外常面臨非法砍伐或人為盜採</li>
+                <li><strong>病蟲害侵襲：</strong> 易受蚜蟲或介殼蟲危害</li>
+                <li><strong>環境適應力：</strong> 若排水不良容易引發根部腐爛</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>專業維護：</strong> 定期進行病蟲害防治（打藥）與枯枝落葉清理</li>
-                <li><strong>棲地管理：</strong> 維持樹穴土壤疏鬆與排水通暢，確保根系健康生長</li>
-                <li><strong>生態監測：</strong> 針對校園內珍貴的老樹進行編號管理，防止非法破壞</li>
+                <li><strong>專業維護：</strong> 定期進行病蟲害防治與枯枝清理</li>
+                <li><strong>棲地管理：</strong> 維持樹穴土壤疏鬆與排水通暢</li>
             </ul>`
         },
         'juniper': {
@@ -435,19 +413,15 @@
             classification: '松柏綱 Coniferopsida／松柏目 Pinales／柏科 Cupressaceae',
             dist: `<ul>
                 <li><strong>原生分布：</strong> 東亞地區，如台灣、中國、日本</li>
-                <li><strong>台灣地區：</strong> 普遍栽植於校園、機關與墓園作為景觀樹</li>
-                <li><strong>外來分布：</strong> 廣泛引種至北美、歐洲等地的園藝造造景中</li>
-                <li><strong>棲地類型：</strong> 偏好陽光充足、排水良好的中性土壤</li>
+                <li><strong>台灣地區：</strong> 普遍栽植於校園景觀樹</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>病蟲害侵襲：</strong> 易受紅蜘蛛（葉蟎）或介殼蟲危害，導致針葉枯黃脫落</li>
-                <li><strong>環境濕度：</strong> 若排水不良或通風欠佳，容易引發根腐病，影響植株生長</li>
-                <li><strong>人為破壞：</strong> 龍柏生長緩慢，若因修剪不當或人為攀折，傷口極難復原</li>
+                <li><strong>病蟲害侵襲：</strong> 易受紅蜘蛛或介殼蟲危害</li>
+                <li><strong>人為破壞：</strong> 若修剪不當傷口極難復原</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>專業照護：</strong> 定期進行病蟲害防治（打藥）與專業外觀修剪</li>
-                <li><strong>棲地管理：</strong> 維持樹穴土壤的排水性與通風，確保根系健康穩定</li>
-                <li><strong>生態監測：</strong> 持續觀察樹齡較長的老龍柏，防止傾斜或主幹空洞化</li>
+                <li><strong>專業照護：</strong> 定期進行病蟲害防治與專業修剪</li>
+                <li><strong>棲地管理：</strong> 維持樹穴土壤的排水性與通風</li>
             </ul>`
         },
         'paperbark': {
@@ -456,20 +430,15 @@
             scientific: 'Melaleuca leucadendra',
             classification: '木蘭綱 Magnoliopsida／桃金孃目 Myrtales／桃金孃科 Myrtaceae',
             dist: `<ul>
-                <li><strong>原生分布：</strong> 澳洲、巴布亞紐幾內亞與東南亞</li>
-                <li><strong>台灣地區：</strong> 全台各地廣泛栽種，常見於行道樹與校園</li>
-                <li><strong>外來分布：</strong> 引入美國（如佛州）與東南亞其他地區，部分地區具侵略性</li>
-                <li><strong>棲地類型：</strong> 適應力強，能生長於潮濕或乾旱的環境</li>
+                <li><strong>原生分布：</strong> 澳洲、東南亞</li>
+                <li><strong>台灣地區：</strong> 全台各地廣泛栽種</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>病蟲害侵襲：</strong> 易受蚜蟲、介殼蟲或白粉病危害，導致葉片捲曲或生長受阻</li>
-                <li><strong>人為破壞：</strong> 海綿狀的樹皮容易被遊客或學生剝除，影響樹幹的水分傳導</li>
-                <li><strong>棲地退化：</strong> 土壤過度板結導致根系無法呼吸，長期可能影響老樹生命力</li>
+                <li><strong>人為破壞：</strong> 海綿狀的樹皮容易被剝除，影響水分傳導</li>
+                <li><strong>棲地退化：</strong> 土壤過度板結導致根系無法呼吸</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>專業照護：</strong> 定期進行安全巡檢、預防投藥（打藥）與枯枝修剪</li>
-                <li><strong>棲地改良：</strong> 維持樹穴土壤疏鬆度，確保根系有充足的呼吸與養分</li>
-                <li><strong>環境教育：</strong> 宣導「不隨手剝樹皮」，守護校園樹木的健康與完整</li>
+                <li><strong>環境教育：</strong> 宣導「不隨手剝樹皮」，守護校園樹木健康</li>
             </ul>`
         },
         'acacia': {
@@ -479,19 +448,15 @@
             classification: '木蘭綱 Magnoliopsida／豆目 Fabales／豆科 Fabaceae',
             dist: `<ul>
                 <li><strong>原生分布：</strong> 台灣、菲律賓及越南北部</li>
-                <li><strong>台灣地區：</strong> 全島低海拔丘陵及平地，為常見造林樹種</li>
-                <li><strong>外來分布：</strong> 引入中國華南、琉球群島及部分東南亞國家</li>
-                <li><strong>棲地類型：</strong> 極耐旱與貧瘠，常見於向陽山坡地</li>
+                <li><strong>台灣地區：</strong> 全島低海拔丘陵及平地</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>棲地開發：</strong> 校園建物擴建或硬舖面增加，限制其根系生長空間</li>
-                <li><strong>氣候影響：</strong> 極端氣候導致的強風或乾旱，可能造成老樹枯萎或傾倒</li>
-                <li><strong>病蟲害侵襲：</strong> 易受靈芝栓菌（褐根病）危害，影響樹體結構安全</li>
+                <li><strong>棲地開發：</strong> 硬舖面增加限制其根系生長空間</li>
+                <li><strong>病蟲害侵襲：</strong> 易受褐根病危害</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>專業維護：</strong> 定期進行安全巡檢、預防投藥與枯枝修剪</li>
-                <li><strong>棲地管理：</strong> 維持樹穴透氣性並保護周邊自然植被</li>
-                <li><strong>生態監測：</strong> 持續觀察老樹生長狀況，確保校園綠色資產永續</li>
+                <li><strong>專業維護：</strong> 定期進行安全巡檢與枯枝修剪</li>
+                <li><strong>棲地管理：</strong> 維持樹穴透氣性</li>
             </ul>`
         },
         'cherry': {
@@ -500,19 +465,15 @@
             scientific: 'Prunus spp.',
             classification: '木蘭綱 Magnoliopsida／薔薇目 Rosales／薔薇科 Rosaceae',
             dist: `<ul>
-                <li><strong>原生分布：</strong> 北半球溫帶地區，如東亞、歐洲及北美</li>
-                <li><strong>台灣地區：</strong> 全台山區及校園、公園等人工栽植區</li>
-                <li><strong>棲地類型：</strong> 喜歡排水良好、陽光充足的開放坡地</li>
+                <li><strong>原生分布：</strong> 北半球溫帶地區</li>
+                <li><strong>台灣地區：</strong> 全台山區及校園栽植區</li>
             </ul>`,
             threats: `<ul>
-                <li><strong>病蟲害侵襲：</strong> 易受蚜蟲、桑白蚧及褐斑病影響植株健康</li>
-                <li><strong>氣候變遷：</strong> 暖冬與異常降雨導致花期紊亂及授粉失敗</li>
-                <li><strong>人為干擾：</strong> 遊客攀折花木或過度踐踏根部導致土壤板結</li>
+                <li><strong>氣候變遷：</strong> 暖冬與異常降雨導致花期紊亂</li>
+                <li><strong>人為干擾：</strong> 遊客攀折花木或踐踏根部</li>
             </ul>`,
             conservation: `<ul>
-                <li><strong>專業養護：</strong> 定期進行病蟲害防治（打藥）與枯枝修剪</li>
-                <li><strong>棲地優化：</strong> 維護樹周土壤透氣性，減少人為活動壓力</li>
-                <li><strong>環境教育：</strong> 宣導「賞花不折花」，提升校園保護意識</li>
+                <li><strong>環境教育：</strong> 宣導「賞花不折花」，提升保護意識</li>
             </ul>`
         }
     };
@@ -529,13 +490,12 @@
         closePanel();
     }
 
-    // 更新後的顯示邏輯，會順便抓取 avatar 圖片
     function displayInfo(key) {
         const data = speciesData[key];
         if (!data) return;
 
         document.getElementById("panelTitle").innerText = data.name;
-        document.getElementById("panelAvatar").src = data.avatar; // 設定圖片路徑
+        document.getElementById("panelAvatar").src = data.avatar;
         document.getElementById("panelScientific").innerText = data.scientific;
         document.getElementById("panelClass").innerText = data.classification;
         document.getElementById("panelDist").innerHTML = data.dist;
