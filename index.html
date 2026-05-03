@@ -39,6 +39,7 @@
         .nav a:hover { background: #4e7f4e; }
         .nav a.active { background: #1f3f2b; }
 
+        /* --- 頁面顯示邏輯 --- */
         .page { display: none; }
         .page.active { display: block; }
 
@@ -190,11 +191,10 @@
         }
         .panel-header h2 { margin: 0; color: #8fdf8f; font-size: 28px; }
 
-        /* 這裡改成了正方形樣式 */
         .panel-header img.header-avatar {
             width: 80px;
             height: 80px;
-            border-radius: 8px; /* 這裡設定微圓角，若要全方型可改為 0 */
+            border-radius: 8px;
             border: 2px solid #8fdf8f;
             object-fit: cover;
         }
@@ -221,42 +221,46 @@
         <div class="header-title">中央大學 生態與保育資訊網</div>
         <div class="header-sub">National Central University Ecological and Conservation Information Website</div>
     </div>
-    <img src="logo.png" width="100" alt="NCU Logo">
+    <img src="logo.png" width="100" alt="NCU Logo" onerror="this.style.display='none'">
 </div>
 
 <div class="nav">
-    <a href="#">首頁<br>Home</a>
+    <a id="nav-home" onclick="showPage('home')" class="active">首頁<br>Home</a>
     <a href="javascript:void(0)" onclick="openMap()">中大生態地圖<br>NCU Ecology Map</a>
     <a href="#">資源中心<br>Resources</a>
-    <a href="#">參與我們<br>Join Us</a>
+    <!-- 修正：添加 onclick -->
+    <a id="nav-join" onclick="showPage('join')">參與我們<br>Join Us</a>
 </div>
 
-<div class="container">
-    <div class="left">
-        <img src="ncu.jpg" alt="NCU Campus">
-        <div class="text-overlay">
-            生活在中央大學，<br>但我們究竟對周遭的環境及其保育了解多少呢？
+<!-- 修正：將首頁內容包裝起來 -->
+<div id="home-page" class="page active">
+    <div class="container">
+        <div class="left">
+            <img src="ncu.jpg" alt="NCU Campus">
+            <div class="text-overlay">
+                生活在中央大學，<br>但我們究竟對周遭的環境及其保育了解多少呢？
+            </div>
         </div>
-    </div>
 
-    <div class="right">
-        <div class="map-box" onclick="openMap()">
-            <h3>生態地圖 (點擊開啟)</h3>
-            <p>探索校園動植物分布</p>
-            <img src="map.png" alt="Map Preview">
-        </div>
-        <div class="box animal">
-            <h3>常見動物</h3>
-            <p>台灣藍鵲、赤腹松鼠、攀蜥、澤蛙、霜白蜻蜓</p>
-        </div>
-        <div class="box plant">
-            <h3>常見植物</h3>
-            <p>台灣肖楠、龍柏、白千層、相思樹、櫻花</p>
+        <div class="right">
+            <div class="map-box" onclick="openMap()">
+                <h3>生態地圖 (點擊開啟)</h3>
+                <p>探索校園動植物分布</p>
+                <img src="map.png" alt="Map Preview">
+            </div>
+            <div class="box animal">
+                <h3>常見動物</h3>
+                <p>台灣藍鵲、赤腹松鼠、攀蜥、澤蛙、霜白蜻蜓</p>
+            </div>
+            <div class="box plant">
+                <h3>常見植物</h3>
+                <p>台灣肖楠、龍柏、白千層、相思樹、櫻花</p>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- 參與我們畫面 (新分頁) -->
+<!-- 參與我們畫面 (保持原樣，確保被正確切換) -->
 <div id="join-page" class="page">
     <div class="form-container">
         <h2 style="color: #8fdf8f; text-align: center;">參與我們 & 意見回饋</h2>
@@ -292,12 +296,13 @@
 <footer style="text-align: center; padding: 40px; opacity: 0.6; font-size: 12px;">
     &copy; 2024 國立中央大學 生態保育小組. All Rights Reserved.
 </footer>
+
 <div id="mapModal" class="modal">
     <div class="map-wrapper">
         <span class="close" onclick="closeMap()">&times;</span>
         <img class="main-map" src="ncu_ecology_map.png" alt="NCU Ecology Map">
 
-        <!-- 點位 -->
+        <!-- 點位 (保留原樣) -->
         <div class="spot" style="top: 28.6%; left: 60.3%;" onclick="displayInfo('squirrel')">
             <img src="animal1.jpg">
         </div>
@@ -363,6 +368,22 @@
 </div>
 
 <script>
+    // 修正：新增分頁切換函數
+    function showPage(pageId) {
+        // 隱藏所有頁面
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        // 移除所有導覽選取狀態
+        document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+        
+        // 顯示指定的頁面
+        document.getElementById(pageId + '-page').classList.add('active');
+        // 設定選取的導覽按鈕顏色
+        document.getElementById('nav-' + pageId).classList.add('active');
+        
+        // 切換頁面後捲動到頂部
+        window.scrollTo(0, 0);
+    }
+
     const speciesData = {
         'squirrel': {
             name: '赤腹松鼠',
@@ -553,19 +574,12 @@
     const mapModal = document.getElementById("mapModal");
     const sidePanel = document.getElementById("sidePanel");
 
-    function openMap() {
-        mapModal.style.display = "block";
-    }
-
-    function closeMap() {
-        mapModal.style.display = "none";
-        closePanel();
-    }
+    function openMap() { mapModal.style.display = "block"; }
+    function closeMap() { mapModal.style.display = "none"; closePanel(); }
 
     function displayInfo(key) {
         const data = speciesData[key];
         if (!data) return;
-
         document.getElementById("panelTitle").innerText = data.name;
         document.getElementById("panelAvatar").src = data.avatar;
         document.getElementById("panelScientific").innerText = data.scientific;
@@ -573,19 +587,12 @@
         document.getElementById("panelDist").innerHTML = data.dist;
         document.getElementById("panelThreats").innerHTML = data.threats;
         document.getElementById("panelConservation").innerHTML = data.conservation;
-        
         sidePanel.classList.add("show");
     }
 
-    function closePanel() {
-        sidePanel.classList.remove("show");
-    }
+    function closePanel() { sidePanel.classList.remove("show"); }
 
-    window.onclick = function(event) {
-        if (event.target == mapModal) {
-            closeMap();
-        }
-    }
+    window.onclick = function(event) { if (event.target == mapModal) closeMap(); }
 </script>
 
 </body>
