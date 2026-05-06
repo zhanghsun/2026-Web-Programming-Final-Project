@@ -235,6 +235,37 @@
             z-index: 1000;
         }
 
+        .resource-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.65);
+        }
+        
+        .resource-modal-content {
+            background: #1f3f2b;
+            color: white;
+            width: 70%;
+            max-width: 700px;
+            margin: 120px auto;
+            padding: 35px;
+            border-radius: 20px;
+            border: 2px solid #8fdf8f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        
+        .resource-close {
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+        
         /* --- Interactive Spots --- */
         .spot {
             position: absolute;
@@ -742,6 +773,7 @@
     function showResource(title, text) {
         document.getElementById("resource-title").textContent = title;
         document.getElementById("resource-text").textContent = text;
+        document.getElementById("resourceModal").style.display = "block";
     }
         
     function displayInfo(key) {
