@@ -416,12 +416,6 @@
                 </div>
             </div>
         </div>
-        <div id="resource-display" class="resource-display">
-            <h2 id="resource-title">請選擇一項資源</h2>
-            <p id="resource-text">
-                點擊上方卡片後，詳細內容會顯示在這裡。
-            </p>
-        </div>
     </div>
 </div>
 
@@ -767,6 +761,12 @@
 
     window.onclick = function(event) { if (event.target == mapModal) closeMap(); }
 </script>
-
+    <div id="resourceModal" class="resource-modal">
+        <div class="resource-modal-content">
+            <span class="resource-close" onclick="closeResource()">&times;</span>
+            <h2 id="resource-title">標題</h2>
+            <p id="resource-text">內容</p>
+        </div>
+    </div>
 </body>
 </html>
