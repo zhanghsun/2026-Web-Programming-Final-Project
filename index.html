@@ -76,10 +76,55 @@
         .map-box:hover { background: #6e9f6e; transform: translateY(-5px); }
         .map-box img { width: 80%; border-radius: 5px; margin-top: 10px; }
 
-        .box { padding: 20px; border-radius: 20px; transition: 0.3s; }
+        /* 新增：讓動物與植物箱子左右並排的橫向容器 */
+        .lists-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 修改：把圓角設定成頂部大圓角（還原預設稿的拱門設計） */
+        .box { 
+            flex: 1;
+            padding: 25px 15px; 
+            border-radius: 60px 60px 0 0; 
+            transition: 0.3s; 
+            text-align: center;
+        }
         .animal { background: #3c7a7a; }
         .plant { background: #7a6a3c; }
-        .box h3 { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
+        
+        .box h3 { 
+            margin-top: 5px; 
+            font-size: 22px; 
+            font-weight: bold;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255,255,255,0.3); 
+            padding-bottom: 8px; 
+        }
+
+        /* 新增：直列清單樣式 */
+        .species-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .species-list li {
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.2s ease-in-out;
+        }
+        /* 滑鼠懸停時的反饋效果 */
+        .species-list li:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
 
         /* --- Resource Center Styles --- */
         .resource-header {
@@ -352,9 +397,6 @@
     <a id="nav-join" onclick="showPage('join')">參與我們<br>Join Us</a>
 </div>
 
-
-
-<!-- 首頁內容 -->
 <div id="home-page" class="page active">
     <div class="container">
         <div class="left">
@@ -370,19 +412,34 @@
                 <p>探索校園動植物分布</p>
                 <img src="map.png" alt="Map Preview">
             </div>
-            <div class="box animal">
-                <h3>常見動物</h3>
-                <p>台灣藍鵲、赤腹松鼠、攀蜥、澤蛙、霜白蜻蜓</p>
-            </div>
-            <div class="box plant">
-                <h3>常見植物</h3>
-                <p>台灣肖楠、龍柏、白千層、相思樹、櫻花</p>
+
+            <div class="lists-container">
+                <div class="box animal">
+                    <h3>動物</h3>
+                    <ul class="species-list">
+                        <li onclick="displayInfo('magpie')">台灣藍鵲</li>
+                        <li onclick="displayInfo('squirrel')">赤腹松鼠</li>
+                        <li onclick="displayInfo('lizard')">斯文豪氏攀蜥</li>
+                        <li onclick="displayInfo('frog')">澤蛙</li>
+                        <li onclick="displayInfo('dragonfly')">霜白蜻蜓</li>
+                    </ul>
+                </div>
+
+                <div class="box plant">
+                    <h3>植物</h3>
+                    <ul class="species-list">
+                        <li onclick="displayInfo('cedar')">台灣肖楠</li>
+                        <li onclick="displayInfo('juniper')">龍柏</li>
+                        <li onclick="displayInfo('paperbark')">白千層</li>
+                        <li onclick="displayInfo('acacia')">相思樹</li>
+                        <li onclick="displayInfo('cherry')">櫻花</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 資源中心 -->
 <div id="resources-page" class="page">
     <div class="resource-header">
         <h1>資源中心</h1>
@@ -395,7 +452,6 @@
     </div>
 
     <div class="resource-content">
-        <!-- 學生資源：改為三個功能按鈕 -->
         <div id="student-info" class="info-card active">
             <div class="resource-grid">
                 <div class="action-button" onclick="showResource('生態社團參與', '掌握環境志工與生態保育社團活動。')">
@@ -411,7 +467,6 @@
             </div>
         </div>
 
-        <!-- 教師資源：改為三個功能按鈕 -->
         <div id="teacher-info" class="info-card">
             <div class="resource-grid">
                 <div class="action-button" onclick="showResource('戶外教學場域指引', '中大湖、松林區等生態熱點路徑規劃，可提供教師安排校園生態觀察與戶外教學。')">
@@ -428,7 +483,6 @@
             </div>
         </div>
 
-        <!-- 資料庫：改為三個功能按鈕 -->
         <div id="database-info" class="info-card">
             <div class="resource-grid">
                 <div class="action-button" onclick="showResource('綠地改善方案', '提供原生種植栽選擇與生物多樣性提升建議。')">
@@ -451,7 +505,6 @@
     </div>
 </div>
 
-<!-- 參與我們 -->
 <div id="join-page" class="page">
     <div class="form-container">
         <h2 style="color: #8fdf8f; text-align: center;">參與我們 & 意見回饋</h2>
@@ -493,7 +546,6 @@
         <span class="close" onclick="closeMap()">&times;</span>
         <img class="main-map" src="ncu_ecology_map.png" alt="NCU Ecology Map">
 
-        <!-- 點位 -->
         <div class="spot" style="top: 28.6%; left: 60.3%;" onclick="displayInfo('squirrel')">
             <img src="animal1.jpg">
         </div>
@@ -576,7 +628,6 @@
         window.scrollTo(0, 0);
     }
 
-    // 身分資源切換邏輯
     function switchRole(role, btn) {
         document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -687,7 +738,7 @@
             scientific: 'Calocedrus formosana',
             classification: '松柏綱 Coniferopsida／松柏目 Pinales／柏科 Cupressaceae',
             dist: `<ul>
-                <li><strong>原生分布：</strong> 台灣特特有種</li>
+                <li><strong>原生分布：</strong> 台灣特有種</li>
                 <li><strong>台灣地區：</strong> 北部及中部中低海拔山區，校園常有栽植</li>
                 <li><strong>棲地類型：</strong> 偏好濕潤的山谷或溪澗旁</li>
             </ul>`,
@@ -803,6 +854,7 @@
             console.error(error);
         }
     }
+    
     function showResource(title, text) {
         document.getElementById("resource-title").textContent = title;
         document.getElementById("resource-text").textContent = text;
