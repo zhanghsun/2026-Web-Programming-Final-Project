@@ -459,14 +459,14 @@
             如果您在校園發現了稀有物種，或有任何建議，請告訴我們。
         </p>
         
-        <form onsubmit="submitJoinForm(event, this)">
+        <form onsubmit="submitJoinForm(event)">
             <div class="form-group">
                 <label>姓名</label>
-                <input type="text" required placeholder="您的姓名">
+                <input id="name" type="text" required placeholder="您的姓名">
             </div>
             <div class="form-group">
                 <label>回饋類型</label>
-                <select>
+                <select id="type">
                     <option>生態觀察回報</option>
                     <option>資訊勘誤</option>
                     <option>其他建議</option>
@@ -474,7 +474,7 @@
             </div>
             <div class="form-group">
                 <label>詳細內容</label>
-                <textarea rows="5" required placeholder="請輸入內容..."></textarea>
+                <textarea id="message" rows="5" required placeholder="請輸入內容..."></textarea>
             </div>
             <button type="submit" class="submit-btn">送出回饋</button>
             <p style="text-align: center; margin-top: 20px;">
@@ -778,12 +778,22 @@
     function openMap() { mapModal.style.display = "block"; }
     function closeMap() { mapModal.style.display = "none"; closePanel(); }
 
-    function submitJoinForm(event, form) {
+    function submitJoinForm(event) {
         event.preventDefault();
-        alert('感謝您的提交！');
-        form.reset();
+    
+        const data = {
+            name: document.getElementById("name").value,
+            type: document.getElementById("type").value,
+            message: document.getElementById("message").value
+        };
+    
+        console.log(data);
+    
+        alert("感謝您的回饋，我們已收到資料！");
+    
+        event.target.reset();
+    
         showPage('home');
-        window.scrollTo(0, 0);
     }
     function showResource(title, text) {
         document.getElementById("resource-title").textContent = title;
