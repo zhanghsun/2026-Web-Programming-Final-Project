@@ -396,7 +396,7 @@
         <div class="header-title">中央大學 生態與保育資訊網</div>
         <div class="header-sub">National Central University Ecological and Conservation Information Website</div>
     </div>
-    <img src="logo.png" width="100" alt="NCU Logo" onerror="this.style.display='none'">
+    <img src="images/logo.png" width="100" alt="NCU Logo" onerror="this.style.display='none'">
 </div>
 
 <div class="nav">
@@ -409,7 +409,7 @@
 <div id="home-page" class="page active">
     <div class="container">
         <div class="left">
-            <img src="ncu.jpg" alt="NCU Campus">
+            <img src="images/ncu.jpg" alt="NCU Campus">
             <div class="text-overlay">
                 生活在中央大學，<br>但我們究竟對周遭的環境及其保育了解多少呢？
             </div>
@@ -419,7 +419,7 @@
             <div class="map-box" onclick="openMap()">
                 <h3>生態地圖 (點擊開啟)</h3>
                 <p>探索校園動植物分布</p>
-                <img src="map.png" alt="Map Preview">
+                <img src="images/map.png" alt="Map Preview">
             </div>
             
             <div class="lists-container">
@@ -553,37 +553,37 @@
 <div id="mapModal" class="modal">
     <div class="map-wrapper">
         <span class="close" onclick="closeMap()">&times;</span>
-        <img class="main-map" src="ncu_ecology_map.png" alt="NCU Ecology Map">
+        <img class="main-map" src="images/ncu_ecology_map.png" alt="NCU Ecology Map">
 
         <div class="spot" style="top: 28.6%; left: 60.3%;" onclick="displayInfo('squirrel')">
-            <img src="animal1.jpg">
+            <img src="images/animal1.jpg">
         </div>
         <div class="spot" style="top: 54.4%; left: 52.9%;" onclick="displayInfo('magpie')">
-            <img src="animal2.jpg">
+            <img src="images/animal2.jpg">
         </div>
         <div class="spot" style="top: 16.3%; left: 45.4%;" onclick="displayInfo('dragonfly')">
-            <img src="animal5.jpg">
+            <img src="images/animal5.jpg">
         </div>
         <div class="spot" style="top: 25.7%; left: 42.3%;" onclick="displayInfo('frog')">
-            <img src="animal3.jpg">
+            <img src="images/animal3.jpg">
         </div>
         <div class="spot" style="top: 54.4%; left: 23%;" onclick="displayInfo('lizard')">
-            <img src="animal4.jpg">
+            <img src="images/animal4.jpg">
         </div>
         <div class="spot" style="top: 34.7%; left: 24.3%;" onclick="displayInfo('cherry')">
-            <img src="plant5.jpg">
+            <img src="images/plant5.jpg">
         </div>
         <div class="spot" style="top: 58.7%; left: 39.2%;" onclick="displayInfo('cedar')">
-            <img src="plant1.jpg">
+            <img src="images/plant1.jpg">
         </div>
         <div class="spot" style="top: 68.7%; left: 57.1%;" onclick="displayInfo('paperbark')">
-            <img src="plant3.jpg">
+            <img src="images/plant3.jpg">
         </div>
         <div class="spot special" style="top: 34.7%; left: 50.3%;" onclick="displayInfo('juniper')">
-            <img src="plant2.jpg">
+            <img src="images/plant2.jpg">
         </div>
         <div class="spot" style="top: 58.8%; left: 70.2%;" onclick="displayInfo('acacia')">
-            <img src="plant4.jpg">
+            <img src="images/plant4.jpg">
         </div>
     </div>
 </div>
@@ -649,7 +649,7 @@
     const speciesData = {
         'squirrel': {
             name: '赤腹松鼠',
-            avatar: 'animal1.jpg',
+            avatar: 'images/animal1.jpg',
             scientific: 'Callosciurus erythraeus',
             classification: '哺乳綱 Mammalia／囓齒目 Rodentia／松鼠科 Sciuridae／麗松鼠屬 Callosciurus',
             dist: `<ul>
@@ -668,7 +668,7 @@
         },
         'magpie': {
             name: '台灣藍鵲',
-            avatar: 'animal2.jpg',
+            avatar: 'images/animal2.jpg',
             scientific: 'Urocissa caerulea',
             classification: '鳥綱 Aves／雀形目 Passeriformes／鴉科 Corvidae',
             dist: `<ul>
@@ -687,7 +687,7 @@
         },
         'lizard': {
             name: '斯文豪氏攀蜥',
-            avatar: 'animal4.jpg',
+            avatar: 'images/animal4.jpg',
             scientific: 'Diploderma swinhonis',
             classification: '爬行綱 Reptilia／有鱗目 Squamata／飛蜥科 Agamidae',
             dist: `<ul>
@@ -706,7 +706,7 @@
         },
         'frog': {
             name: '澤蛙',
-            avatar: 'animal3.jpg',
+            avatar: 'images/animal3.jpg',
             scientific: 'Fejervarya limnocharis',
             classification: '兩棲綱 Amphibia／無尾目 Anura／叉舌蛙科 Dicroglossidae',
             dist: `<ul>
@@ -725,7 +725,7 @@
         },
         'dragonfly': {
             name: '霜白蜻蜓',
-            avatar: 'animal5.jpg',
+            avatar: 'images/animal5.jpg',
             scientific: 'Orthetrum pruinosum',
             classification: '昆蟲綱 Insecta／蜻蜓目 Odonata／蜻蜓科 Libellulidae',
             dist: `<ul>
@@ -744,7 +744,7 @@
         },
         'cedar': {
             name: '台灣肖楠',
-            avatar: 'plant1.jpg',
+            avatar: 'images/plant1.jpg',
             scientific: 'Calocedrus formosana',
             classification: '松柏綱 Coniferopsida／松柏目 Pinales／柏科 Cupressaceae',
             dist: `<ul>
@@ -763,7 +763,7 @@
         },
         'juniper': {
             name: '龍柏',
-            avatar: 'plant2.jpg',
+            avatar: 'images/plant2.jpg',
             scientific: "Juniperus chinensis 'Kaizuka'",
             classification: '松柏綱 Coniferopsida／松柏目 Pinales／柏科 Cupressaceae',
             dist: `<ul>
@@ -781,7 +781,7 @@
         },
         'paperbark': {
             name: '白千層',
-            avatar: 'plant3.jpg',
+            avatar: 'images/plant3.jpg',
             scientific: 'Melaleuca leucadendra',
             classification: '木蘭綱 Magnoliopsida／桃金孃目 Myrtales／桃金孃科 Myrtaceae',
             dist: `<ul>
@@ -798,7 +798,7 @@
         },
         'acacia': {
             name: '相思樹',
-            avatar: 'plant4.jpg',
+            avatar: 'images/plant4.jpg',
             scientific: 'Acacia confusa',
             classification: '木蘭綱 Magnoliopsida／豆目 Fabales／豆科 Fabaceae',
             dist: `<ul>
@@ -816,7 +816,7 @@
         },
         'cherry': {
             name: '櫻花',
-            avatar: 'plant5.jpg',
+            avatar: 'images/plant5.jpg',
             scientific: 'Prunus spp.',
             classification: '木蘭綱 Magnoliopsida／薔薇目 Rosales／薔薇科 Rosaceae',
             dist: `<ul>
