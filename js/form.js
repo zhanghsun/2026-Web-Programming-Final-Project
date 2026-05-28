@@ -48,10 +48,11 @@ function validateFormData(name, type, message) {
 async function submitJoinForm(event) {
     event.preventDefault();
 
-    const nameInput = document.getElementById('name');
-    const typeSelect = document.getElementById('type');
+    const nameInput    = document.getElementById('name');
+    const typeSelect    = document.getElementById('type');
     const messageTextarea = document.getElementById('message');
-    const submitBtn = event.target.querySelector('.submit-btn');
+    const submitBtn     = event.target.querySelector('.submit-btn');
+    const submitBtnText = submitBtn ? submitBtn.querySelector('.submit-btn__text') : null;
 
     if (!nameInput || !typeSelect || !messageTextarea) {
         console.error('Form elements not found');
@@ -71,7 +72,7 @@ async function submitJoinForm(event) {
     // Show loading state
     if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = '送出中...';
+        if (submitBtnText) submitBtnText.textContent = '送出中…';
     }
 
     // Google Sheets API URL
@@ -93,15 +94,18 @@ async function submitJoinForm(event) {
             body: data
         });
 
-        // Show success message
-        alert('感謝您的回饋，我們已收到資料！');
+        // Show animated success overlay (replaces alert)
+        const overlay = document.getElementById('joinSuccessOverlay');
+        if (overlay) {
+            overlay.classList.add('is-visible');
+            overlay.setAttribute('aria-hidden', 'false');
+        } else {
+            alert('感謝您的回饋，我們已收到資料！');
+            showPage('home');
+        }
 
         // Reset form
         event.target.reset();
-        nameInput.focus();
-
-        // Navigate to home page
-        showPage('home');
 
     } catch (error) {
         console.error('Form submission error:', error);
@@ -110,7 +114,7 @@ async function submitJoinForm(event) {
         // Restore button state
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = '送出回饋';
+            if (submitBtnText) submitBtnText.textContent = '送出回報';
         }
     }
 }
@@ -120,7 +124,7 @@ async function submitJoinForm(event) {
  * Sets up form event listeners and validation
  */
 function initForm() {
-    const form = document.querySelector('.form-container form');
+    const form = document.getElementById('joinForm');
     if (!form) return;
     form.addEventListener('submit', submitJoinForm);
 }

@@ -107,6 +107,9 @@ function initNavigation() {
         });
     });
 
+    // Hide header + nav on scroll-down, reveal on scroll-up
+    initScrollHide();
+
     // Logo fallback: hide if image fails to load
     const logo = document.querySelector('.header-logo');
     if (logo) {
@@ -124,6 +127,36 @@ function initNavigation() {
  * and bind click + keyboard on every .hp-sc species card so
  * it opens the side panel via displayInfo() from modal.js.
  */
+/**
+ * Hide the header + nav when scrolling down; reveal when scrolling up.
+ * A 60px deadzone prevents jitter on tiny scroll wiggles.
+ */
+function initScrollHide() {
+    const header = document.querySelector('.header');
+    const nav    = document.querySelector('.nav');
+    if (!header || !nav) return;
+
+    let lastY    = window.scrollY;
+    const THRESHOLD = 60;
+
+    window.addEventListener('scroll', function () {
+        const currentY = window.scrollY;
+        const delta    = currentY - lastY;
+
+        if (delta > 6 && currentY > THRESHOLD) {
+            // Scrolling down — hide
+            header.classList.add('nav--hidden');
+            nav.classList.add('nav--hidden');
+        } else if (delta < -4) {
+            // Scrolling up — show
+            header.classList.remove('nav--hidden');
+            nav.classList.remove('nav--hidden');
+        }
+
+        lastY = currentY;
+    }, { passive: true });
+}
+
 function initHomeSpeciesTabs() {
     // Tab switching
     document.querySelectorAll('.hp-species-tab').forEach(function (tab) {

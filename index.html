@@ -226,6 +226,7 @@
 </div>
 
 <div id="resources-page" class="page">
+<div class="res-inner">
 
     <!-- Section header -->
     <div class="res-header">
@@ -342,37 +343,138 @@
 
     </div><!-- /.res-gateway -->
 
-</div>
+</div><!-- /.res-inner -->
+</div><!-- /#resources-page -->
 
 <div id="join-page" class="page">
-    <div class="form-container scroll-reveal">
-        <h2>參與我們 & 意見回饋</h2>
-        <p class="form-subtitle">
-            如果您在校園發現了稀有物種，或有任何建議，請告訴我們。
-        </p>
-        
-        <form id="joinForm">
-            <div class="form-group">
-                <label>姓名</label>
-                <input id="name" type="text" required placeholder="您的姓名">
+    <div class="join-layout">
+
+        <!-- ── LEFT: Ecological Storytelling Panel ── -->
+        <div class="join-story">
+            <div class="join-story__bg">
+                <img src="images/ncu.jpg" alt="NCU Campus Ecology">
             </div>
-            <div class="form-group">
-                <label>回饋類型</label>
-                <select id="type">
-                    <option>生態觀察回報</option>
-                    <option>資訊勘誤</option>
-                    <option>其他建議</option>
-                </select>
+            <div class="join-story__overlay"></div>
+            <div class="join-story__content">
+                <span class="join-eyebrow">OBSERVATION STATION · 生態回報站</span>
+                <h2 class="join-story__headline">每一次觀察，<br>都是保育的<br>起點</h2>
+                <p class="join-story__body">
+                    校園每個角落都可能藏著珍貴的生態紀錄。
+                    您的回報將成為中大生物多樣性資料庫的一部分，
+                    讓更多人看見這片土地的生命力。
+                </p>
+                <div class="join-stats">
+                    <div class="join-stat">
+                        <span class="join-stat__num">10</span>
+                        <span class="join-stat__label">記錄物種</span>
+                    </div>
+                    <div class="join-stat">
+                        <span class="join-stat__num">2</span>
+                        <span class="join-stat__label">生態熱點</span>
+                    </div>
+                    <div class="join-stat">
+                        <span class="join-stat__num">∞</span>
+                        <span class="join-stat__label">持續監測</span>
+                    </div>
+                </div>
+                <blockquote class="join-quote">
+                    「自然不需要人類，<br>但人類需要自然。」
+                </blockquote>
             </div>
-            <div class="form-group">
-                <label>詳細內容</label>
-                <textarea id="message" rows="5" required placeholder="請輸入內容..."></textarea>
+        </div>
+
+        <!-- ── RIGHT: Glassmorphism Form Panel ── -->
+        <div class="join-form-panel">
+
+            <!-- Success overlay (hidden by default) -->
+            <div class="join-success" id="joinSuccessOverlay" aria-hidden="true">
+                <div class="join-success__icon">
+                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="30" stroke="#8fdf8f" stroke-width="2.5"/>
+                        <path d="M20 32l9 9 15-17" stroke="#8fdf8f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="join-success__title">感謝您的回報！</h3>
+                <p class="join-success__msg">您的觀察記錄已成功送出，將成為中大生態資料庫的珍貴資料。</p>
+                <button class="join-success__back" onclick="showPage('home')">返回首頁</button>
             </div>
-            <button type="submit" class="submit-btn">送出回饋</button>
-            <p class="form-cancel">
-                <a class="form-cancel-link" href="#" data-page="home">取消並返回首頁</a>
-            </p>
-        </form>
+
+            <div class="join-form-inner">
+                <div class="join-form-header">
+                    <div class="join-form-icon">
+                        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 3C10.477 3 6 7.477 6 13c0 7.5 10 17 10 17s10-9.5 10-17c0-5.523-4.477-10-10-10z" stroke="#8fdf8f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="16" cy="13" r="3.5" stroke="#8fdf8f" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="join-form-title">生態觀察回報</h2>
+                        <p class="join-form-subtitle">參與我們 · Join the Mission</p>
+                    </div>
+                </div>
+
+                <form id="joinForm" class="join-form" novalidate>
+
+                    <!-- Name field -->
+                    <div class="jf-group">
+                        <div class="jf-input-wrap">
+                            <span class="jf-icon">
+                                <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            </span>
+                            <input id="name" type="text" class="jf-input" placeholder=" " required autocomplete="name">
+                            <label class="jf-label" for="name">您的姓名</label>
+                            <div class="jf-line"></div>
+                        </div>
+                    </div>
+
+                    <!-- Type field -->
+                    <div class="jf-group">
+                        <div class="jf-input-wrap jf-input-wrap--select">
+                            <span class="jf-icon">
+                                <svg viewBox="0 0 20 20" fill="none"><path d="M4 6h12M4 10h8M4 14h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            </span>
+                            <select id="type" class="jf-input jf-select" required>
+                                <option value="生態觀察回報">🌿 生態觀察回報</option>
+                                <option value="資訊勘誤">📋 資訊勘誤</option>
+                                <option value="其他建議">💡 其他建議</option>
+                            </select>
+                            <label class="jf-label jf-label--active" for="type">回饋類型</label>
+                            <div class="jf-line"></div>
+                            <span class="jf-chevron">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Message field -->
+                    <div class="jf-group">
+                        <div class="jf-input-wrap jf-input-wrap--textarea">
+                            <span class="jf-icon jf-icon--top">
+                                <svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 9h10M3 13h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            </span>
+                            <textarea id="message" class="jf-input jf-textarea" placeholder=" " required rows="5" minlength="10"></textarea>
+                            <label class="jf-label" for="message">觀察詳情 / 建議內容</label>
+                            <div class="jf-line"></div>
+                        </div>
+                        <p class="jf-hint">請描述物種名稱、地點、行為或任何觀察到的現象（至少 10 字）</p>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="submit-btn">
+                        <span class="submit-btn__text">送出回報</span>
+                        <span class="submit-btn__icon">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <div class="submit-btn__pulse"></div>
+                    </button>
+
+                    <p class="form-cancel">
+                        <a class="form-cancel-link" href="#" data-page="home">取消並返回首頁</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
 

@@ -20,12 +20,18 @@
 }
 
 /* ── Section wrapper (fills .page) ── */
+/* NOTE: display is controlled by .page / .page.active in shared.css.
+   We must NOT set display here to avoid ID-specificity overriding those rules. */
 #resources-page {
+    background: #000;
+    overflow: hidden;
+}
+
+/* Inner wrapper provides the flex column layout */
+.res-inner {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #000;
-    overflow: hidden;
 }
 
 /* ── Section header ── */

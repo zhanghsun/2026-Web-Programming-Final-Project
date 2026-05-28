@@ -1,251 +1,495 @@
-/* ================================================
-   Form Styles
+﻿/* ================================================
+   Join Us — Ecological Observation Station
    ================================================
-   Styling for feedback and submission forms.
-   Includes form containers, input fields, and buttons.
-   
-   Components:
-   - .form-container: Form wrapper
-   - .form-group: Form field grouping
-   - .submit-btn: Primary submit button
+   Layout:
+   - .join-layout          : Full-viewport split grid
+   - .join-story           : Left immersive panel
+   - .join-form-panel      : Right glassmorphism form
+
+   Form components:
+   - .jf-group             : Field wrapper
+   - .jf-input-wrap        : Input + floating label + line
+   - .jf-input / .jf-label : Floating-label pair
+   - .submit-btn           : Animated submit button
+   - .join-success         : Full-panel success overlay
    ================================================ */
 
-/* --- Form Container --- */
-.form-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 40px;
-    background: #1f3f2b;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(143, 223, 143, 0.1);
+/* ════════════════════════════════════
+   SPLIT LAYOUT
+   ════════════════════════════════════ */
+.join-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 140px);
 }
 
-.form-container h2 {
+/* ════════════════════════════════════
+   LEFT — STORYTELLING PANEL
+   ════════════════════════════════════ */
+.join-story {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.join-story__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+.join-story__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    animation: joinBgZoom 20s ease-in-out infinite alternate;
+    will-change: transform;
+}
+@keyframes joinBgZoom {
+    from { transform: scale(1); }
+    to   { transform: scale(1.06); }
+}
+
+.join-story__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(to right,
+            rgba(0,10,4,0.2) 0%,
+            rgba(0,15,6,0.72) 100%),
+        linear-gradient(to top,
+            rgba(0,0,0,0.75) 0%,
+            transparent 55%);
+}
+
+.join-story__content {
+    position: relative;
+    z-index: 2;
+    padding: 72px 52px;
+    animation: joinFadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.15s both;
+}
+@keyframes joinFadeUp {
+    from { opacity:0; transform:translateY(28px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+.join-eyebrow {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(143,223,143,0.55);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.join-story__headline {
+    font-size: clamp(30px, 3.2vw, 48px);
+    font-weight: 900;
+    line-height: 1.22;
+    letter-spacing: -0.5px;
+    color: #fff;
+    margin: 0 0 22px;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+.join-story__body {
+    font-size: clamp(13px, 1.1vw, 15px);
+    color: rgba(210,235,210,0.7);
+    line-height: 1.85;
+    max-width: 380px;
+    margin: 0 0 40px;
+}
+
+/* Stats row */
+.join-stats {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 36px;
+}
+.join-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.join-stat__num {
+    font-size: 32px;
+    font-weight: 900;
     color: #8fdf8f;
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 15px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+.join-stat__label {
+    font-size: 11px;
+    color: rgba(200,230,200,0.5);
+    letter-spacing: 0.5px;
 }
 
-.form-subtitle {
-    text-align: center;
-    opacity: 0.8;
-    margin-bottom: 30px;
+/* Quote */
+.join-quote {
+    border-left: 2px solid rgba(143,223,143,0.35);
+    margin: 0;
+    padding: 12px 0 12px 18px;
+    font-size: 13px;
+    color: rgba(200,230,200,0.5);
+    font-style: italic;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
 }
 
+/* ════════════════════════════════════
+   RIGHT — FORM PANEL
+   ════════════════════════════════════ */
+.join-form-panel {
+    position: relative;
+    background: #030d05;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Ambient glow */
+.join-form-panel::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(20,80,30,0.18) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.join-form-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 64px 52px;
+}
+
+/* Form header */
+.join-form-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+.join-form-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: rgba(143,223,143,0.08);
+    border: 1px solid rgba(143,223,143,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+.join-form-icon svg { width: 100%; height: 100%; }
+
+.join-form-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+.join-form-subtitle {
+    font-size: 11px;
+    color: rgba(143,223,143,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* ── Field Groups ── */
+.join-form { display: flex; flex-direction: column; }
+
+.jf-group {
+    margin-bottom: 28px;
+}
+
+.jf-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Icon */
+.jf-icon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: rgba(143,223,143,0.4);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+.jf-icon svg { width: 100%; height: 100%; }
+.jf-icon--top {
+    top: 18px;
+    transform: none;
+}
+
+/* Input / select / textarea */
+.jf-input {
+    width: 100%;
+    padding: 16px 0 10px 28px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(143,223,143,0.15);
+    color: #fff;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+.jf-input::placeholder { color: transparent; }
+.jf-input:focus        { border-color: transparent; }
+
+/* Floating label */
+.jf-label {
+    position: absolute;
+    left: 28px;
+    top: 16px;
+    font-size: 14px;
+    color: rgba(200,230,200,0.45);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1),
+                color    0.3s ease,
+                font-size 0.3s ease;
+}
+/* Float up when input has content or is focused */
+.jf-input:focus   ~ .jf-label,
+.jf-input:not(:placeholder-shown) ~ .jf-label,
+.jf-label--active {
+    transform: translateY(-22px) scale(0.82);
+    color: rgba(143,223,143,0.7);
+    font-size: 14px;
+}
+
+/* Animated bottom line */
+.jf-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #8fdf8f, #4dd9c0);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    border-radius: 1px;
+}
+.jf-input:focus ~ .jf-line { transform: scaleX(1); }
+
+/* Glow on focus */
+.jf-input-wrap:focus-within .jf-icon { color: rgba(143,223,143,0.75); }
+
+/* Select specific */
+.jf-input-wrap--select .jf-input {
+    appearance: none;
+    cursor: pointer;
+}
+.jf-chevron {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(143,223,143,0.4);
+    pointer-events: none;
+}
+
+/* Textarea */
+.jf-textarea {
+    resize: none;
+    padding-top: 18px;
+    line-height: 1.7;
+    min-height: 120px;
+}
+.jf-input-wrap--textarea {
+    align-items: flex-start;
+}
+.jf-input-wrap--textarea .jf-label {
+    top: 18px;
+}
+
+/* Hint text */
+.jf-hint {
+    font-size: 11px;
+    color: rgba(200,230,200,0.3);
+    margin: 6px 0 0 28px;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+}
+
+/* ── Submit Button ── */
+.submit-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #6fbb6f 0%, #8fdf8f 100%);
+    color: #071a09;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    overflow: hidden;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.35s ease,
+                background  0.35s ease;
+    box-shadow: 0 4px 20px rgba(143,223,143,0.25);
+}
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(143,223,143,0.4);
+    background: linear-gradient(135deg, #80cc80 0%, #a8eaa8 100%);
+}
+.submit-btn:active { transform: translateY(0); }
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+.submit-btn__text { position: relative; z-index: 1; }
+.submit-btn__icon { position: relative; z-index: 1; display: flex; align-items: center; }
+
+/* Ripple pulse ring */
+.submit-btn__pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.15);
+    transform: scale(0);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+.submit-btn:hover .submit-btn__pulse {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* ── Cancel link ── */
 .form-cancel {
     text-align: center;
     margin-top: 20px;
 }
-
 .form-cancel-link {
-    color: #8fdf8f;
-    transition: color 0.3s ease;
-}
-
-.form-cancel-link:hover {
-    color: #ffffff;
-}
-
-/* --- Form Structure --- */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- Form Groups --- */
-.form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    color: #8fdf8f;
-    font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
+    color: rgba(200,230,200,0.35);
+    text-decoration: none;
     letter-spacing: 0.3px;
+    transition: color 0.25s ease;
 }
+.form-cancel-link:hover { color: rgba(143,223,143,0.7); }
 
-/* --- Input Fields --- */
-.form-group input,
-.form-group select,
-.form-group textarea {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #4e7f4e;
-    background: #2e5b2e;
-    color: white;
-    font-size: 16px;
-    font-family: inherit;
-    transition: all 0.3s ease;
+/* ── Success overlay ── */
+.join-success {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(3,13,5,0.97);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 48px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+.join-success.is-visible {
+    opacity: 1;
+    pointer-events: auto;
 }
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #8fdf8f;
-    background: #3a7a3a;
-    box-shadow: 0 0 10px rgba(143, 223, 143, 0.2);
+.join-success__icon {
+    width: 72px;
+    height: 72px;
+    animation: successPop 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both;
 }
-
-/* --- Submit Button --- */
-.submit-btn {
-    background: linear-gradient(135deg, #6e9f6e, #8fdf8f);
-    color: #1a3625;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 30px;
-    font-size: 18px;
-    font-weight: bold;
+.join-success__icon svg { width:100%; height:100%; }
+@keyframes successPop {
+    from { opacity:0; transform:scale(0.6); }
+    to   { opacity:1; transform:scale(1); }
+}
+.join-success__title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #8fdf8f;
+    margin: 0;
+    animation: joinFadeUp 0.6s ease 0.3s both;
+}
+.join-success__msg {
+    font-size: 14px;
+    color: rgba(200,230,200,0.65);
+    line-height: 1.8;
+    max-width: 320px;
+    margin: 0;
+    animation: joinFadeUp 0.6s ease 0.45s both;
+}
+.join-success__back {
+    margin-top: 8px;
+    padding: 12px 32px;
+    border-radius: 100px;
+    background: rgba(143,223,143,0.1);
+    border: 1px solid rgba(143,223,143,0.3);
+    color: #8fdf8f;
+    font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
-    width: 100%;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: 10px;
-    box-shadow: 0 4px 15px rgba(143, 223, 143, 0.3);
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(143, 223, 143, 0.4);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(143, 223, 143, 0.3);
-}
-
-/* --- Form Validation --- */
-.form-group input:valid,
-.form-group textarea:valid {
-    border-color: #8fdf8f;
-}
-
-.form-group input:invalid:not(:placeholder-shown),
-.form-group textarea:invalid:not(:placeholder-shown) {
-    border-color: #ff6b6b;
-    background: rgba(255, 107, 107, 0.1);
-}
-
-/* --- Textarea Specific --- */
-textarea {
-    resize: vertical;
-    min-height: 120px;
     font-family: inherit;
+    letter-spacing: 0.5px;
+    transition: background 0.25s, border-color 0.25s;
+    animation: joinFadeUp 0.6s ease 0.6s both;
+}
+.join-success__back:hover {
+    background: rgba(143,223,143,0.2);
+    border-color: rgba(143,223,143,0.5);
 }
 
-/* --- Select Styling --- */
-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238fdf8f' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-}
-
-/* --- Form Status Messages --- */
-.form-success {
-    background: rgba(143, 223, 143, 0.15);
-    border: 1px solid #8fdf8f;
-    color: #b8dbb8;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    animation: slideDown 0.3s ease;
-}
-
-.form-error {
-    background: rgba(255, 107, 107, 0.15);
-    border: 1px solid #ff6b6b;
-    color: #ffb3b3;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .join-layout {
+        grid-template-columns: 1fr;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .join-story {
+        min-height: 320px;
+    }
+    .join-story__content {
+        padding: 48px 36px;
+    }
+    .join-form-inner {
+        padding: 48px 32px;
     }
 }
-
-/* --- Responsive Design --- */
-@media (max-width: 768px) {
-    .form-container {
-        margin: 30px 20px;
-        padding: 30px 25px;
-    }
-
-    .form-container h2 {
-        font-size: 24px;
-    }
-
-    .form-group {
-        margin-bottom: 18px;
-    }
-
-    .submit-btn {
-        padding: 14px 25px;
-        font-size: 16px;
-    }
-
-    textarea {
-        min-height: 100px;
-    }
+@media (max-width: 520px) {
+    .join-story { min-height: 260px; }
+    .join-story__content { padding: 36px 24px; }
+    .join-stats { gap: 20px; }
+    .join-form-inner { padding: 36px 22px; }
 }
 
-@media (max-width: 480px) {
-    .form-container {
-        margin: 20px 10px;
-        padding: 20px 15px;
-        border-radius: 15px;
-    }
-
-    .form-container h2 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .form-container p {
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-group label {
-        font-size: 13px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        font-size: 16px;
-        padding: 10px;
-    }
-
-    .submit-btn {
-        padding: 12px 20px;
-        font-size: 15px;
-    }
-
-    textarea {
-        min-height: 80px;
-    }
-}
+/* ── Legacy selectors kept for backward-compat (e.g. form.js alerts) ── */
+.form-container { display: none; }

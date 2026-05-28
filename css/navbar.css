@@ -30,7 +30,16 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease,
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  0.4s ease;
+}
+
+/* Hide state — triggered by JS scroll handler */
+.header.nav--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .header-title {
@@ -74,7 +83,15 @@
     border-bottom: 1px solid rgba(143, 223, 143, 0.15);
     padding: 14px 5%;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-    transition: background 0.3s ease;
+    transition: background 0.3s ease,
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  0.4s ease;
+}
+
+.nav.nav--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* --- Nav Link --- */
