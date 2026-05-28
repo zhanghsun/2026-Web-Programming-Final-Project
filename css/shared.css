@@ -1,0 +1,462 @@
+/* ================================================
+   Shared Global Styles
+   ================================================
+   Contains base styles, color scheme, typography,
+   and utility classes used across the entire project.
+   
+   Design Theme: Ecological Documentary with Glassmorphism
+   Color Palette: Dark greens, eco tones, and transparent overlays
+   
+   Breakpoints:
+   - Desktop: 1024px and above
+   - Tablet: 768px - 1023px
+   - Mobile: Below 768px
+   - Small Mobile: Below 480px
+   ================================================ */
+
+/* --- Root & Typography --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    background-color: #2e5b2e;
+    color: white;
+    overflow-x: hidden;
+    padding-top: 140px;
+}
+
+/* --- Color Variables (CSS Custom Properties) --- */
+:root {
+    /* Primary Colors - Ecological Theme */
+    --color-primary-dark: #1f3f2b;
+    --color-primary: #2e5b2e;
+    --color-primary-light: #4e7f4e;
+    --color-eco-green: #8fdf8f;
+    --color-eco-green-light: #b8dbb8;
+    --color-eco-green-pale: #c8e6c9;
+    
+    /* Overlay & Transparency */
+    --overlay-dark: rgba(31, 63, 43, 0.35);
+    --overlay-darker: rgba(31, 63, 43, 0.5);
+    --overlay-darkest: rgba(31, 63, 43, 0.55);
+    --overlay-light: rgba(143, 223, 143, 0.15);
+    --overlay-lighter: rgba(143, 223, 143, 0.2);
+    --overlay-lightest: rgba(143, 223, 143, 0.4);
+    
+    /* Border Colors */
+    --border-eco: rgba(143, 223, 143, 0.2);
+    --border-eco-active: rgba(143, 223, 143, 0.35);
+    
+    /* Text Colors */
+    --text-primary: #e8f5e9;
+    --text-white: #ffffff;
+    --text-accent: #b8dbb8;
+    
+    /* Glass Effect */
+    --glass-blur: blur(12px);
+    --glass-blur-lg: blur(16px);
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 15px 50px rgba(0, 0, 0, 0.35);
+    --shadow-glow: 0 0 30px rgba(143, 223, 143, 0.15);
+}
+
+/* --- Typography --- */
+h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- Page Display Logic --- */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* --- Utility Classes --- */
+.container {
+    display: flex;
+    padding: 0;
+    gap: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    body {
+        padding-top: 140px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 150px;
+    }
+
+    .container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 160px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+}
+
+/* --- Footer --- */
+.site-footer {
+    margin-top: 60px;
+    background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-top: 1px solid var(--border-eco);
+}
+
+/* Top accent divider */
+.footer-divider {
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-eco-green) 30%,
+        var(--color-eco-green-light) 50%,
+        var(--color-eco-green) 70%,
+        transparent 100%
+    );
+    opacity: 0.45;
+}
+
+/* 4-column grid body */
+.footer-body {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.4fr 1.2fr;
+    gap: 40px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 52px 32px 44px;
+}
+
+/* Column headings */
+.footer-heading {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-eco-green);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-eco);
+}
+
+/* --- Brand column --- */
+.footer-brand-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-white);
+    letter-spacing: 0.04em;
+    margin: 0 0 2px;
+}
+
+.footer-brand-en {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-eco-green);
+    opacity: 0.75;
+    margin: 0 0 16px;
+}
+
+.footer-brand-desc {
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--color-eco-green-light);
+    opacity: 0.7;
+    margin: 0 0 20px;
+}
+
+.footer-institution {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 12px;
+    color: var(--text-accent);
+    opacity: 0.6;
+    margin: 0;
+}
+
+.footer-dept {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+}
+
+/* --- Nav column --- */
+.footer-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-nav-list a {
+    font-size: 13px;
+    color: var(--color-eco-green-light);
+    opacity: 0.75;
+    text-decoration: none;
+    transition: opacity 0.25s ease, color 0.25s ease;
+    display: inline-block;
+}
+
+.footer-nav-list a:hover {
+    opacity: 1;
+    color: var(--color-eco-green);
+}
+
+/* --- SDG column --- */
+.footer-sdg-intro {
+    font-size: 12px;
+    color: var(--text-accent);
+    opacity: 0.6;
+    margin: 0 0 14px;
+}
+
+.footer-sdg-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.footer-sdg-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-eco-green-light);
+    opacity: 0.75;
+}
+
+.sdg-badge {
+    flex-shrink: 0;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    line-height: 1.6;
+    margin-top: 1px;
+}
+
+.sdg-15 { background: rgba(86, 180, 86, 0.25); color: #8fdf8f; border: 1px solid rgba(86, 180, 86, 0.3); }
+.sdg-4  { background: rgba(230, 196, 80, 0.2);  color: #e6c450; border: 1px solid rgba(230, 196, 80, 0.3); }
+.sdg-17 { background: rgba(90, 160, 200, 0.2);  color: #82b8d4; border: 1px solid rgba(90, 160, 200, 0.3); }
+
+/* --- Contact column --- */
+.footer-contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.footer-contact-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--color-eco-green-light);
+    opacity: 0.7;
+}
+
+.footer-contact-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-eco-green);
+    opacity: 0.7;
+}
+
+/* --- Bottom bar --- */
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px 24px;
+    border-top: 1px solid var(--border-eco);
+    font-size: 11px;
+    color: var(--text-accent);
+    opacity: 0.45;
+}
+
+.footer-bottom-note {
+    font-style: italic;
+    letter-spacing: 0.02em;
+}
+
+/* --- Footer responsive --- */
+@media (max-width: 1024px) {
+    .footer-body {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-body {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 36px;
+        gap: 32px;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 20px 20px;
+        gap: 4px;
+    }
+}
+
+/* --- Link Styles --- */
+a {
+    color: var(--text-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--text-white);
+}
+
+/* --- Form Elements --- */
+input,
+select,
+textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #4e7f4e;
+    background: #2e5b2e;
+    color: white;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--color-eco-green);
+    background: #3a7a3a;
+    box-shadow: 0 0 10px rgba(143, 223, 143, 0.2);
+}
+
+/* --- Button Styles --- */
+button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* --- Scroll Reveal Base Classes --- */
+.scroll-reveal {
+    opacity: 0;
+    transition: none;
+}
+
+.scroll-reveal.reveal {
+    animation: scrollFadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.scroll-reveal.reveal-fade {
+    animation: scrollFadeIn 0.8s ease forwards;
+}

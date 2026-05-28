@@ -1,0 +1,293 @@
+/* ================================================
+   Map Modal and Interactive Styles
+   ================================================
+   Styles for the ecology map modal dialog,
+   interactive spots on map, and side panel for
+   detailed species information.
+   
+   Components:
+   - .modal, .map-wrapper: Map modal
+   - .spot: Interactive clickable map spots
+   - .side-panel: Detailed species info panel
+   ================================================ */
+
+/* --- Map Modal --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.map-wrapper {
+    position: relative;
+    margin: 50px auto;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.map-wrapper img.main-map {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 3px solid #6e9f6e;
+    display: block;
+}
+
+/* --- Close Button --- */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: black;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+/* --- Interactive Spots --- */
+.spot {
+    position: absolute;
+    width: 55px !important;
+    height: 52px !important;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    transition: 0.3s;
+}
+
+.spot img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #333;
+    object-fit: cover;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.spot:hover {
+    transform: translate(-50%, -50%) scale(1.3);
+    z-index: 10;
+}
+
+/* --- Spot Positions (moved from inline styles) --- */
+.spot--squirrel { top: 28.6%; left: 60.3%; }
+.spot--magpie { top: 54.4%; left: 52.9%; }
+.spot--dragonfly { top: 16.3%; left: 45.4%; }
+.spot--frog { top: 25.7%; left: 42.3%; }
+.spot--lizard { top: 54.4%; left: 23%; }
+.spot--cherry { top: 34.7%; left: 24.3%; }
+.spot--cedar { top: 58.7%; left: 39.2%; }
+.spot--paperbark { top: 68.7%; left: 57.1%; }
+.spot--juniper { top: 34.7%; left: 50.3%; }
+.spot--acacia { top: 58.8%; left: 70.2%; }
+
+/* --- Side Panel (Detail View) --- */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 400px;
+    height: 100%;
+    background: rgba(31, 63, 43, 0.98);
+    color: white;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.side-panel.show {
+    right: 0;
+}
+
+/* Panel content styling */
+.panel-content {
+    padding: 40px 30px;
+}
+
+.panel-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.title-with-avatar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.panel-header h2 {
+    margin: 0;
+    color: #8fdf8f;
+    font-size: 28px;
+}
+
+.panel-header img.header-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    border: 2px solid #8fdf8f;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.scientific-name {
+    font-style: italic;
+    color: #ffd700;
+    font-size: 14px;
+}
+
+/* Panel sections */
+.panel-section {
+    margin-bottom: 25px;
+}
+
+.panel-section h3 {
+    border-left: 4px solid #8fdf8f;
+    padding-left: 10px;
+    color: #8fdf8f;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.panel-section p,
+.panel-section li {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #e0e0e0;
+    margin: 5px 0;
+}
+
+.panel-section ul {
+    padding-left: 20px;
+    margin: 0;
+    list-style-type: none;
+}
+
+.panel-section strong {
+    color: #8fdf8f;
+}
+
+/* Close button for panel */
+.close-panel-btn {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+}
+
+.close-panel-btn:hover {
+    background: rgba(143, 223, 143, 0.2);
+    transform: rotate(90deg);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .map-wrapper {
+        width: 95%;
+        margin: 40px auto;
+    }
+
+    .close {
+        top: 15px;
+        right: 15px;
+        font-size: 32px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .side-panel {
+        width: 100%;
+        right: -100%;
+    }
+
+    .side-panel.show {
+        right: 0;
+    }
+
+    .panel-content {
+        padding: 30px 20px;
+    }
+
+    .title-with-avatar {
+        flex-wrap: wrap;
+    }
+
+    .panel-header img.header-avatar {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-wrapper {
+        width: 98%;
+        margin: 30px auto;
+    }
+
+    .spot {
+        width: 45px !important;
+        height: 42px !important;
+    }
+
+    .close {
+        top: 10px;
+        right: 10px;
+        font-size: 28px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .side-panel {
+        width: 100%;
+    }
+
+    .panel-content {
+        padding: 20px 15px;
+    }
+
+    .panel-header h2 {
+        font-size: 24px;
+    }
+
+    .panel-header img.header-avatar {
+        width: 60px;
+        height: 60px;
+    }
+}

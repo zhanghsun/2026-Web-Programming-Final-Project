@@ -1,0 +1,438 @@
+/* ================================================
+   Animation & Transition Styles
+   ================================================
+   Contains all keyframe animations and scroll reveal
+   animation utilities. Supports smooth, professional
+   motion across the entire application.
+   
+   Animation Types:
+   - Scroll Reveal: fadeInUp, scrollFadeIn
+   - Card Effects: cardHover, cardScale, cardGlow
+   - Background: subtleZoom
+   - Transitions: fadeIn, slideUp, slideDown
+   ================================================ */
+
+/* --- Scroll Reveal Animations --- */
+@keyframes scrollFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scrollFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* --- Hero Section Animations --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes subtleZoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+/* --- Card Animations --- */
+@keyframes cardHover {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes cardScale {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes cardGlow {
+    0% {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+    100% {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35), 0 0 30px rgba(143, 223, 143, 0.15);
+    }
+}
+
+/* --- General Transition Animations --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Scale Animations --- */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.05);
+    }
+}
+
+/* --- Pulse Animation --- */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* --- Rotation Animation --- */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Bounce Animation --- */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* --- Glow Animation --- */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(143, 223, 143, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(143, 223, 143, 0.8);
+    }
+}
+
+/* --- Scroll Reveal Utility Classes --- */
+
+/* Standard scroll reveal with fade and translate */
+.scroll-reveal {
+    opacity: 0;
+    transition: none;
+}
+
+.scroll-reveal.reveal {
+    animation: scrollFadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.scroll-reveal.reveal-fade {
+    animation: scrollFadeIn 0.8s ease forwards;
+}
+
+/* Stagger animation for card groups */
+.card-group .scroll-reveal {
+    animation-duration: 0.6s;
+}
+
+.card-group .scroll-reveal:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.card-group .scroll-reveal:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.card-group .scroll-reveal:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.card-group .scroll-reveal:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.card-group .scroll-reveal:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.card-group .scroll-reveal:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.card-group .scroll-reveal:nth-child(n + 7) {
+    animation-delay: 0.6s;
+}
+
+/* --- Smooth Transitions --- */
+
+/* Smooth transition for all interactive elements */
+/* Note: .nav-link transitions are defined in navbar.css */
+button,
+a,
+.card,
+input,
+select,
+textarea {
+    transition: all 0.3s ease;
+}
+
+/* Enhanced cubic-bezier for premium feel */
+.premium-ease {
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --- Performance Optimization --- */
+
+/* ================================================
+   Loading Overlay
+   ================================================
+   Covers the viewport during initial page load.
+   Fades out after DOMContentLoaded via main.js.
+   Uses the site's primary-dark green so the
+   transition feels like a curtain lift, not a flash.
+   ================================================ */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary-dark, #1f3f2b);
+    opacity: 1;
+    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
+}
+
+.loading-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+}
+
+/* Thin ring spinner — reuses the existing @keyframes spin */
+.loading-spinner {
+    width: 38px;
+    height: 38px;
+    border: 2px solid rgba(143, 223, 143, 0.15);
+    border-top-color: var(--color-eco-green, #8fdf8f);
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+    flex-shrink: 0;
+}
+
+.loading-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.loading-title {
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--color-eco-green-light, #b8dbb8);
+}
+
+.loading-sub {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(184, 219, 184, 0.4);
+}
+
+/* ================================================
+   Page Enter Transition
+   ================================================
+   Plays whenever a .page gains the .active class
+   (i.e., on every page switch via showPage()).
+   Subtle fade + gentle upward lift — avoids the
+   "snap" of instant display:block while staying
+   lightweight and non-distracting.
+   ================================================ */
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page.active {
+    animation: pageEnter 0.38s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Reduced motion: collapse all transition-based effects added above */
+@media (prefers-reduced-motion: reduce) {
+    .loading-overlay {
+        transition: none;
+    }
+    .loading-spinner {
+        animation: none;
+    }
+    .page.active {
+        animation: none;
+    }
+}
+
+/* Will-change hint for frequently animated elements */
+/* Note: .nav-link will-change is managed in navbar.css */
+.card:hover,
+.action-button:hover {
+    will-change: transform, box-shadow;
+}
+
+/* Remove will-change after animation */
+.card,
+.action-button {
+    will-change: auto;
+}
+
+/* --- Responsive Animation Adjustments --- */
+@media (max-width: 768px) {
+    /* Faster animations on mobile for better perceived performance */
+    /* Note: .nav-link mobile transition is defined in navbar.css */
+    .card,
+    button,
+    input,
+    select,
+    textarea {
+        transition: all 0.2s ease;
+    }
+
+    .scroll-reveal.reveal {
+        animation-duration: 0.5s;
+    }
+
+    .card-group .scroll-reveal {
+        animation-duration: 0.5s;
+    }
+
+    /* Disable stagger on mobile for simplicity */
+    .card-group .scroll-reveal:nth-child(n) {
+        animation-delay: 0s !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Respect user's motion preference on all screen sizes */
+    .scroll-reveal {
+        opacity: 1;
+        transform: none;
+    }
+
+    .scroll-reveal.reveal,
+    .scroll-reveal.reveal-fade {
+        animation: none;
+    }
+}

@@ -1,0 +1,251 @@
+/* ================================================
+   Form Styles
+   ================================================
+   Styling for feedback and submission forms.
+   Includes form containers, input fields, and buttons.
+   
+   Components:
+   - .form-container: Form wrapper
+   - .form-group: Form field grouping
+   - .submit-btn: Primary submit button
+   ================================================ */
+
+/* --- Form Container --- */
+.form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #1f3f2b;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(143, 223, 143, 0.1);
+}
+
+.form-container h2 {
+    color: #8fdf8f;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.form-subtitle {
+    text-align: center;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+.form-cancel {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-cancel-link {
+    color: #8fdf8f;
+    transition: color 0.3s ease;
+}
+
+.form-cancel-link:hover {
+    color: #ffffff;
+}
+
+/* --- Form Structure --- */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Form Groups --- */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #8fdf8f;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+/* --- Input Fields --- */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #4e7f4e;
+    background: #2e5b2e;
+    color: white;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #8fdf8f;
+    background: #3a7a3a;
+    box-shadow: 0 0 10px rgba(143, 223, 143, 0.2);
+}
+
+/* --- Submit Button --- */
+.submit-btn {
+    background: linear-gradient(135deg, #6e9f6e, #8fdf8f);
+    color: #1a3625;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(143, 223, 143, 0.3);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(143, 223, 143, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(143, 223, 143, 0.3);
+}
+
+/* --- Form Validation --- */
+.form-group input:valid,
+.form-group textarea:valid {
+    border-color: #8fdf8f;
+}
+
+.form-group input:invalid:not(:placeholder-shown),
+.form-group textarea:invalid:not(:placeholder-shown) {
+    border-color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
+/* --- Textarea Specific --- */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+}
+
+/* --- Select Styling --- */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238fdf8f' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+/* --- Form Status Messages --- */
+.form-success {
+    background: rgba(143, 223, 143, 0.15);
+    border: 1px solid #8fdf8f;
+    color: #b8dbb8;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease;
+}
+
+.form-error {
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid #ff6b6b;
+    color: #ffb3b3;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 30px 20px;
+        padding: 30px 25px;
+    }
+
+    .form-container h2 {
+        font-size: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .submit-btn {
+        padding: 14px 25px;
+        font-size: 16px;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        margin: 20px 10px;
+        padding: 20px 15px;
+        border-radius: 15px;
+    }
+
+    .form-container h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .form-container p {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .submit-btn {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+
+    textarea {
+        min-height: 80px;
+    }
+}

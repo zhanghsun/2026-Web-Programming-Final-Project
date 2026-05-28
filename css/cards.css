@@ -1,0 +1,303 @@
+/* ================================================
+   Card System Styles
+   ================================================
+   Unified glassmorphism card design with multiple variants.
+   All cards share consistent styling for ecosystem cards:
+   - Map cards
+   - Species cards (animal/plant)
+   - Action/Resource buttons
+   
+   Base: .card
+   Variants: .card-map, .card-species, .card-action
+   ================================================ */
+
+/* --- Base Card Class --- */
+.card {
+    position: relative;
+    padding: 28px;
+    border-radius: 20px;
+    background: rgba(31, 63, 43, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(143, 223, 143, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Card hover effect */
+.card:hover {
+    background: rgba(31, 63, 43, 0.5);
+    border-color: rgba(143, 223, 143, 0.35);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35), 0 0 30px rgba(143, 223, 143, 0.15);
+}
+
+/* Card focus state */
+.card:focus-within {
+    background: rgba(31, 63, 43, 0.55);
+    border-color: rgba(143, 223, 143, 0.4);
+}
+
+/* --- Map Card Variant --- */
+.card.card-map,
+.map-box {
+    text-align: center;
+    padding: 32px 24px;
+    background: rgba(31, 63, 43, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(143, 223, 143, 0.2);
+}
+
+.card.card-map:hover,
+.map-box:hover {
+    background: rgba(92, 159, 92, 0.4);
+}
+
+.card.card-map img,
+.map-box img {
+    width: 85%;
+    border-radius: 12px;
+    margin-top: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    object-fit: cover;
+}
+
+.card.card-map:hover img,
+.map-box:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card.card-map h3,
+.map-box h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #e8f5e9;
+    transition: all 0.3s ease;
+}
+
+.card.card-map:hover h3,
+.map-box:hover h3 {
+    color: #ffffff;
+}
+
+.card.card-map p,
+.map-box p {
+    margin: 8px 0 0 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* --- Species Card Variant --- */
+.card.card-species,
+.box {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(60, 122, 122, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(143, 223, 143, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card.card-species.plant,
+.box.plant {
+    background: rgba(122, 106, 60, 0.25);
+}
+
+.card.card-species:hover,
+.box:hover {
+    transform: translateY(-6px);
+    background: rgba(60, 122, 122, 0.35);
+    border-color: rgba(143, 223, 143, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.box.plant:hover {
+    background: rgba(122, 106, 60, 0.35);
+}
+
+.card.card-species h3,
+.box h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #e8f5e9;
+    border-bottom: 2px solid rgba(143, 223, 143, 0.3);
+    padding-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.card.card-species:hover h3,
+.box:hover h3 {
+    border-bottom-color: rgba(143, 223, 143, 0.6);
+    color: #ffffff;
+}
+
+/* Species list styling */
+.species-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.species-list li {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.2s ease-in-out;
+}
+
+.species-list li:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+/* --- Action/Resource Button Card --- */
+.card.card-action,
+.action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 36px 24px;
+    text-decoration: none;
+    color: white;
+    background: rgba(31, 63, 43, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(143, 223, 143, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card.card-action:hover,
+.action-button:hover {
+    background: rgba(143, 223, 143, 0.15);
+    border-color: rgba(143, 223, 143, 0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35), 0 0 30px rgba(143, 223, 143, 0.15);
+}
+
+.card.card-action:focus,
+.action-button:focus {
+    background: rgba(143, 223, 143, 0.2);
+    border-color: rgba(143, 223, 143, 0.5);
+    outline: none;
+}
+
+.card.card-action h3,
+.action-button h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #e8f5e9;
+    transition: all 0.3s ease;
+}
+
+.card.card-action:hover h3,
+.action-button:hover h3 {
+    color: #ffffff;
+}
+
+.card.card-action p,
+.action-button p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.8;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+/* Icon styling for action buttons */
+.action-button i {
+    font-size: 40px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.action-button .resource-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.action-button:hover i {
+    transform: scale(1.1);
+    color: #b8dbb8;
+}
+
+.action-button:hover .resource-icon {
+    transform: scale(1.1);
+}
+
+/* Container for cards */
+.lists-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* --- Stagger Animation for Card Groups --- */
+.card-group .scroll-reveal {
+    animation-duration: 0.6s;
+}
+
+.card-group .scroll-reveal:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.card-group .scroll-reveal:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.card-group .scroll-reveal:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.card-group .scroll-reveal:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.card-group .scroll-reveal:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.card-group .scroll-reveal:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.card-group .scroll-reveal:nth-child(n + 7) {
+    animation-delay: 0.6s;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .card {
+        padding: 24px;
+    }
+
+    .lists-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .card-group .scroll-reveal:nth-child(n) {
+        animation-delay: 0s;
+    }
+}
