@@ -53,21 +53,60 @@ function highlightSpeciesSpot(key) {
 // Map modal
 // ---------------------------------------------------------------------------
 
-/** Open the ecology map modal. */
+// Track the nav link that was active before the map opened so we can restore it.
+var _prevActiveNavLink = null;
+
+/** Set the map nav link as the active nav item, saving the previous active link. */
+function _activateMapNavLink() {
+    _prevActiveNavLink = document.querySelector('.nav-link.active') || null;
+    document.querySelectorAll('.nav-link').forEach(function (l) { l.classList.remove('active'); });
+    var mapLink = document.querySelector('.nav-link[data-action="open-map"]');
+    if (mapLink) mapLink.classList.add('active');
+}
+
+/** Restore the nav active state that existed before the map was opened. */
+function _restoreNavLink() {
+    document.querySelectorAll('.nav-link').forEach(function (l) { l.classList.remove('active'); });
+    if (_prevActiveNavLink) {
+        _prevActiveNavLink.classList.add('active');
+    } else {
+        var homeLink = document.getElementById('nav-home');
+        if (homeLink) homeLink.classList.add('active');
+    }
+    _prevActiveNavLink = null;
+}
+
+/** Open the ecology map modal with a cinematic fade-in + scale animation. */
 function openMap() {
     const modal = getMapModal();
-    if (modal) modal.style.display = 'block';
+    if (!modal) return;
+    _activateMapNavLink();
+    modal.style.display = 'flex';        // Switch from none → flex before animating
+    modal.getBoundingClientRect();        // Force reflow so opacity transition fires
+    modal.classList.add('is-open');
+    document.body.classList.add('map-modal-open');  // Prevent background scroll
 }
 
 /**
- * Close the ecology map modal, clear spot selection, and hide the side panel.
+ * Close the ecology map modal with a fade-out animation, then hide it.
  * Calls closePanel() from modal.js if available.
  */
 function closeMap() {
     const modal = getMapModal();
-    if (modal) modal.style.display = 'none';
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    document.body.classList.remove('map-modal-open');
+    _restoreNavLink();
     clearActiveSpot();
     if (typeof closePanel === 'function') closePanel();
+    // Hide after the opacity transition finishes (matches 0.45s in CSS)
+    function onFadeOut(e) {
+        if (e.propertyName === 'opacity') {
+            modal.style.display = 'none';
+            modal.removeEventListener('transitionend', onFadeOut);
+        }
+    }
+    modal.addEventListener('transitionend', onFadeOut);
 }
 
 // ---------------------------------------------------------------------------

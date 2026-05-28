@@ -1,148 +1,536 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>中大生態地圖</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中央大學 生態地圖 — NCU Ecology Map</title>
+
+<style>
+/* =====================================================
+   Map Page — True fullscreen immersive ecology map
+   ===================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --green-primary:  #8fdf8f;
+    --gold:           #ffd700;
+    --panel-width:    420px;
+    --panel-ease:     cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Base: true fullscreen, zero overflow ── */
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Microsoft JhengHei', 'PingFang TC', 'Segoe UI', Arial, sans-serif;
+    color: #e8f5e9;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Cinematic radial bg */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 90% 85% at 50% 48%,
+        rgba(4, 26, 10, 0.88) 0%,
+        rgba(0, 0, 0, 1) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── Back button ── */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 6000;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px 8px 12px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(143, 223, 143, 0.25);
+    border-radius: 100px;
+    color: rgba(232, 245, 233, 0.88);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.28s, border-color 0.28s, transform 0.22s, box-shadow 0.28s;
+}
+.back-btn:hover {
+    background: rgba(143, 223, 143, 0.14);
+    border-color: rgba(143, 223, 143, 0.6);
+    transform: translateX(-3px);
+    box-shadow: 0 0 22px rgba(143, 223, 143, 0.08);
+}
+.back-btn svg { flex-shrink: 0; }
+
+/* ── Map stage: fills entire viewport ── */
+.map-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: padding-right 0.5s var(--panel-ease);
+}
+.map-stage.panel-open {
+    padding-right: var(--panel-width);
+}
+
+/* ── Map container: sized by JS to exactly match rendered image ── */
+.map-container {
+    position: relative;
+    display: block;
+    line-height: 0;
+    animation: mapEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    /* JS sets width/height */
+}
+@keyframes mapEntrance {
+    from { opacity: 0; transform: scale(0.84); filter: brightness(0.25); }
+    to   { opacity: 1; transform: scale(1);    filter: brightness(1); }
+}
+
+/* Ambient glow behind the map */
+.map-container::before {
+    content: '';
+    position: absolute;
+    inset: -50px;
+    background: radial-gradient(ellipse at 50% 50%,
+        rgba(40, 140, 40, 0.12) 0%,
+        transparent 65%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ── Map image: fills the JS-sized container exactly ── */
+.map-container img.main-map {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* No border-radius: edge-to-edge fullscreen feel */
+}
+
+/* ── Hotspots ── */
+.spot {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    transition: transform 0.22s ease;
+}
+
+/* Name tooltip on hover */
+.spot::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: calc(100% + 9px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: rgba(0, 0, 0, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #e8f5e9;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 4px 11px;
+    border-radius: 6px;
+    border: 1px solid rgba(143, 223, 143, 0.22);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease, transform 0.16s ease;
+    font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+}
+.spot:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.spot img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2.5px solid rgba(143, 223, 143, 0.55);
+    object-fit: cover;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    animation: spotPulse 2s ease-out 1s 1;
+}
+@keyframes spotPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(143,223,143,0.7),  0 2px 14px rgba(0,0,0,0.6); }
+    65%  { box-shadow: 0 0 0 14px rgba(143,223,143,0),   0 2px 14px rgba(0,0,0,0.6); }
+    100% { box-shadow: 0 0 0 0   rgba(143,223,143,0),    0 2px 14px rgba(0,0,0,0.6); }
+}
+
+.spot:hover {
+    transform: translate(-50%, -50%) scale(1.4);
+    z-index: 10;
+}
+.spot:hover img {
+    border-color: var(--green-primary);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.65), 0 0 0 3px rgba(143,223,143,0.3);
+}
+.spot.active {
+    transform: translate(-50%, -50%) scale(1.22);
+    z-index: 8;
+}
+.spot.active img {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.65), 0 0 0 3px rgba(255,215,0,0.4), 0 0 18px rgba(255,215,0,0.18);
+}
+
+/* ── Spot positions ── */
+.spot--squirrel  { top: 28.6%; left: 60.3%; }
+.spot--magpie    { top: 54.4%; left: 52.9%; }
+.spot--dragonfly { top: 16.3%; left: 45.4%; }
+.spot--frog      { top: 25.7%; left: 42.3%; }
+.spot--lizard    { top: 54.4%; left: 23%;   }
+.spot--cherry    { top: 34.7%; left: 24.3%; }
+.spot--cedar     { top: 58.7%; left: 39.2%; }
+.spot--paperbark { top: 68.7%; left: 57.1%; }
+.spot--juniper   { top: 34.7%; left: 50.3%; }
+.spot--acacia    { top: 58.8%; left: 70.2%; }
+
+/* ── Side panel ── */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: calc(var(--panel-width) * -1 - 12px);
+    width: var(--panel-width);
+    height: 100vh;
+    background: rgba(2, 11, 5, 0.97);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border-left: 1px solid rgba(143, 223, 143, 0.1);
+    color: white;
+    box-shadow: -8px 0 56px rgba(0, 0, 0, 0.75);
+    transition: right 0.5s var(--panel-ease);
+    z-index: 5000;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.side-panel.show { right: 0; }
+.side-panel::-webkit-scrollbar { width: 3px; }
+.side-panel::-webkit-scrollbar-track { background: transparent; }
+.side-panel::-webkit-scrollbar-thumb { background: rgba(143,223,143,0.18); border-radius: 2px; }
+
+/* Sticky topbar */
+.panel-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px 13px;
+    background: rgba(2, 11, 5, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(143, 223, 143, 0.08);
+}
+.panel-category-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    color: rgba(143, 223, 143, 0.55);
+    text-transform: uppercase;
+}
+.close-panel-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.38);
+    font-size: 22px;
+    cursor: pointer;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    line-height: 1;
+    transition: background 0.22s, color 0.22s, transform 0.22s;
+}
+.close-panel-btn:hover {
+    background: rgba(143,223,143,0.12);
+    color: var(--green-primary);
+    transform: rotate(90deg);
+}
+
+/* Hero area */
+.panel-hero {
+    padding: 26px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.panel-hero-inner { display: flex; align-items: flex-start; gap: 15px; }
+.panel-hero img.hero-avatar {
+    width: 82px; height: 82px;
+    border-radius: 12px;
+    border: 2px solid rgba(143,223,143,0.32);
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 4px 22px rgba(0,0,0,0.5);
+}
+.panel-hero-text { flex: 1; min-width: 0; }
+.panel-hero h2 {
+    margin: 0 0 5px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green-primary);
+    line-height: 1.15;
+    letter-spacing: 0.3px;
+}
+.scientific-name {
+    font-style: italic;
+    font-size: 12px;
+    color: var(--gold);
+    opacity: 0.78;
+    line-height: 1.5;
+}
+
+/* Data sections */
+.panel-body { padding: 18px 22px 44px; }
+.panel-section { margin-bottom: 20px; }
+.panel-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(143,223,143,0.62);
+    margin: 0 0 9px;
+}
+.panel-section h3::before {
+    content: '';
+    display: block;
+    width: 3px; height: 13px;
+    background: var(--green-primary);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+.panel-section p, .panel-section li {
+    font-size: 13px;
+    line-height: 1.88;
+    color: rgba(205,228,205,0.84);
+    margin: 3px 0;
+}
+.panel-section ul { padding-left: 0; margin: 0; list-style: none; }
+.panel-section strong { color: var(--green-primary); font-weight: 600; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    :root { --panel-width: 100vw; }
+    .side-panel { right: -100vw; }
+    .map-stage.panel-open { padding-right: 0; }
+    .spot { width: 42px; height: 42px; }
+    .spot::after { display: none; }
+}
+@media (max-width: 480px) {
+    .spot { width: 34px; height: 34px; }
+    .back-btn span { display: none; }
+    .back-btn { padding: 9px 11px; border-radius: 50%; gap: 0; }
+}
+</style>
 </head>
 
 <body>
 
-<div class="map">
-    <img src="images/navigation_map.png" style="pointer-events:none;">
+<!-- Floating back button -->
+<a class="back-btn" href="index.html" title="返回首頁">
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.5 2.5L4.5 7.5l5 5" stroke="#8fdf8f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>返回首頁</span>
+</a>
 
-    <!-- 🌿 植物 -->
-    <div class="point" style="top:60%; left:40%;" onclick="showInfo('cypress')">
-        <img src="images/plant1.jpg">
-    </div>
+<!-- Fullscreen map stage -->
+<div class="map-stage" id="mapStage">
+    <div class="map-container" id="mapContainer">
+        <img class="main-map" id="mainMap" src="images/ncu_ecology_map.png" alt="NCU Ecology Map">
 
-    <div class="point" style="top:70%; left:70%;" onclick="showInfo('juniper')">
-        <img src="images/plant2.jpg">
-    </div>
+        <!-- Animals -->
+        <div class="spot spot--squirrel"  data-species="squirrel"  aria-label="赤腹松鼠"    role="button" tabindex="0"><img src="images/animal1.jpg" alt="赤腹松鼠"></div>
+        <div class="spot spot--magpie"    data-species="magpie"    aria-label="台灣藍鵲"    role="button" tabindex="0"><img src="images/animal2.jpg" alt="台灣藍鵲"></div>
+        <div class="spot spot--dragonfly" data-species="dragonfly" aria-label="霜白蜻蜓"    role="button" tabindex="0"><img src="images/animal5.jpg" alt="霜白蜻蜓"></div>
+        <div class="spot spot--frog"      data-species="frog"      aria-label="澤蛙"        role="button" tabindex="0"><img src="images/animal3.jpg" alt="澤蛙"></div>
+        <div class="spot spot--lizard"    data-species="lizard"    aria-label="斯文豪氏攀蜥" role="button" tabindex="0"><img src="images/animal4.jpg" alt="斯文豪氏攀蜥"></div>
 
-    <div class="point" style="top:65%; left:55%;" onclick="showInfo('paperbark')">
-        <img src="images/plant3.jpg">
-    </div>
-
-    <div class="point" style="top:80%; left:30%;" onclick="showInfo('acacia')">
-        <img src="images/plant4.jpg">
-    </div>
-
-    <div class="point" style="top:50%; left:20%;" onclick="showInfo('cherry')">
-        <img src="images/plant5.jpg">
-    </div>
-
-    <!-- 🐿️ 動物 -->
-    <div class="point" style="top:30%; left:70%;" onclick="showInfo('squirrel')">
-        <img src="images/animal1.jpg">
-    </div>
-
-    <div class="point" style="top:60%; left:60%;" onclick="showInfo('bird')">
-        <img src="images/animal2.jpg">
-    </div>
-
-    <div class="point" style="top:35%; left:50%;" onclick="showInfo('frog')">
-        <img src="images/animal3.jpg">
-    </div>
-
-    <div class="point" style="top:75%; left:10%;" onclick="showInfo('lizard')">
-        <img src="images/animal4.jpg">
-    </div>
-
-    <div class="point" style="top:20%; left:45%;" onclick="showInfo('dragonfly')">
-        <img src="images/animal5.jpg">
-    </div>
-
-</div>
-
-<!-- 側邊資訊 -->
-<div id="panel" class="panel">
-    <span class="close" onclick="closePanel()">✖</span>
-    <div id="content">
-        <h2>點擊地圖查看資訊</h2>
+        <!-- Plants -->
+        <div class="spot spot--cherry"    data-species="cherry"    aria-label="櫻花"        role="button" tabindex="0"><img src="images/plant5.jpg"  alt="櫻花"></div>
+        <div class="spot spot--cedar"     data-species="cedar"     aria-label="台灣肖楠"    role="button" tabindex="0"><img src="images/plant1.jpg"  alt="台灣肖楠"></div>
+        <div class="spot spot--paperbark" data-species="paperbark" aria-label="白千層"      role="button" tabindex="0"><img src="images/plant3.jpg"  alt="白千層"></div>
+        <div class="spot spot--juniper"   data-species="juniper"   aria-label="龍柏"        role="button" tabindex="0"><img src="images/plant2.jpg"  alt="龍柏"></div>
+        <div class="spot spot--acacia"    data-species="acacia"    aria-label="相思樹"      role="button" tabindex="0"><img src="images/plant4.jpg"  alt="相思樹"></div>
     </div>
 </div>
 
+<!-- Side panel -->
+<div id="sidePanel" class="side-panel">
+    <div class="panel-topbar">
+        <span class="panel-category-tag" id="panelCategoryTag">物種資訊</span>
+        <button class="close-panel-btn" id="closePanelBtn" aria-label="關閉面板">×</button>
+    </div>
+    <div class="panel-hero">
+        <div class="panel-hero-inner">
+            <img id="panelAvatar" class="hero-avatar" src="" alt="物種圖片">
+            <div class="panel-hero-text">
+                <h2 id="panelTitle">—</h2>
+                <div id="panelScientific" class="scientific-name"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="panel-section">
+            <h3>分類</h3>
+            <p id="panelClass"></p>
+        </div>
+        <div class="panel-section">
+            <h3>分布區域</h3>
+            <div id="panelDist"></div>
+        </div>
+        <div class="panel-section">
+            <h3>威脅因素</h3>
+            <div id="panelThreats"></div>
+        </div>
+        <div class="panel-section">
+            <h3>保育行動</h3>
+            <div id="panelConservation"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/species-data.js"></script>
 <script>
-function showInfo(type){
+(function () {
+    'use strict';
 
-    let data = {
+    var panel    = document.getElementById('sidePanel');
+    var mapStage = document.getElementById('mapStage');
+    var container = document.getElementById('mapContainer');
+    var mapImg   = document.getElementById('mainMap');
+    var catTag   = document.getElementById('panelCategoryTag');
 
-        squirrel:{
-            name:"赤腹松鼠",
-            img:"images/animal1.jpg",
-            content:`<p>台灣常見松鼠，適應力強。</p>`
-        },
+    /* ── Fit map to viewport ──────────────────────────────
+       Sizes .map-container to the maximum dimensions that
+       preserve the image aspect ratio within the available
+       stage area (100vw x 100vh, minus panel if open).
+       This keeps all hotspot % positions pixel-accurate.
+    ──────────────────────────────────────────────────── */
+    function fitMap() {
+        var nw = mapImg.naturalWidth;
+        var nh = mapImg.naturalHeight;
+        if (!nw || !nh) return;
 
-        bird:{
-            name:"台灣藍鵲",
-            img:"images/animal2.jpg",
-            content:`<p>台灣特有種，色彩鮮豔。</p>`
-        },
+        var availW = mapStage.offsetWidth  || window.innerWidth;
+        var availH = mapStage.offsetHeight || window.innerHeight;
+        var ratio  = nw / nh;
 
-        frog:{
-            name:"澤蛙",
-            img:"images/animal3.jpg",
-            content:`<p>常見於濕地與水域。</p>`
-        },
-
-        lizard:{
-            name:"斯文豪氏攀蜥",
-            img:"images/animal4.jpg",
-            content:`<p>常在樹幹活動。</p>`
-        },
-
-        dragonfly:{
-            name:"霜白蜻蜓",
-            img:"images/animal5.jpg",
-            content:`<p>水域指標生物。</p>`
-        },
-
-        cherry:{
-            name:"櫻花",
-            img:"images/plant5.jpg",
-            content:`<p>春季盛開，校園景觀植物。</p>`
-        },
-
-        acacia:{
-            name:"相思樹",
-            img:"images/plant4.jpg",
-            content:`<p>耐旱且生長快速。</p>`
-        },
-
-        paperbark:{
-            name:"白千層",
-            img:"images/plant3.jpg",
-            content:`<p>樹皮層狀剝落。</p>`
-        },
-
-        juniper:{
-            name:"龍柏",
-            img:"images/plant2.jpg",
-            content:`<p>常見造景樹。</p>`
-        },
-
-        cypress:{
-            name:"台灣肖楠",
-            img:"images/plant1.jpg",
-            content:`<p>台灣特有珍貴樹種。</p>`
+        var w, h;
+        if (availW / availH >= ratio) {
+            h = availH;
+            w = h * ratio;
+        } else {
+            w = availW;
+            h = w / ratio;
         }
-    };
 
-    let p = data[type];
+        container.style.width  = Math.round(w) + 'px';
+        container.style.height = Math.round(h) + 'px';
+    }
 
-    document.getElementById("content").innerHTML = `
-        <h2>${p.name}</h2>
-        <img src="${p.img}">
-        ${p.content}
-    `;
+    if (mapImg.complete && mapImg.naturalWidth) {
+        fitMap();
+    } else {
+        mapImg.addEventListener('load', fitMap);
+    }
+    window.addEventListener('resize', fitMap);
 
-    document.getElementById("panel").classList.add("show");
-}
+    /* ── Panel open / close ── */
+    function openPanel() {
+        panel.classList.add('show');
+        if (window.innerWidth > 768) {
+            mapStage.classList.add('panel-open');
+            // Wait for CSS transition then refit
+            setTimeout(fitMap, 520);
+        }
+    }
+    function closePanel() {
+        panel.classList.remove('show');
+        mapStage.classList.remove('panel-open');
+        setTimeout(fitMap, 520);
+    }
+    document.getElementById('closePanelBtn').addEventListener('click', closePanel);
 
-function closePanel(){
-    document.getElementById("panel").classList.remove("show");
-}
+    /* ── Field helper ── */
+    function set(id, value, prop) {
+        var el = document.getElementById(id);
+        if (el && value !== undefined) el[prop] = value;
+    }
+
+    /* ── Display species info ── */
+    var ANIMALS = ['squirrel','magpie','dragonfly','frog','lizard'];
+    function displayInfo(key) {
+        var data = (typeof speciesData !== 'undefined') ? speciesData[key] : null;
+        if (!data) return;
+        set('panelTitle',        data.name,           'innerText');
+        set('panelScientific',   data.scientific,     'innerText');
+        set('panelClass',        data.classification, 'innerText');
+        set('panelDist',         data.dist,           'innerHTML');
+        set('panelThreats',      data.threats,        'innerHTML');
+        set('panelConservation', data.conservation,   'innerHTML');
+        var avatar = document.getElementById('panelAvatar');
+        if (avatar) { avatar.src = data.avatar; avatar.alt = data.name; }
+        if (catTag) catTag.textContent = ANIMALS.indexOf(key) !== -1 ? '動物 · FAUNA' : '植物 · FLORA';
+        openPanel();
+    }
+
+    /* ── Active spot ── */
+    function clearActive() {
+        var a = document.querySelector('.spot.active');
+        if (a) a.classList.remove('active');
+    }
+    function activate(key) {
+        clearActive();
+        var s = document.querySelector('.spot[data-species="' + key + '"]');
+        if (s) s.classList.add('active');
+    }
+
+    /* ── Spot events ── */
+    function handleActivate() {
+        var key = this.getAttribute('data-species');
+        if (!key) return;
+        activate(key);
+        displayInfo(key);
+    }
+    document.querySelectorAll('.spot').forEach(function (spot) {
+        spot.addEventListener('click', handleActivate);
+        spot.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleActivate.call(this); }
+        });
+    });
+
+    /* ── Keyboard ── */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closePanel();
+    });
+
+})();
 </script>
 
 </body>

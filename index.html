@@ -38,117 +38,310 @@
 
 <nav class="nav" role="navigation" aria-label="主選單">
     <a id="nav-home" class="nav-link active" href="#" data-page="home">首頁<br>Home</a>
-    <a class="nav-link" href="#" data-action="open-map">中大生態地圖<br>NCU Ecology Map</a>
+    <a class="nav-link" href="map.html">中大生態地圖<br>NCU Ecology Map</a>
     <a id="nav-resources" class="nav-link" href="#" data-page="resources">資源中心<br>Resources</a>
     <a id="nav-join" class="nav-link" href="#" data-page="join">參與我們<br>Join Us</a>
 </nav>
 
 <div id="home-page" class="page active">
-    <div class="container">
-        <div class="left">
+
+    <!-- ══ 1. FULLSCREEN CINEMATIC HERO ══ -->
+    <section class="hp-hero">
+        <div class="hp-hero__bg">
             <img src="images/ncu.jpg" alt="NCU Campus">
-            <div class="text-overlay">
-                生活在中央大學，<br>但我們究竟對周遭的環境及其保育了解多少呢？
+        </div>
+        <div class="hp-hero__overlay"></div>
+        <div class="hp-hero__vignette"></div>
+        <div class="hp-hero__content">
+            <span class="hp-eyebrow">NATIONAL CENTRAL UNIVERSITY · 國立中央大學</span>
+            <h1 class="hp-hero__headline">生活在這片土地，<br>你認識多少<br>校園生靈？</h1>
+            <p class="hp-hero__sub">探索物種多樣性 &nbsp;·&nbsp; 認識校園生態 &nbsp;·&nbsp; 參與自然保育</p>
+            <div class="hp-hero__actions">
+                <a class="hp-btn hp-btn--primary" href="map.html">探索生態地圖</a>
+                <a class="hp-btn hp-btn--ghost" href="#" data-page="resources">了解資源中心</a>
             </div>
         </div>
+        <div class="hp-hero__scroll-hint">
+            <span>向下探索</span>
+            <div class="hp-scroll-arrow"></div>
+        </div>
+    </section>
 
-        <div class="right">
-            <div class="map-box scroll-reveal" role="button" tabindex="0" data-action="open-map">
-                <h3>生態地圖</h3>
-                <p>探索校園動植物分布</p>
-                <img src="images/map.png" alt="Map Preview">
+    <!-- ══ 2. MAP FEATURE GATEWAY ══ -->
+    <section class="hp-map-gateway">
+        <div class="hp-map-gateway__inner">
+            <div class="hp-map-gateway__text">
+                <span class="hp-section-label">EXPLORE · 探索</span>
+                <h2 class="hp-section-title">中大生態地圖</h2>
+                <p class="hp-section-desc">互動式校園地圖，標注動植物的確切棲息地點，帶你深入每種物種的生態故事。點擊地圖上的標記，開始一場沉浸式的自然之旅。</p>
+                <a href="map.html" class="hp-map-cta">
+                    <span>進入地圖</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
             </div>
-            
-            <div class="lists-container card-group">
-                <div class="box animal scroll-reveal">
-                    <h3>動物</h3>
-                    <ul class="species-list">
-                        <li data-species="magpie">台灣藍鵲</li>
-                        <li data-species="squirrel">赤腹松鼠</li>
-                        <li data-species="lizard">斯文豪氏攀蜥</li>
-                        <li data-species="frog">澤蛙</li>
-                        <li data-species="dragonfly">霜白蜻蜓</li>
-                    </ul>
+            <div class="hp-map-gateway__visual" role="button" tabindex="0"
+                 onclick="location.href='map.html'"
+                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='map.html';}">
+                <div class="hp-map-gateway__frame">
+                    <img src="images/map.png" alt="NCU Ecology Map">
+                    <div class="hp-map-gateway__scan"></div>
                 </div>
-
-                <div class="box plant scroll-reveal">
-                    <h3>植物</h3>
-                    <ul class="species-list">
-                        <li data-species="cedar">台灣肖楠</li>
-                        <li data-species="juniper">龍柏</li>
-                        <li data-species="paperbark">白千層</li>
-                        <li data-species="acacia">相思樹</li>
-                        <li data-species="cherry">櫻花</li>
-                    </ul>
+                <div class="hp-map-gateway__badge">
+                    <span class="hp-badge-num">10</span>
+                    <span class="hp-badge-label">標記物種</span>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- ══ 3. SPECIES DISCOVERY ══ -->
+    <section class="hp-species">
+        <div class="hp-species__header">
+            <span class="hp-section-label">DISCOVER · 發現</span>
+            <h2 class="hp-section-title">校園物種圖鑑</h2>
+            <p class="hp-section-desc">點擊物種卡片，了解其生態行為、棲地分布與保育現況</p>
+        </div>
+
+        <div class="hp-species__tabs" role="tablist">
+            <button class="hp-species-tab hp-species-tab--active" data-tab="animals" role="tab" aria-selected="true">
+                動物&ensp;<span class="hp-tab-label">FAUNA</span>
+            </button>
+            <button class="hp-species-tab" data-tab="plants" role="tab" aria-selected="false">
+                植物&ensp;<span class="hp-tab-label">FLORA</span>
+            </button>
+        </div>
+
+        <!-- Animals grid -->
+        <div class="hp-species__grid hp-species__grid--active" id="hp-grid-animals" role="tabpanel">
+            <article class="hp-sc scroll-reveal" data-species="magpie" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/animal1.jpg" alt="台灣藍鵲" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">BIRD · 鳥類</span>
+                    <h3 class="hp-sc__name">台灣藍鵲</h3>
+                    <p class="hp-sc__latin">Urocissa caerulea</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="squirrel" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/animal2.jpg" alt="赤腹松鼠" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">MAMMAL · 哺乳類</span>
+                    <h3 class="hp-sc__name">赤腹松鼠</h3>
+                    <p class="hp-sc__latin">Callosciurus erythraeus</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="lizard" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/animal3.jpg" alt="斯文豪氏攀蜥" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">REPTILE · 爬行類</span>
+                    <h3 class="hp-sc__name">斯文豪氏攀蜥</h3>
+                    <p class="hp-sc__latin">Japalura swinhonis</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="frog" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/animal4.jpg" alt="澤蛙" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">AMPHIBIAN · 兩棲類</span>
+                    <h3 class="hp-sc__name">澤蛙</h3>
+                    <p class="hp-sc__latin">Fejervarya multistriata</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="dragonfly" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/animal5.jpg" alt="霜白蜻蜓" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">INSECT · 昆蟲</span>
+                    <h3 class="hp-sc__name">霜白蜻蜓</h3>
+                    <p class="hp-sc__latin">Orthetrum poecilops</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+        </div>
+
+        <!-- Plants grid (hidden by default) -->
+        <div class="hp-species__grid" id="hp-grid-plants" role="tabpanel">
+            <article class="hp-sc scroll-reveal" data-species="cedar" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/plant1.jpg" alt="台灣肖楠" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">CONIFER · 針葉樹</span>
+                    <h3 class="hp-sc__name">台灣肖楠</h3>
+                    <p class="hp-sc__latin">Calocedrus formosana</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="juniper" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/plant2.jpg" alt="龍柏" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">CONIFER · 針葉樹</span>
+                    <h3 class="hp-sc__name">龍柏</h3>
+                    <p class="hp-sc__latin">Juniperus chinensis</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="paperbark" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/plant3.jpg" alt="白千層" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
+                    <h3 class="hp-sc__name">白千層</h3>
+                    <p class="hp-sc__latin">Melaleuca leucadendra</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="acacia" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/plant4.jpg" alt="相思樹" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
+                    <h3 class="hp-sc__name">相思樹</h3>
+                    <p class="hp-sc__latin">Acacia confusa</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+            <article class="hp-sc scroll-reveal" data-species="cherry" tabindex="0" role="button">
+                <div class="hp-sc__img"><img src="images/plant5.jpg" alt="山櫻花" loading="lazy"></div>
+                <div class="hp-sc__overlay"></div>
+                <div class="hp-sc__body">
+                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
+                    <h3 class="hp-sc__name">山櫻花</h3>
+                    <p class="hp-sc__latin">Prunus campanulata</p>
+                    <span class="hp-sc__cta">查看詳情</span>
+                </div>
+            </article>
+        </div>
+
+    </section>
+
 </div>
 
 <div id="resources-page" class="page">
-    <div class="resource-header">
-        <h1>資源中心</h1>
-        <p>請選擇您的身分，點擊按鈕獲取專屬資訊：</p>
-        <div class="role-selector">
-            <button class="role-btn active" type="button" data-role="student">我是學生</button>
-            <button class="role-btn" type="button" data-role="teacher">我是教師</button>
-            <button class="role-btn" type="button" data-role="database">校園物種知識庫</button>
-        </div>
+
+    <!-- Section header -->
+    <div class="res-header">
+        <p class="res-eyebrow">EXPLORE · DISCOVER · LEARN</p>
+        <h1 class="res-title">生態探索中心</h1>
+        <p class="res-subtitle">深入中央大學的自然世界 — 探索物種、認識生態、體驗保育</p>
     </div>
 
-    <div class="resource-content">
-        <div id="student-info" class="info-card active">
-            <div class="resource-grid card-group">
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="生態社團參與" data-resource-text="掌握環境志工與生態保育社團活動。">
-                    <span class="resource-icon">🌱</span>
-                    <h3>生態社團參與</h3>
-                    <p>掌握環境志工與生態保育社團活動</p>
-                </div>
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="通識課程輔助資源" data-resource-text="提供環境科學與自然導論實地觀察手冊。">
-                    <span class="resource-icon">🔍</span>
-                    <h3>通識課程輔助資源</h3>
-                    <p>環境科學與自然導論實地觀察手冊</p>
-                </div>
-            </div>
-        </div>
+    <!-- Three gateway cards -->
+    <div class="res-gateway">
 
-        <div id="teacher-info" class="info-card">
-            <div class="resource-grid card-group">
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="戶外教學場域指引" data-resource-text="中大湖、松林區等生態熱點路徑規劃，可提供教師安排校園生態觀察與戶外教學。">
-                    <span class="resource-icon">🗺️</span>
-                    <h3>戶外教學場域指引</h3>
-                    <p>中大湖、松林區等生態熱點路徑規劃</p>
-                </div>
-                 
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="教案共享平台" data-resource-text="提供跨學科校園生態教案範本與教學素材。">
-                    <span class="resource-icon">💡</span>
-                    <h3>教案共享平台</h3>
-                    <p>跨學科校園生態教案範本與素材</p>
+        <!-- Card 1: Animal Encyclopedia -->
+        <article class="res-card scroll-reveal" tabindex="0" role="button"
+                 data-resource-title="NCU 動物百科"
+                 data-resource-text="探索中央大學校園內記錄的所有動物物種，包含哺乳類、鳥類、兩棲類、爬行類與昆蟲。每個物種均附有詳細的分類資訊、棲地說明、生態行為與保育現況，協助你認識與我們共享校園的每一種生命。">
+            <div class="res-card__bg res-card__bg--animals">
+                <div class="res-card__particles">
+                    <span></span><span></span><span></span><span></span><span></span>
                 </div>
             </div>
-        </div>
+            <div class="res-card__overlay"></div>
+            <div class="res-card__content">
+                <div class="res-card__icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="18" cy="20" rx="9" ry="11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M27 20c0-5.523 2.686-10 6-10s6 4.477 6 10-2.686 10-6 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M18 31c-7 0-13 4-14 9h36c-1-5-7-9-14-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="res-card__tag">FAUNA</div>
+                <h2 class="res-card__title">NCU 動物百科</h2>
+                <p class="res-card__desc">探索校園哺乳類、鳥類、兩棲類、爬行類與昆蟲，了解每個物種的生態行為與保育現況。</p>
+                <div class="res-card__meta">
+                    <span>5 大類群</span>
+                    <span>·</span>
+                    <span>詳細物種資訊</span>
+                </div>
+                <div class="res-card__cta">
+                    <span>立即探索</span>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+            </div>
+            <div class="res-card__glow res-card__glow--green"></div>
+        </article>
 
-        <div id="database-info" class="info-card">
-            <div class="resource-grid card-group">
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="綠地改善方案" data-resource-text="提供原生種植栽選擇與生物多樣性提升建議。">
-                    <span class="resource-icon">🌳</span>
-                    <h3>綠地改善方案</h3>
-                    <p>原生種植栽選擇與生物多樣性提升建議</p>
-                </div>
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="SDGs 永續指標" data-resource-text="提供校園生態數據計算與 THE 排名參考。">
-                    <span class="resource-icon">🌍</span>
-                    <h3>SDGs 永續指標</h3>
-                    <p>校園生態數據計算與 THE 排名參考</p>
-                </div>
-                <div class="action-button scroll-reveal" role="button" tabindex="0" data-resource-title="維護預警系統" data-resource-text="提供育雛期工程迴避與生態告示規劃建議。">
-                    <span class="resource-icon">⚠️</span>
-                    <h3>維護預警系統</h3>
-                    <p>育雛期工程迴避與生態告示規劃建議</p>
+        <!-- Card 2: Plant Encyclopedia -->
+        <article class="res-card scroll-reveal" tabindex="0" role="button"
+                 data-resource-title="NCU 植物百科"
+                 data-resource-text="深入認識中央大學校園種植的原生及外來植物物種。從高聳的台灣肖楠到盛開的春季櫻花，本百科詳細記載每種植物的形態特徵、生態功能、分布區域與生物多樣性貢獻，帶你重新認識腳下這片土地的植物世界。">
+            <div class="res-card__bg res-card__bg--plants">
+                <div class="res-card__particles">
+                    <span></span><span></span><span></span><span></span><span></span>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="res-card__overlay"></div>
+            <div class="res-card__content">
+                <div class="res-card__icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 42V22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M24 22C24 22 14 18 10 8c8 0 16 6 14 14z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 30C24 30 34 26 38 16c-8 0-16 6-14 14z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="res-card__tag">FLORA</div>
+                <h2 class="res-card__title">NCU 植物百科</h2>
+                <p class="res-card__desc">從台灣肖楠到春季櫻花，認識校園原生植物的形態特徵、生態功能與生物多樣性貢獻。</p>
+                <div class="res-card__meta">
+                    <span>原生 &amp; 外來種</span>
+                    <span>·</span>
+                    <span>形態與生態資訊</span>
+                </div>
+                <div class="res-card__cta">
+                    <span>立即探索</span>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+            </div>
+            <div class="res-card__glow res-card__glow--teal"></div>
+        </article>
+
+        <!-- Card 3: Ecology Game -->
+        <article class="res-card scroll-reveal" tabindex="0" role="button"
+                 data-resource-title="互動生態遊戲"
+                 data-resource-text="透過趣味互動遊戲體驗生態保育的挑戰與樂趣！辨識校園物種、解開生態謎題、學習食物鏈與棲地保護知識。遊戲化的學習方式讓生態保育不再枯燥，適合所有年齡層的師生一同體驗。">
+            <div class="res-card__bg res-card__bg--game">
+                <div class="res-card__particles">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="res-card__overlay"></div>
+            <div class="res-card__content">
+                <div class="res-card__icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="14" width="36" height="24" rx="5" stroke="currentColor" stroke-width="2.2"/>
+                        <path d="M17 22v6M14 25h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <circle cx="31" cy="24" r="1.5" fill="currentColor"/>
+                        <circle cx="35" cy="26" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="res-card__tag">INTERACTIVE</div>
+                <h2 class="res-card__title">互動生態遊戲</h2>
+                <p class="res-card__desc">辨識物種、解開生態謎題、學習食物鏈知識，以遊戲化方式深入體驗校園生態保育。</p>
+                <div class="res-card__meta">
+                    <span>趣味互動</span>
+                    <span>·</span>
+                    <span>適合所有年齡</span>
+                </div>
+                <div class="res-card__cta">
+                    <span>開始遊玩</span>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+            </div>
+            <div class="res-card__glow res-card__glow--gold"></div>
+        </article>
+
+    </div><!-- /.res-gateway -->
+
 </div>
 
 <div id="join-page" class="page">
@@ -209,7 +402,7 @@
             <h3 class="footer-heading">快速導覽</h3>
             <ul class="footer-nav-list">
                 <li><a href="#" data-page="home">首頁 Home</a></li>
-                <li><a href="#" data-action="open-map">生態地圖 Ecology Map</a></li>
+                <li><a href="map.html">生態地圖 Ecology Map</a></li>
                 <li><a href="#" data-page="resources">資源中心 Resources</a></li>
                 <li><a href="#" data-page="join">參與我們 Join Us</a></li>
             </ul>

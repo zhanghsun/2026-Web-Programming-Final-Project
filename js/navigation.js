@@ -88,6 +88,21 @@ function initNavigation() {
         el.addEventListener('click', function (e) {
             e.preventDefault();
             const page = this.getAttribute('data-page');
+            // If the map modal is open, close it first (without restoring its previous nav state)
+            const mapModal = document.getElementById('mapModal');
+            if (mapModal && mapModal.classList.contains('is-open')) {
+                mapModal.classList.remove('is-open');
+                document.body.classList.remove('map-modal-open');
+                if (typeof clearActiveSpot === 'function') clearActiveSpot();
+                if (typeof closePanel === 'function') closePanel();
+                function onFadeOut(ev) {
+                    if (ev.propertyName === 'opacity') {
+                        mapModal.style.display = 'none';
+                        mapModal.removeEventListener('transitionend', onFadeOut);
+                    }
+                }
+                mapModal.addEventListener('transitionend', onFadeOut);
+            }
             if (page) showPage(page);
         });
     });
@@ -99,4 +114,59 @@ function initNavigation() {
             this.style.display = 'none';
         });
     }
+
+    // Home page species tabs
+    initHomeSpeciesTabs();
+}
+
+/**
+ * Wire up the FAUNA / FLORA tab switcher on the home page,
+ * and bind click + keyboard on every .hp-sc species card so
+ * it opens the side panel via displayInfo() from modal.js.
+ */
+function initHomeSpeciesTabs() {
+    // Tab switching
+    document.querySelectorAll('.hp-species-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            const target = this.getAttribute('data-tab');
+
+            // Update tab active state
+            document.querySelectorAll('.hp-species-tab').forEach(function (t) {
+                t.classList.remove('hp-species-tab--active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            this.classList.add('hp-species-tab--active');
+            this.setAttribute('aria-selected', 'true');
+
+            // Show matching grid
+            document.querySelectorAll('.hp-species__grid').forEach(function (g) {
+                g.classList.remove('hp-species__grid--active');
+            });
+            const grid = document.getElementById('hp-grid-' + target);
+            if (grid) {
+                grid.classList.add('hp-species__grid--active');
+                // Re-run scroll reveal for newly visible cards
+                if (typeof window.reinitializeAnimations === 'function') {
+                    setTimeout(function () { window.reinitializeAnimations(); }, 80);
+                }
+            }
+        });
+    });
+
+    // Species card clicks → open side panel
+    document.addEventListener('click', function (e) {
+        const card = e.target.closest('.hp-sc[data-species]');
+        if (!card) return;
+        const key = card.getAttribute('data-species');
+        if (key && typeof displayInfo === 'function') displayInfo(key);
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const card = e.target.closest('.hp-sc[data-species]');
+        if (!card) return;
+        e.preventDefault();
+        const key = card.getAttribute('data-species');
+        if (key && typeof displayInfo === 'function') displayInfo(key);
+    });
 }

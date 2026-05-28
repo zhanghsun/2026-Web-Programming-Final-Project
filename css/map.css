@@ -1,119 +1,190 @@
 /* ================================================
    Map Modal and Interactive Styles
    ================================================
-   Styles for the ecology map modal dialog,
-   interactive spots on map, and side panel for
-   detailed species information.
-   
+   Fullscreen immersive ecological map experience.
+   Inspired by National Geographic / interactive museum.
+
    Components:
-   - .modal, .map-wrapper: Map modal
-   - .spot: Interactive clickable map spots
-   - .side-panel: Detailed species info panel
+   - .modal              : Fullscreen cinematic overlay (z-index below navbar)
+   - .map-wrapper        : Inline-block, auto-sizes to match the map image
+   - .spot               : Interactive clickable hotspots
+   - .side-panel         : Species detail slide-in panel
    ================================================ */
 
-/* --- Map Modal --- */
+/* --- Map Modal (Fullscreen Cinematic Overlay) --- */
 .modal {
-    display: none;
+    display: none;                        /* JS switches to flex when opening */
     position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 900;                         /* Below navbar (999/1000) so nav stays visible */
+    background: radial-gradient(ellipse at 50% 40%,
+        rgba(5, 22, 12, 0.96) 0%,
+        rgba(0, 0, 0, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 148px 16px 16px;             /* Top: clears both header (~70px) + nav (~70px) */
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.45s ease;
 }
 
+.modal.is-open {
+    opacity: 1;
+}
+
+/* --- Map Wrapper (sized exactly to the displayed image) --- */
 .map-wrapper {
     position: relative;
-    margin: 50px auto;
-    width: 90%;
-    max-width: 900px;
-    border-radius: 10px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: inline-block;               /* Shrinks-to-fit so spots align with image */
+    max-width:  calc(100vw - 32px);
+    max-height: calc(100vh - 164px);     /* 148px top padding + 16px bottom */
+    border-radius: 12px;
+    box-shadow:
+        0 0 0 1px rgba(110, 159, 110, 0.35),
+        0 8px 40px rgba(0, 0, 0, 0.7),
+        0 0 100px rgba(60, 160, 60, 0.08);
+    transform: scale(0.90);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: visible;                   /* Don't clip hovering spots */
 }
 
+.modal.is-open .map-wrapper {
+    transform: scale(1);
+}
+
+/* --- Map Image --- */
 .map-wrapper img.main-map {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border: 3px solid #6e9f6e;
     display: block;
+    max-width:  calc(100vw - 32px);
+    max-height: calc(100vh - 164px);
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid rgba(110, 159, 110, 0.4);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* --- Close Button --- */
 .close {
     position: absolute;
-    top: 10px;
-    right: 20px;
-    color: black;
-    font-size: 40px;
-    font-weight: bold;
+    top: 12px;
+    right: 12px;
+    color: #e0e0e0;
+    font-size: 26px;
+    font-weight: 300;
     cursor: pointer;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    width: 50px;
-    height: 50px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
+    border: 1px solid rgba(143, 223, 143, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    line-height: 1;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .close:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
+    background: rgba(143, 223, 143, 0.18);
+    border-color: rgba(143, 223, 143, 0.7);
+    transform: scale(1.1) rotate(90deg);
 }
 
 /* --- Interactive Spots --- */
 .spot {
     position: absolute;
-    width: 55px !important;
-    height: 52px !important;
+    width: 50px !important;
+    height: 50px !important;
     cursor: pointer;
     transform: translate(-50%, -50%);
     z-index: 5;
-    transition: 0.3s;
+    transition: transform 0.25s ease;
 }
 
 .spot img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #333;
+    border: 2px solid rgba(143, 223, 143, 0.55);
     object-fit: cover;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .spot:hover {
-    transform: translate(-50%, -50%) scale(1.3);
+    transform: translate(-50%, -50%) scale(1.35);
     z-index: 10;
 }
 
-/* --- Spot Positions (moved from inline styles) --- */
-.spot--squirrel { top: 28.6%; left: 60.3%; }
-.spot--magpie { top: 54.4%; left: 52.9%; }
+.spot:hover img {
+    border-color: #8fdf8f;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(143, 223, 143, 0.35);
+}
+
+/* Active/selected spot */
+.spot.active {
+    transform: translate(-50%, -50%) scale(1.2);
+    z-index: 8;
+}
+
+.spot.active img {
+    border-color: #ffd700;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 215, 0, 0.45);
+}
+
+/* Subtle entrance pulse when map opens */
+@keyframes spotEntrance {
+    0%   { box-shadow: 0 0 0 0   rgba(143, 223, 143, 0.65); }
+    70%  { box-shadow: 0 0 0 10px rgba(143, 223, 143, 0); }
+    100% { box-shadow: 0 0 0 0   rgba(143, 223, 143, 0); }
+}
+
+.modal.is-open .spot img {
+    animation: spotEntrance 1.8s ease-out 0.55s 1;
+}
+
+/* --- Spot Positions (unchanged — percentages relative to .map-wrapper) --- */
+.spot--squirrel  { top: 28.6%; left: 60.3%; }
+.spot--magpie    { top: 54.4%; left: 52.9%; }
 .spot--dragonfly { top: 16.3%; left: 45.4%; }
-.spot--frog { top: 25.7%; left: 42.3%; }
-.spot--lizard { top: 54.4%; left: 23%; }
-.spot--cherry { top: 34.7%; left: 24.3%; }
-.spot--cedar { top: 58.7%; left: 39.2%; }
+.spot--frog      { top: 25.7%; left: 42.3%; }
+.spot--lizard    { top: 54.4%; left: 23%;   }
+.spot--cherry    { top: 34.7%; left: 24.3%; }
+.spot--cedar     { top: 58.7%; left: 39.2%; }
 .spot--paperbark { top: 68.7%; left: 57.1%; }
-.spot--juniper { top: 34.7%; left: 50.3%; }
-.spot--acacia { top: 58.8%; left: 70.2%; }
+.spot--juniper   { top: 34.7%; left: 50.3%; }
+.spot--acacia    { top: 58.8%; left: 70.2%; }
+
+/* --- Body scroll lock when map is open --- */
+body.map-modal-open {
+    overflow: hidden;
+}
 
 /* --- Side Panel (Detail View) --- */
 .side-panel {
     position: fixed;
-    top: 0;
+    top: 140px;                          /* Sits below the navbar */
     right: -450px;
     width: 400px;
-    height: 100%;
-    background: rgba(31, 63, 43, 0.98);
+    height: calc(100vh - 140px);
+    background: rgba(5, 22, 12, 0.97);
     color: white;
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -4px 0 30px rgba(0, 0, 0, 0.6);
+    border-left: 1px solid rgba(143, 223, 143, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 2000;
     overflow-y: auto;
 }
@@ -128,7 +199,7 @@
 }
 
 .panel-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
@@ -150,7 +221,7 @@
     width: 80px;
     height: 80px;
     border-radius: 8px;
-    border: 2px solid #8fdf8f;
+    border: 2px solid rgba(143, 223, 143, 0.5);
     object-fit: cover;
     flex-shrink: 0;
 }
@@ -219,22 +290,40 @@
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
+    .modal {
+        padding-top: 128px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .map-wrapper {
-        width: 95%;
-        margin: 40px auto;
+        max-width:  calc(100vw - 20px);
+        max-height: calc(100vh - 148px);
+    }
+
+    .map-wrapper img.main-map {
+        max-width:  calc(100vw - 20px);
+        max-height: calc(100vh - 148px);
     }
 
     .close {
-        top: 15px;
-        right: 15px;
-        font-size: 32px;
-        width: 45px;
-        height: 45px;
+        top: 8px;
+        right: 8px;
+        font-size: 22px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .spot {
+        width: 40px !important;
+        height: 40px !important;
     }
 
     .side-panel {
         width: 100%;
         right: -100%;
+        top: 128px;
+        height: calc(100vh - 128px);
     }
 
     .side-panel.show {
@@ -256,26 +345,38 @@
 }
 
 @media (max-width: 480px) {
+    .modal {
+        padding-top: 116px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
     .map-wrapper {
-        width: 98%;
-        margin: 30px auto;
+        max-width:  calc(100vw - 16px);
+        max-height: calc(100vh - 132px);
+    }
+
+    .map-wrapper img.main-map {
+        max-width:  calc(100vw - 16px);
+        max-height: calc(100vh - 132px);
     }
 
     .spot {
-        width: 45px !important;
-        height: 42px !important;
+        width: 34px !important;
+        height: 34px !important;
     }
 
     .close {
-        top: 10px;
-        right: 10px;
-        font-size: 28px;
-        width: 40px;
-        height: 40px;
+        top: 6px;
+        right: 6px;
+        font-size: 18px;
+        width: 34px;
+        height: 34px;
     }
 
     .side-panel {
-        width: 100%;
+        top: 116px;
+        height: calc(100vh - 116px);
     }
 
     .panel-content {
