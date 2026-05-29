@@ -1,0 +1,863 @@
+/* ==========================================================================
+   species.css — Wildlife Character Detail Page
+   Style language: National Geographic × Apple × Modern Museum
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+    --sp-bg:          #050d07;
+    --sp-surface:     #0a1a0e;
+    --sp-surface-2:   rgba(255,255,255,.04);
+    --sp-border:      rgba(143,223,143,.1);
+    --sp-text:        #e8f5e9;
+    --sp-muted:       rgba(232,245,233,.5);
+    --sp-accent:      #8fdf8f;   /* overridden per group via JS */
+
+    --sp-challenge-bg:  rgba(180, 60, 40, .08);
+    --sp-challenge-border: rgba(220, 100, 70, .25);
+    --sp-action-bg:  rgba(40, 120, 60, .1);
+    --sp-action-border: rgba(80, 180, 100, .25);
+
+    --font-display: 'Noto Sans TC', 'Segoe UI', system-ui, sans-serif;
+    --section-pad: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 80px);
+    --max-w: 1100px;
+    --max-w-narrow: 760px;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--sp-bg);
+    color: var(--sp-text);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a   { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+em  { font-style: italic; }
+
+/* --------------------------------------------------------------------------
+   Top navigation bar
+   -------------------------------------------------------------------------- */
+.sp-topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+    background: rgba(5,13,7,.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--sp-border);
+    transition: background .3s;
+}
+
+.sp-topnav__back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .82rem;
+    color: var(--sp-muted);
+    letter-spacing: .04em;
+    transition: color .2s;
+    flex-shrink: 0;
+}
+.sp-topnav__back:hover { color: var(--sp-accent); }
+
+.sp-topnav__name {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--sp-text);
+    letter-spacing: .03em;
+    opacity: 0;
+    transition: opacity .4s;
+}
+.sp-topnav__name.visible { opacity: 1; }
+
+.sp-topnav__progress-pill {
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--sp-surface-2);
+    border: 1px solid var(--sp-border);
+    font-size: .75rem;
+    color: var(--sp-muted);
+}
+.sp-topnav__progress-pill b { color: var(--sp-accent); }
+
+/* --------------------------------------------------------------------------
+   Right-side section navigation (scroll-spy dots)
+   -------------------------------------------------------------------------- */
+.sp-section-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sp-nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background .3s, transform .3s, height .3s;
+    position: relative;
+}
+.sp-nav-dot::after {
+    content: attr(title);
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-size: .68rem;
+    letter-spacing: .06em;
+    color: var(--sp-muted);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+.sp-nav-dot:hover::after { opacity: 1; }
+.sp-nav-dot:hover { background: rgba(255,255,255,.5); transform: scale(1.3); }
+.sp-nav-dot.active {
+    background: var(--sp-accent);
+    transform: scale(1.4);
+}
+
+/* --------------------------------------------------------------------------
+   Section base
+   -------------------------------------------------------------------------- */
+.sp-section {
+    padding: var(--section-pad);
+    min-height: 60vh;
+}
+.sp-section--alt { background: var(--sp-surface); }
+
+.sp-section-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+}
+.sp-section-inner--narrow {
+    max-width: var(--max-w-narrow);
+}
+
+.sp-section-eyebrow {
+    font-size: .68rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--sp-accent);
+    margin-bottom: 14px;
+    opacity: .8;
+}
+
+.sp-section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -.01em;
+    margin-bottom: 36px;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal
+   -------------------------------------------------------------------------- */
+.sp-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .65s ease, transform .65s ease;
+}
+.sp-reveal.revealed {
+    opacity: 1;
+    transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 1 — Hero
+   -------------------------------------------------------------------------- */
+.sp-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.sp-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    transform: scale(1.1);
+    transition: transform 10s ease-out;
+    will-change: transform;
+    filter: brightness(.55) saturate(.85);
+}
+.sp-hero.loaded .sp-hero__bg { transform: scale(1); }
+
+.sp-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center top, transparent 30%, rgba(5,13,7,.4) 70%),
+        linear-gradient(180deg,
+            rgba(5,13,7,.05) 0%,
+            rgba(5,13,7,.15) 40%,
+            rgba(5,13,7,.75) 75%,
+            rgba(5,13,7,.95) 100%
+        );
+}
+
+.sp-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: clamp(40px, 8vw, 80px) clamp(24px, 6vw, 80px) clamp(60px, 8vh, 100px);
+    max-width: 900px;
+}
+
+.sp-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.sp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    backdrop-filter: blur(6px);
+    color: var(--sp-text);
+}
+.sp-badge--group {
+    background: rgba(var(--sp-accent-rgb, 143,223,143), .15);
+    border-color: rgba(var(--sp-accent-rgb, 143,223,143), .3);
+    color: var(--sp-accent);
+}
+.sp-badge--endemic { background: rgba(212,168,67,.15); border-color: rgba(212,168,67,.3); color: #fde68a; }
+.sp-badge--diff  { background: rgba(255,255,255,.06); }
+.sp-badge--time  { background: rgba(255,255,255,.06); }
+
+.sp-hero__character {
+    font-size: clamp(.85rem, 1.5vw, 1rem);
+    font-style: italic;
+    color: var(--sp-accent);
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+    opacity: .9;
+}
+
+.sp-hero__name {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: .95;
+    letter-spacing: -.02em;
+    text-shadow: 0 4px 40px rgba(0,0,0,.5);
+    margin-bottom: 12px;
+}
+
+.sp-hero__english {
+    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    font-weight: 300;
+    letter-spacing: .08em;
+    color: rgba(232,245,233,.75);
+    margin-bottom: 6px;
+}
+
+.sp-hero__scientific {
+    font-size: .9rem;
+    font-style: italic;
+    color: rgba(143,223,143,.55);
+    letter-spacing: .04em;
+    margin-bottom: 24px;
+}
+
+.sp-hero__preview {
+    max-width: 580px;
+    font-size: clamp(.88rem, 1.2vw, 1rem);
+    line-height: 1.75;
+    color: rgba(232,245,233,.65);
+    letter-spacing: .02em;
+}
+
+.sp-hero__scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    right: clamp(24px, 6vw, 80px);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--sp-muted);
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    animation: sp-bounce 2s ease-in-out infinite;
+}
+
+.sp-hero__scroll-arrow {
+    width: 20px; height: 20px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: .6;
+}
+
+@keyframes sp-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 2 — Photo Gallery
+   -------------------------------------------------------------------------- */
+#sp-gallery {
+    padding-top: clamp(60px, 8vw, 80px);
+    padding-bottom: clamp(60px, 8vw, 80px);
+}
+
+.sp-gallery {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: 16px;
+    align-items: start;
+}
+
+.sp-gallery__main {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.sp-gallery__main-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: opacity .3s ease;
+}
+
+.sp-gallery__tip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 16px 20px;
+    background: linear-gradient(transparent, rgba(5,13,7,.92));
+    font-size: .82rem;
+    color: rgba(232,245,233,.8);
+    letter-spacing: .03em;
+    line-height: 1.5;
+}
+
+.sp-gallery__counter {
+    position: absolute;
+    top: 14px; right: 14px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(6px);
+    font-size: .72rem;
+    color: var(--sp-muted);
+    letter-spacing: .05em;
+}
+
+.sp-gallery__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sp-gallery__thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sp-thumb {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color .2s, transform .2s, opacity .2s;
+    padding: 0;
+    opacity: .6;
+    aspect-ratio: 4 / 3;
+}
+.sp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.sp-thumb:hover { opacity: .85; transform: scale(1.03); }
+.sp-thumb.active { border-color: var(--sp-accent); opacity: 1; }
+
+.sp-gallery__help {
+    font-size: .65rem;
+    color: var(--sp-muted);
+    letter-spacing: .05em;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 3 — Wildlife Detective
+   -------------------------------------------------------------------------- */
+.sp-clues {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.sp-clue-card {
+    background: var(--sp-surface-2);
+    border: 1px solid var(--sp-border);
+    border-left: 3px solid var(--sp-accent);
+    border-radius: 10px;
+    padding: 20px 20px 20px 22px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: sp-fadeUp .5s ease forwards;
+}
+.sp-clue-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,.4);
+    border-color: rgba(143,223,143,.3);
+    border-left-color: var(--sp-accent);
+}
+
+.sp-clue-card__num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--sp-accent);
+    opacity: .18;
+    letter-spacing: -.02em;
+    margin-bottom: 10px;
+}
+
+.sp-clue-card__text {
+    font-size: .92rem;
+    color: var(--sp-text);
+    line-height: 1.6;
+    letter-spacing: .02em;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 4 — Story / Fun Facts
+   -------------------------------------------------------------------------- */
+#sp-story {
+    background: var(--sp-bg);
+}
+
+.sp-story-card {
+    position: relative;
+    padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 56px);
+    border-radius: 16px;
+    background: var(--sp-surface);
+    border: 1px solid var(--sp-border);
+    overflow: hidden;
+}
+
+.sp-story-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(143,223,143,.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.sp-story-card__quote {
+    font-size: clamp(6rem, 12vw, 10rem);
+    line-height: .7;
+    color: var(--sp-accent);
+    opacity: .12;
+    font-family: Georgia, serif;
+    letter-spacing: -.04em;
+    margin-bottom: -20px;
+    display: block;
+}
+
+.sp-story-card__text {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    line-height: 1.9;
+    color: rgba(232,245,233,.85);
+    letter-spacing: .025em;
+    position: relative;
+    z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 5 — Where to Find
+   -------------------------------------------------------------------------- */
+.sp-locations {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.sp-location-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: var(--sp-surface-2);
+    border: 1px solid var(--sp-border);
+    font-size: .9rem;
+    transition: background .2s, border-color .2s;
+}
+.sp-location-card:hover { background: rgba(255,255,255,.07); border-color: rgba(143,223,143,.2); }
+
+.sp-location-card__icon { font-size: 1.1rem; flex-shrink: 0; }
+.sp-location-card__name { color: var(--sp-text); letter-spacing: .02em; }
+
+.sp-location-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.sp-best-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sp-time-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    background: rgba(143,223,143,.08);
+    border: 1px solid rgba(143,223,143,.18);
+    font-size: .8rem;
+    color: var(--sp-accent);
+    letter-spacing: .03em;
+}
+.sp-time-chip::before { content: '🕒'; font-size: .85rem; }
+
+.sp-diff-label {
+    font-size: .78rem;
+    color: var(--sp-muted);
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+}
+
+.sp-diff-track {
+    width: 160px;
+    height: 5px;
+    background: rgba(255,255,255,.1);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.sp-diff-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sp-accent), rgba(143,223,143,.5));
+    border-radius: 100px;
+    transition: width .8s cubic-bezier(.4,0,.2,1);
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 6 — Wildlife Profile
+   -------------------------------------------------------------------------- */
+.sp-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.sp-profile-card {
+    background: var(--sp-surface-2);
+    border: 1px solid var(--sp-border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    transition: border-color .2s, transform .2s;
+}
+.sp-profile-card:hover {
+    border-color: rgba(143,223,143,.22);
+    transform: translateY(-3px);
+}
+
+.sp-profile-card__icon {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.sp-profile-card__label {
+    font-size: .65rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--sp-muted);
+    margin-bottom: 5px;
+}
+
+.sp-profile-card__value {
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--sp-text);
+    line-height: 1.45;
+}
+.sp-profile-card__value em { color: rgba(143,223,143,.8); }
+
+/* --------------------------------------------------------------------------
+   SECTION 7 — Challenges
+   -------------------------------------------------------------------------- */
+#sp-challenges {
+    background: #06100a;
+}
+
+.sp-challenges {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sp-challenge-card {
+    background: var(--sp-challenge-bg);
+    border: 1px solid var(--sp-challenge-border);
+    border-left: 3px solid #e05c44;
+    border-radius: 10px;
+    padding: 20px 24px;
+    opacity: 0;
+    transform: translateX(-16px);
+    animation: sp-slideIn .5s ease forwards;
+}
+
+.sp-challenge-card__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.sp-challenge-card__icon { font-size: 1rem; flex-shrink: 0; }
+
+.sp-challenge-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--sp-text);
+    letter-spacing: .02em;
+}
+
+.sp-challenge-card__desc {
+    font-size: .85rem;
+    line-height: 1.65;
+    color: var(--sp-muted);
+    letter-spacing: .02em;
+    padding-left: 26px;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 8 — Conservation Actions
+   -------------------------------------------------------------------------- */
+#sp-actions { background: var(--sp-bg); }
+
+.sp-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sp-action-card {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: var(--sp-action-bg);
+    border: 1px solid var(--sp-action-border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    opacity: 0;
+    transform: translateX(-16px);
+    animation: sp-slideIn .5s ease forwards;
+    transition: border-color .2s, background .2s;
+}
+.sp-action-card:hover {
+    background: rgba(40,120,60,.15);
+    border-color: rgba(80,180,100,.35);
+}
+
+.sp-action-card__num {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--sp-accent);
+    opacity: .35;
+    letter-spacing: -.02em;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+    padding-top: 2px;
+}
+
+.sp-action-card__body { flex: 1; }
+
+.sp-action-card__title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--sp-text);
+    margin-bottom: 5px;
+    letter-spacing: .02em;
+}
+
+.sp-action-card__desc {
+    font-size: .84rem;
+    line-height: 1.65;
+    color: var(--sp-muted);
+    letter-spacing: .02em;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION 9 — Related Species
+   -------------------------------------------------------------------------- */
+#sp-related { background: var(--sp-surface); }
+
+.sp-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.sp-related-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--sp-surface-2);
+    border: 1px solid var(--sp-border);
+    display: block;
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s;
+    cursor: pointer;
+}
+.sp-related-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,.45);
+    border-color: rgba(143,223,143,.25);
+}
+
+.sp-related-card__photo-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+}
+.sp-related-card__photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .5s ease;
+}
+.sp-related-card:hover .sp-related-card__photo-wrap img { transform: scale(1.08); }
+
+.sp-related-card__body {
+    padding: 14px 16px;
+}
+
+.sp-related-card__name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.sp-related-card__en {
+    font-size: .72rem;
+    color: var(--sp-muted);
+    letter-spacing: .04em;
+    margin-bottom: 6px;
+}
+
+.sp-related-card__char {
+    font-size: .75rem;
+    font-style: italic;
+    color: var(--sp-accent);
+    opacity: .8;
+    letter-spacing: .03em;
+}
+
+/* --------------------------------------------------------------------------
+   Keyframe animations
+   -------------------------------------------------------------------------- */
+@keyframes sp-fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sp-slideIn {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .sp-gallery {
+        grid-template-columns: 1fr;
+    }
+    .sp-gallery__sidebar {
+        flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .sp-gallery__thumbs {
+        flex-direction: row;
+        gap: 8px;
+    }
+    .sp-thumb {
+        flex-shrink: 0;
+        width: 80px;
+        aspect-ratio: 4/3;
+    }
+    .sp-gallery__help { display: none; }
+
+    .sp-profile-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sp-related-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sp-section-nav { display: none; }
+}
+
+@media (max-width: 600px) {
+    :root { --section-pad: 48px 20px; }
+
+    .sp-hero__name { font-size: clamp(2.8rem, 12vw, 4rem); }
+
+    .sp-clues { grid-template-columns: 1fr 1fr; }
+
+    .sp-profile-grid { grid-template-columns: 1fr 1fr; }
+
+    .sp-related-grid { grid-template-columns: 1fr; }
+
+    .sp-story-card__quote { font-size: 5rem; }
+}
+
+@media (max-width: 400px) {
+    .sp-clues { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>校園野生動物探索 — 國立中央大學</title>
+    <meta name="description" content="探索國立中央大學校園內 17 種野生動物，了解牠們的生態故事與觀察技巧。">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/animals.css">
+</head>
+<body>
+
+    <!-- ===== Navigation ===== -->
+    <nav class="aw-nav">
+        <a href="index.html" class="aw-nav__back" aria-label="返回首頁">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            返回
+        </a>
+        <span class="aw-nav__title">校園野生動物圖鑑</span>
+        <div class="aw-nav__progress">
+            <div class="aw-nav__progress-pill">已探索 <b>0</b> / 17</div>
+        </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="aw-hero" aria-label="頁面標題">
+        <div class="aw-hero__bg"></div>
+        <div class="aw-hero__overlay"></div>
+        <div class="aw-hero__content">
+            <p class="aw-hero__eyebrow">National Central University · Campus Wildlife</p>
+            <h1 class="aw-hero__title">校園野生動物探索</h1>
+            <p class="aw-hero__subtitle">在熟悉的校園裡，發現你從未注意過的鄰居</p>
+            <div class="aw-hero__stats">
+                <div class="aw-hero__stat">
+                    <div class="aw-hero__stat-value">17</div>
+                    <div class="aw-hero__stat-label">記錄物種</div>
+                </div>
+                <div class="aw-hero__stat">
+                    <div class="aw-hero__stat-value">6</div>
+                    <div class="aw-hero__stat-label">生態群組</div>
+                </div>
+                <div class="aw-hero__stat">
+                    <div class="aw-hero__stat-value" id="heroDiscoveredCount">0</div>
+                    <div class="aw-hero__stat-label">已探索</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Filter chips ===== -->
+    <div class="aw-filters" role="group" aria-label="生態群組篩選">
+        <button class="aw-chip active" data-group="all">
+            🌿 全部 <span class="aw-chip__count">17</span>
+        </button>
+        <button class="aw-chip" data-group="forest">
+            🌲 森林住民 <span class="aw-chip__count">5</span>
+        </button>
+        <button class="aw-chip" data-group="sky">
+            🦅 天空守衛 <span class="aw-chip__count">4</span>
+        </button>
+        <button class="aw-chip" data-group="night">
+            🌙 夜行者 <span class="aw-chip__count">1</span>
+        </button>
+        <button class="aw-chip" data-group="ground">
+            🐾 地面探索者 <span class="aw-chip__count">5</span>
+        </button>
+        <button class="aw-chip" data-group="icon">
+            ⭐ 校園代表 <span class="aw-chip__count">2</span>
+        </button>
+        <button class="aw-chip" data-group="urban">
+            🏙️ 城市倖存者 <span class="aw-chip__count">1</span>
+        </button>
+    </div>
+
+    <!-- ===== Species grid ===== -->
+    <section class="aw-grid-section" aria-label="物種卡牌列表">
+        <div class="aw-grid-header">
+            <h2 class="aw-grid-header__title">所有物種</h2>
+            <span class="aw-grid-header__count" id="awVisibleCount">共 17 種</span>
+        </div>
+
+        <!-- Cards are injected by animals.js -->
+        <div class="aw-grid" id="awGrid" role="list"></div>
+
+        <!-- Empty state -->
+        <div class="aw-empty" id="awEmpty" aria-live="polite">
+            <span class="aw-empty__icon">🔍</span>
+            <span>此群組目前沒有物種記錄</span>
+        </div>
+    </section>
+
+    <!-- ===== Progress bar (bottom strip) ===== -->
+    <div class="aw-progress-strip" aria-label="探索進度">
+        <span class="aw-progress-strip__label" id="awProgressLabel">
+            已探索 <b>0</b> / 17 種
+        </span>
+        <div class="aw-progress-strip__bar" role="progressbar" aria-valuemin="0" aria-valuemax="17" aria-valuenow="0">
+            <div class="aw-progress-strip__fill" id="awProgressFill"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/species-data.js"></script>
+    <script src="js/animals.js"></script>
+    <script>
+        // Sync hero discovered count with LocalStorage on load
+        document.addEventListener('DOMContentLoaded', function () {
+            var count = JSON.parse(localStorage.getItem('ncu-wildlife-discovered') || '[]').length;
+            var heroEl = document.getElementById('heroDiscoveredCount');
+            if (heroEl) heroEl.textContent = count;
+        });
+    </script>
+
+</body>
+</html>

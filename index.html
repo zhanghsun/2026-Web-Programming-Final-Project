@@ -33,12 +33,12 @@
         <div class="header-title">中央大學 生態與保育資訊網</div>
         <div class="header-sub">National Central University Ecological and Conservation Information Website</div>
     </div>
-    <img class="header-logo" src="images/logo.png" width="100" alt="NCU Logo">
+    <img class="header-logo" src="assets/images/logo.png" width="100" alt="NCU Logo">
 </div>
 
 <nav class="nav" role="navigation" aria-label="主選單">
     <a id="nav-home" class="nav-link active" href="#" data-page="home">首頁<br>Home</a>
-    <a class="nav-link" href="map.html">中大生態地圖<br>NCU Ecology Map</a>
+    <a class="nav-link" href="pages/wildlife-map.html">中大生態地圖<br>NCU Ecology Map</a>
     <a id="nav-resources" class="nav-link" href="#" data-page="resources">資源中心<br>Resources</a>
     <a id="nav-join" class="nav-link" href="#" data-page="join">參與我們<br>Join Us</a>
 </nav>
@@ -48,7 +48,7 @@
     <!-- ══ 1. FULLSCREEN CINEMATIC HERO ══ -->
     <section class="hp-hero">
         <div class="hp-hero__bg">
-            <img src="images/ncu.jpg" alt="NCU Campus">
+            <img src="assets/images/ncu.jpg" alt="NCU Campus">
         </div>
         <div class="hp-hero__overlay"></div>
         <div class="hp-hero__vignette"></div>
@@ -57,7 +57,7 @@
             <h1 class="hp-hero__headline">生活在這片土地，<br>你認識多少<br>校園生態？</h1>
             <p class="hp-hero__sub">探索物種多樣性 &nbsp;·&nbsp; 認識校園生態 &nbsp;·&nbsp; 參與自然保育</p>
             <div class="hp-hero__actions">
-                <a class="hp-btn hp-btn--primary" href="map.html">探索生態地圖</a>
+                <a class="hp-btn hp-btn--primary" href="pages/wildlife-map.html">探索生態地圖</a>
                 <a class="hp-btn hp-btn--ghost" href="#" data-page="resources">了解資源中心</a>
             </div>
         </div>
@@ -74,7 +74,7 @@
                 <span class="hp-section-label">EXPLORE · 探索</span>
                 <h2 class="hp-section-title">中大生態地圖</h2>
                 <p class="hp-section-desc">互動式校園地圖，標注動植物的確切棲息地點，帶你深入每種物種的生態故事。點擊地圖上的標記，開始一場沉浸式的自然之旅。</p>
-                <a href="map.html" class="hp-map-cta">
+                <a href="pages/wildlife-map.html" class="hp-map-cta">
                     <span>進入地圖</span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,10 +82,10 @@
                 </a>
             </div>
             <div class="hp-map-gateway__visual" role="button" tabindex="0"
-                 onclick="location.href='map.html'"
-                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='map.html';}">
+                 onclick="location.href='pages/wildlife-map.html'"
+                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='pages/wildlife-map.html';}">
                 <div class="hp-map-gateway__frame">
-                    <img src="images/map.png" alt="NCU Ecology Map">
+                    <img src="assets/images/map.png" alt="NCU Ecology Map">
                     <div class="hp-map-gateway__scan"></div>
                 </div>
                 <div class="hp-map-gateway__badge">
@@ -101,7 +101,7 @@
     <section class="hp-species">
         <div class="hp-species__header">
             <span class="hp-section-label">DISCOVER · 發現</span>
-            <h2 class="hp-section-title">校園物種圖鑑</h2>
+            <h2 class="hp-section-title">校園常見物種</h2>
             <p class="hp-section-desc">點擊物種卡片，了解其生態行為、棲地分布與保育現況</p>
         </div>
 
@@ -117,7 +117,7 @@
         <!-- Animals grid -->
         <div class="hp-species__grid hp-species__grid--active" id="hp-grid-animals" role="tabpanel">
             <article class="hp-sc scroll-reveal" data-species="magpie" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/台灣藍鵲.jpg" alt="台灣藍鵲" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/台灣藍鵲.jpg" alt="台灣藍鵲" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">BIRD · 鳥類</span>
@@ -127,7 +127,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="squirrel" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/赤腹松鼠.jpg" alt="赤腹松鼠" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/赤腹松鼠.jpg" alt="赤腹松鼠" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">MAMMAL · 哺乳類</span>
@@ -137,7 +137,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="lizard" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/斯文豪氏攀蜥.jpg" alt="斯文豪氏攀蜥" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/斯文豪氏攀蜥.jpg" alt="斯文豪氏攀蜥" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">REPTILE · 爬行類</span>
@@ -147,7 +147,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="frog" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/澤蛙.jpg" alt="澤蛙" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/澤蛙.jpg" alt="澤蛙" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">AMPHIBIAN · 兩棲類</span>
@@ -157,7 +157,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="dragonfly" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/霜白蜻蜓.jpg" alt="霜白蜻蜓" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/霜白蜻蜓.jpg" alt="霜白蜻蜓" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">INSECT · 昆蟲</span>
@@ -171,7 +171,7 @@
         <!-- Plants grid (hidden by default) -->
         <div class="hp-species__grid" id="hp-grid-plants" role="tabpanel">
             <article class="hp-sc scroll-reveal" data-species="cedar" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/台灣肖楠.jpg" alt="台灣肖楠" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/台灣肖楠.jpg" alt="台灣肖楠" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">CONIFER · 針葉樹</span>
@@ -181,7 +181,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="juniper" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/龍柏.jpg" alt="龍柏" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/龍柏.jpg" alt="龍柏" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">CONIFER · 針葉樹</span>
@@ -191,7 +191,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="paperbark" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/白千層.jpg" alt="白千層" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/白千層.jpg" alt="白千層" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">TREE · 闊葉樹</span>
@@ -201,7 +201,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="acacia" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/相思樹.jpg" alt="相思樹" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/相思樹.jpg" alt="相思樹" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">TREE · 闊葉樹</span>
@@ -211,7 +211,7 @@
                 </div>
             </article>
             <article class="hp-sc scroll-reveal" data-species="cherry" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="images/山櫻花.jpg" alt="山櫻花" loading="lazy"></div>
+                <div class="hp-sc__img"><img src="assets/images/山櫻花.jpg" alt="山櫻花" loading="lazy"></div>
                 <div class="hp-sc__overlay"></div>
                 <div class="hp-sc__body">
                     <span class="hp-sc__cat">TREE · 闊葉樹</span>
@@ -246,12 +246,12 @@
 
         <!-- ══ Card 1: Campus Wildlife Explorer ══ -->
         <article class="res-card res-card--wildlife scroll-reveal" tabindex="0" role="button"
-                 data-resource-title="NCU 動物百科"
-                 data-resource-text="探索中央大學校園內記錄的所有動物物種，包含哺乳類、鳥類、兩棲類、爬行類與昆蟲。每個物種均附有詳細的分類資訊、棲地說明、生態行為與保育現況，協助你認識與我們共享校園的每一種生命。">
+                 onclick="location.href='pages/animals.html'"
+                 style="cursor:pointer;">
 
             <!-- Background: real wildlife photo + color treatment -->
             <div class="res-card__bg">
-                <img src="images/台灣藍鵲.jpg" alt="Campus Wildlife — 台灣藍鵲" loading="lazy">
+                <img src="assets/images/台灣藍鵲.jpg" alt="Campus Wildlife — 台灣藍鵲" loading="lazy">
                 <div class="res-card__bg-tint res-card__bg-tint--wildlife"></div>
             </div>
 
@@ -285,9 +285,9 @@
                 <h2 class="res-card__title">校園野生動物<br>探索圖鑑</h2>
                 <p class="res-card__desc">穿越森林、湖畔與草地，追蹤中央大學記錄在案的五大動物類群。每個物種都是一個等待解鎖的生態故事。</p>
                 <div class="res-card__meta">
-                    <span>5 大類群</span>
+                    <span>6 大類群</span>
                     <span class="res-dot">·</span>
-                    <span>5 記錄物種</span>
+                    <span>17 記錄物種</span>
                     <span class="res-dot">·</span>
                     <span>詳細生態資訊</span>
                 </div>
@@ -309,7 +309,7 @@
 
             <!-- Background: botanical photo -->
             <div class="res-card__bg">
-                <img src="images/台灣肖楠.jpg" alt="Campus Flora — 台灣肖楠" loading="lazy">
+                <img src="assets/images/台灣肖楠.jpg" alt="Campus Flora — 台灣肖楠" loading="lazy">
                 <div class="res-card__bg-tint res-card__bg-tint--flora"></div>
             </div>
 
@@ -363,7 +363,7 @@
 
             <!-- Background: campus ecology photo -->
             <div class="res-card__bg">
-                <img src="images/ncu.jpg" alt="Ecology Mission — NCU Campus" loading="lazy">
+                <img src="assets/images/ncu.jpg" alt="Ecology Mission — NCU Campus" loading="lazy">
                 <div class="res-card__bg-tint res-card__bg-tint--mission"></div>
             </div>
 
@@ -427,7 +427,7 @@
         <!-- ── LEFT: Ecological Storytelling Panel ── -->
         <div class="join-story">
             <div class="join-story__bg">
-                <img src="images/ncu.jpg" alt="NCU Campus Ecology">
+                <img src="assets/images/ncu.jpg" alt="NCU Campus Ecology">
             </div>
             <div class="join-story__overlay"></div>
             <div class="join-story__content">
@@ -579,7 +579,7 @@
             <h3 class="footer-heading">快速導覽</h3>
             <ul class="footer-nav-list">
                 <li><a href="#" data-page="home">首頁 Home</a></li>
-                <li><a href="map.html">生態地圖 Ecology Map</a></li>
+                <li><a href="pages/wildlife-map.html">生態地圖 Ecology Map</a></li>
                 <li><a href="#" data-page="resources">資源中心 Resources</a></li>
                 <li><a href="#" data-page="join">參與我們 Join Us</a></li>
             </ul>
@@ -638,37 +638,37 @@
 <div id="mapModal" class="modal">
     <div class="map-wrapper">
         <span class="close" data-action="close-map" role="button" tabindex="0">&times;</span>
-        <img class="main-map" src="images/ncu_ecology_map.png" alt="NCU Ecology Map">
+        <img class="main-map" src="assets/images/ncu_ecology_map.png" alt="NCU Ecology Map">
 
         <div class="spot spot--squirrel" data-species="squirrel">
-            <img src="images/赤腹松鼠.jpg" alt="赤腹松鼠">
+            <img src="assets/images/赤腹松鼠.jpg" alt="赤腹松鼠">
         </div>
         <div class="spot spot--magpie" data-species="magpie">
-            <img src="images/台灣藍鵲.jpg" alt="台灣藍鵲">
+            <img src="assets/images/台灣藍鵲.jpg" alt="台灣藍鵲">
         </div>
         <div class="spot spot--dragonfly" data-species="dragonfly">
-            <img src="images/霜白蜻蜓.jpg" alt="霜白蜻蜓">
+            <img src="assets/images/霜白蜻蜓.jpg" alt="霜白蜻蜓">
         </div>
         <div class="spot spot--frog" data-species="frog">
-            <img src="images/澤蛙.jpg" alt="澤蛙">
+            <img src="assets/images/澤蛙.jpg" alt="澤蛙">
         </div>
         <div class="spot spot--lizard" data-species="lizard">
-            <img src="images/斯文豪氏攀蜥.jpg" alt="斯文豪氏攀蜥">
+            <img src="assets/images/斯文豪氏攀蜥.jpg" alt="斯文豪氏攀蜥">
         </div>
         <div class="spot spot--cherry" data-species="cherry">
-            <img src="images/山櫻花.jpg" alt="櫻花">
+            <img src="assets/images/山櫻花.jpg" alt="櫻花">
         </div>
         <div class="spot spot--cedar" data-species="cedar">
-            <img src="images/台灣肖楠.jpg" alt="台灣肖楠">
+            <img src="assets/images/台灣肖楠.jpg" alt="台灣肖楠">
         </div>
         <div class="spot spot--paperbark" data-species="paperbark">
-            <img src="images/白千層.jpg" alt="白千層">
+            <img src="assets/images/白千層.jpg" alt="白千層">
         </div>
         <div class="spot spot--juniper" data-species="juniper">
-            <img src="images/龍柏.jpg" alt="龍柏">
+            <img src="assets/images/龍柏.jpg" alt="龍柏">
         </div>
         <div class="spot spot--acacia" data-species="acacia">
-            <img src="images/相思樹.jpg" alt="相思樹">
+            <img src="assets/images/相思樹.jpg" alt="相思樹">
         </div>
     </div>
 </div>
@@ -731,3 +731,4 @@
 
 </body>
 </html>
+

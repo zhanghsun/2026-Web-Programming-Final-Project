@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>物種詳情 — 中大校園野生動物</title>
+    <meta name="description" content="深入認識中央大學校園野生動物的生態故事、辨認技巧與保育行動。">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/species.css">
+</head>
+<body>
+
+    <!-- ===== Top Navigation ===== -->
+    <nav class="sp-topnav">
+        <a href="pages/animals.html" class="sp-topnav__back" aria-label="返回探索列表">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            探索列表
+        </a>
+        <span class="sp-topnav__name" id="spTopName" aria-live="polite"></span>
+        <div class="sp-topnav__progress-pill">已探索 <b>0</b> / 17</div>
+    </nav>
+
+    <!-- ===== Right-side section nav dots ===== -->
+    <nav class="sp-section-nav" id="spSectionNav" aria-label="頁面章節導覽"></nav>
+
+    <!-- =========================================================
+         SECTION 1 — Hero
+         ========================================================= -->
+    <section class="sp-hero" id="sp-hero" aria-label="物種簡介">
+        <div class="sp-hero__bg" id="spHeroBg" role="img" aria-label="物種照片背景"></div>
+        <div class="sp-hero__overlay"></div>
+
+        <div class="sp-hero__content">
+            <!-- Badges row -->
+            <div class="sp-badges" id="spBadges" role="list" aria-label="物種標籤"></div>
+
+            <!-- Character title + names -->
+            <p class="sp-hero__character" id="spCharacter"></p>
+            <h1 class="sp-hero__name"    id="spName"></h1>
+            <p class="sp-hero__english"  id="spEnglish"></p>
+            <p class="sp-hero__scientific" id="spScientific"></p>
+
+            <!-- Story preview -->
+            <p class="sp-hero__preview" id="spStoryPreview"></p>
+        </div>
+
+        <div class="sp-hero__scroll-hint" aria-hidden="true">
+            <span>向下探索</span>
+            <div class="sp-hero__scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 2 — Photo Gallery
+         ========================================================= -->
+    <section class="sp-section" id="sp-gallery" aria-label="照片影像紀錄">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Photo Gallery · 影像紀錄</p>
+            <div class="sp-gallery sp-reveal">
+                <!-- Main image -->
+                <div class="sp-gallery__main">
+                    <img id="spMainPhoto" class="sp-gallery__main-img" src="" alt="" style="opacity:1;">
+                    <div class="sp-gallery__tip"     id="spPhotoCaption"></div>
+                    <div class="sp-gallery__counter" id="spPhotoCounter">1 / 3</div>
+                </div>
+
+                <!-- Thumbnail sidebar -->
+                <div class="sp-gallery__sidebar">
+                    <div class="sp-gallery__thumbs" id="spThumbs" role="list"></div>
+                    <p class="sp-gallery__help">← → 鍵切換照片</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 3 — Wildlife Detective
+         ========================================================= -->
+    <section class="sp-section sp-section--alt" id="sp-detective" aria-label="野外偵探辨認指南">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Wildlife Detective · 野外偵探</p>
+            <h2 class="sp-section-title sp-reveal">如何在校園認出牠？</h2>
+            <div class="sp-clues" id="spClues" role="list"></div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 4 — Fun Facts / Story
+         ========================================================= -->
+    <section class="sp-section" id="sp-story" aria-label="生態故事">
+        <div class="sp-section-inner sp-section-inner--narrow">
+            <p class="sp-section-eyebrow sp-reveal">Fun Facts · 有趣小知識</p>
+            <div class="sp-story-card sp-reveal">
+                <span class="sp-story-card__quote" aria-hidden="true">"</span>
+                <p class="sp-story-card__text" id="spStoryText"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 5 — Where to Find It
+         ========================================================= -->
+    <section class="sp-section sp-section--alt" id="sp-locations" aria-label="校園觀察指南">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Where to Find · 在哪遇見牠</p>
+            <h2 class="sp-section-title sp-reveal">校園觀察指南</h2>
+
+            <div class="sp-locations sp-reveal" id="spHotspot" role="list"></div>
+
+            <div class="sp-location-meta sp-reveal">
+                <div class="sp-best-times" id="spBestTimes" role="list" aria-label="最佳觀察時間"></div>
+                <div id="spDifficultyBar"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 6 — Wildlife Profile
+         ========================================================= -->
+    <section class="sp-section" id="sp-profile" aria-label="物種生物檔案">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Wildlife Profile · 生物檔案</p>
+            <h2 class="sp-section-title sp-reveal">物種小檔案</h2>
+            <div class="sp-profile-grid sp-reveal" id="spProfile" role="list"></div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 7 — Ecological Challenges
+         ========================================================= -->
+    <section class="sp-section sp-section--alt" id="sp-challenges" aria-label="生態挑戰與威脅">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Ecological Challenges · 生態挑戰</p>
+            <h2 class="sp-section-title sp-reveal">牠正面臨的威脅</h2>
+            <div class="sp-challenges sp-reveal" id="spChallenges" role="list"></div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 8 — Conservation Actions
+         ========================================================= -->
+    <section class="sp-section" id="sp-actions" aria-label="保育行動">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Conservation Actions · 保育行動</p>
+            <h2 class="sp-section-title sp-reveal">我們可以做什麼？</h2>
+            <div class="sp-actions sp-reveal" id="spActions" role="list"></div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         SECTION 9 — Related Species
+         ========================================================= -->
+    <section class="sp-section sp-section--alt" id="sp-related" aria-label="同群相關物種">
+        <div class="sp-section-inner">
+            <p class="sp-section-eyebrow sp-reveal">Related Species · 同群夥伴</p>
+            <h2 class="sp-section-title sp-reveal">你也可以找找牠們</h2>
+            <div class="sp-related-grid sp-reveal" id="spRelated" role="list"></div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="js/species-data.js"></script>
+    <script src="js/species-page.js"></script>
+
+</body>
+</html>
