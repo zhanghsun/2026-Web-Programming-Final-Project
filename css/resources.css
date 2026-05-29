@@ -1,13 +1,18 @@
 ﻿/* ================================================
-   Resource Center — Ecological Exploration Gateway
+   Resource Center — Immersive Ecological Exploration Hub
    ================================================
    Components:
-   - .res-header        : Cinematic section header
-   - .res-gateway       : Three-card grid
-   - .res-card          : Individual gateway card
-   - .res-card__bg--*   : Per-card background accent
-   - .res-card__glow--* : Per-card ambient glow
-   - .resource-modal    : Species info modal (unchanged)
+   - .res-header                   : Mission briefing header
+   - .res-gateway                  : Full-height card grid
+   - .res-card                     : Cinematic exploration card
+   - .res-card--wildlife/flora/mission : Per-card themes
+   - .res-card__bg                 : Photo + color tint
+   - .res-card__scan               : Scan-line texture
+   - .res-card__corners            : Animated corner brackets
+   - .res-card__num                : Mission number badge
+   - .res-card__coord              : Coordinate / category badge
+   - .res-card__mission-badge      : Pulsing active indicator (card 3)
+   - .resource-modal               : Info modal (unchanged)
    ================================================ */
 
 /* ── Section variables ── */
@@ -16,363 +21,522 @@
     --res-teal:   #4dd9c0;
     --res-gold:   #ffd700;
     --res-dark:   #040f07;
-    --res-card-h: 480px;
+    --res-card-h: calc(100vh - 140px);
 }
 
-/* ── Section wrapper (fills .page) ── */
-/* NOTE: display is controlled by .page / .page.active in shared.css.
-   We must NOT set display here to avoid ID-specificity overriding those rules. */
+/* ── Section wrapper ── */
+/* NOTE: display controlled by .page / .page.active in shared.css.
+         NEVER set display on #resources-page (ID specificity override). */
 #resources-page {
     background: #000;
     overflow: hidden;
 }
 
-/* Inner wrapper provides the flex column layout */
 .res-inner {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* ── Section header ── */
+/* ════════════════════════════════════
+   HEADER — Mission Briefing Style
+   ════════════════════════════════════ */
 .res-header {
     text-align: center;
-    padding: 72px 24px 48px;
+    padding: 60px 24px 44px;
     position: relative;
     z-index: 2;
+    background: linear-gradient(to bottom,
+        rgba(0, 6, 2, 1)   0%,
+        rgba(0, 6, 2, 0)   100%);
 }
-.res-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 100% at 50% 0%,
-        rgba(4, 40, 16, 0.95) 0%,
-        rgba(0, 0, 0, 0) 100%);
-    pointer-events: none;
-    z-index: -1;
+
+.res-header__line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.res-header__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(143, 223, 143, 0.55);
+    box-shadow: 0 0 10px rgba(143, 223, 143, 0.5);
+}
+.res-header__rule {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(143, 223, 143, 0.4),
+        transparent);
 }
 
 .res-eyebrow {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     color: rgba(143, 223, 143, 0.5);
     text-transform: uppercase;
     margin: 0 0 16px;
 }
 
 .res-title {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 800;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
     color: #fff;
-    margin: 0 0 14px;
+    margin: 0 0 16px;
     letter-spacing: -0.5px;
     line-height: 1.1;
-    text-shadow: 0 2px 30px rgba(143, 223, 143, 0.2);
+    text-shadow: 0 4px 40px rgba(143, 223, 143, 0.12);
 }
 .res-title::after {
     content: '';
     display: block;
-    width: 52px;
-    height: 3px;
+    width: 48px;
+    height: 2px;
     background: linear-gradient(90deg, var(--res-green), transparent);
     margin: 14px auto 0;
     border-radius: 2px;
 }
 
 .res-subtitle {
-    font-size: clamp(14px, 1.5vw, 17px);
-    color: rgba(232, 245, 233, 0.55);
-    max-width: 560px;
+    font-size: clamp(13px, 1.4vw, 16px);
+    color: rgba(232, 245, 233, 0.5);
+    max-width: 520px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
-/* ── Gateway grid ── */
+/* ════════════════════════════════════
+   GATEWAY GRID
+   ════════════════════════════════════ */
 .res-gateway {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
     min-height: var(--res-card-h);
+    gap: 0;
 }
 
-/* ── Card base ── */
+/* ════════════════════════════════════
+   CARD BASE
+   ════════════════════════════════════ */
 .res-card {
     position: relative;
     overflow: hidden;
     cursor: pointer;
     outline: none;
     border: none;
-    background: #050e07;
+    background: #040c06;
     display: flex;
     align-items: flex-end;
     min-height: var(--res-card-h);
-    transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .res-card:focus-visible {
     box-shadow: inset 0 0 0 3px rgba(143, 223, 143, 0.5);
 }
 
-/* Expand hovered card slightly */
-.res-gateway:has(.res-card:hover) .res-card { flex: 0.85; }
-.res-gateway:has(.res-card:hover) .res-card:hover { flex: 1.3; }
+/* Accordion-style expansion on hover */
+.res-gateway:has(.res-card:hover) .res-card       { flex: 0.78; }
+.res-gateway:has(.res-card:hover) .res-card:hover { flex: 1.44; }
 
-/* ── Card background layer ── */
+/* ── Background: photo + per-card color tint ── */
 .res-card__bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease;
-    will-change: transform;
-}
-.res-card:hover .res-card__bg {
-    transform: scale(1.07);
-    filter: brightness(1.1) saturate(1.15);
-}
-
-/* Per-card gradient backgrounds */
-.res-card__bg--animals {
-    background:
-        radial-gradient(ellipse 120% 80% at 60% 30%,
-            rgba(20, 80, 30, 0.95) 0%,
-            rgba(2, 15, 6, 0.98) 100%);
-}
-.res-card__bg--plants {
-    background:
-        radial-gradient(ellipse 120% 80% at 40% 30%,
-            rgba(10, 70, 55, 0.95) 0%,
-            rgba(2, 12, 10, 0.98) 100%);
-}
-.res-card__bg--game {
-    background:
-        radial-gradient(ellipse 120% 80% at 50% 30%,
-            rgba(40, 40, 10, 0.95) 0%,
-            rgba(8, 8, 2, 0.98) 100%);
-}
-
-/* Animated particle dots */
-.res-card__particles {
     position: absolute;
     inset: 0;
     overflow: hidden;
 }
-.res-card__particles span {
+.res-card__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+                filter   0.95s ease;
+    will-change: transform;
+}
+.res-card:hover .res-card__bg img {
+    transform: scale(1.11);
+    filter: brightness(1.12) saturate(1.25) contrast(1.05);
+}
+
+/* Color tint on top of photo — gives each card its atmosphere */
+.res-card__bg-tint {
     position: absolute;
-    border-radius: 50%;
+    inset: 0;
+    transition: opacity 0.6s ease;
+}
+.res-card__bg-tint--wildlife {
+    background: linear-gradient(155deg,
+        rgba(0,  28, 10, 0.62) 0%,
+        rgba(0,  50, 20, 0.22) 55%,
+        transparent 100%);
+}
+.res-card__bg-tint--flora {
+    background: linear-gradient(155deg,
+        rgba(0,  22, 20, 0.62) 0%,
+        rgba(0,  42, 36, 0.22) 55%,
+        transparent 100%);
+}
+.res-card__bg-tint--mission {
+    background: linear-gradient(155deg,
+        rgba(22, 15,  0, 0.65) 0%,
+        rgba(42, 28,  0, 0.25) 55%,
+        transparent 100%);
+}
+
+/* ── Scan-line texture overlay ── */
+.res-card__scan {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent           2px,
+        rgba(0, 0, 0, 0.035)  2px,
+        rgba(0, 0, 0, 0.035)  4px
+    );
+    pointer-events: none;
+    opacity: 0.9;
+    transition: opacity 0.7s ease;
+}
+.res-card:hover .res-card__scan { opacity: 0.25; }
+
+/* ── Mission number badge ── */
+.res-card__num {
+    position: absolute;
+    top: 22px;
+    left: 26px;
+    z-index: 6;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.18);
+    pointer-events: none;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+.res-card--wildlife:hover .res-card__num {
+    color: rgba(143, 223, 143, 0.65);
+    text-shadow: 0 0 14px rgba(143, 223, 143, 0.4);
+}
+.res-card--flora:hover .res-card__num {
+    color: rgba(77, 217, 192, 0.65);
+    text-shadow: 0 0 14px rgba(77, 217, 192, 0.4);
+}
+.res-card--mission:hover .res-card__num {
+    color: rgba(255, 215, 0, 0.65);
+    text-shadow: 0 0 14px rgba(255, 215, 0, 0.4);
+}
+
+/* ── Coordinate / category badge ── */
+.res-card__coord {
+    position: absolute;
+    top: 22px;
+    right: 26px;
+    z-index: 6;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.14);
+    pointer-events: none;
+    transition: color 0.4s ease;
+}
+.res-card:hover .res-card__coord { color: rgba(255, 255, 255, 0.42); }
+
+/* ── Corner bracket decorations ── */
+.res-card__corners {
+    position: absolute;
+    inset: 16px;
+    z-index: 5;
+    pointer-events: none;
+}
+.res-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-width: 0;
+    transition:
+        width        0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        height       0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.5s ease;
+}
+.res-corner--tl { top: 0; left: 0;   border-top-width:    1.5px; border-left-width:   1.5px; }
+.res-corner--tr { top: 0; right: 0;  border-top-width:    1.5px; border-right-width:  1.5px; }
+.res-corner--bl { bottom: 0; left: 0;  border-bottom-width: 1.5px; border-left-width:   1.5px; }
+.res-corner--br { bottom: 0; right: 0; border-bottom-width: 1.5px; border-right-width:  1.5px; }
+
+.res-card:hover .res-corner { width: 22px; height: 22px; }
+.res-card--wildlife:hover .res-corner { border-color: rgba(143, 223, 143, 0.55); }
+.res-card--flora:hover    .res-corner { border-color: rgba(77,  217, 192, 0.55); }
+.res-card--mission:hover  .res-corner { border-color: rgba(255, 215,   0, 0.55); }
+
+/* ── Mission active badge (card 3 only) ── */
+.res-card__mission-badge {
+    position: absolute;
+    bottom: 220px;
+    left: 32px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     opacity: 0;
-    animation: particleFloat 6s ease-in-out infinite;
+    transform: translateX(-6px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
 }
-.res-card__bg--animals .res-card__particles span { background: rgba(143, 223, 143, 0.4); }
-.res-card__bg--plants  .res-card__particles span { background: rgba(77, 217, 192, 0.4); }
-.res-card__bg--game    .res-card__particles span { background: rgba(255, 215, 0, 0.4); }
-
-.res-card__particles span:nth-child(1) { width:6px;  height:6px;  top:20%; left:15%; animation-delay:0s;    animation-duration:7s; }
-.res-card__particles span:nth-child(2) { width:4px;  height:4px;  top:55%; left:70%; animation-delay:1.5s;  animation-duration:9s; }
-.res-card__particles span:nth-child(3) { width:8px;  height:8px;  top:75%; left:30%; animation-delay:3s;    animation-duration:6s; }
-.res-card__particles span:nth-child(4) { width:3px;  height:3px;  top:35%; left:85%; animation-delay:4.5s;  animation-duration:8s; }
-.res-card__particles span:nth-child(5) { width:5px;  height:5px;  top:10%; left:55%; animation-delay:2s;    animation-duration:10s; }
-
-.res-card:hover .res-card__particles span { opacity: 1; }
-
-@keyframes particleFloat {
-    0%   { transform: translateY(0) scale(0.8);   opacity: 0; }
-    20%  { opacity: 1; }
-    80%  { opacity: 0.7; }
-    100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+.res-card--mission:hover .res-card__mission-badge {
+    opacity: 1;
+    transform: translateX(0);
+}
+.res-mission-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--res-gold);
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6);
+    animation: missionPulse 2s ease-in-out infinite;
+}
+@keyframes missionPulse {
+    0%, 100% { box-shadow: 0 0 0 0   rgba(255, 215, 0, 0.6); }
+    50%       { box-shadow: 0 0 0 8px rgba(255, 215, 0, 0); }
+}
+.res-mission-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255, 215, 0, 0.8);
+    text-transform: uppercase;
 }
 
-/* ── Dark overlay (lightens on hover) ── */
+/* ── Gradient overlay ── */
 .res-card__overlay {
     position: absolute;
     inset: 0;
+    z-index: 3;
     background: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.88) 0%,
-        rgba(0, 0, 0, 0.55) 40%,
-        rgba(0, 0, 0, 0.2) 100%
+        rgba(0, 0, 0, 0.93) 0%,
+        rgba(0, 0, 0, 0.60) 30%,
+        rgba(0, 0, 0, 0.18) 62%,
+        rgba(0, 0, 0, 0.04) 100%
     );
     transition: opacity 0.5s ease;
 }
-.res-card:hover .res-card__overlay {
-    opacity: 0.7;
-}
+.res-card:hover .res-card__overlay { opacity: 0.85; }
 
 /* ── Card content ── */
 .res-card__content {
     position: relative;
-    z-index: 3;
-    padding: 36px 32px 40px;
+    z-index: 4;
+    padding: 30px 30px 44px;
     width: 100%;
-    transform: translateY(12px);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(10px);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.res-card:hover .res-card__content {
-    transform: translateY(0);
-}
+.res-card:hover .res-card__content { transform: translateY(0); }
 
 /* Icon */
 .res-card__icon {
-    width: 52px;
-    height: 52px;
-    margin-bottom: 16px;
-    opacity: 0.75;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 18px;
+    opacity: 0.6;
+    transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.res-card__icon svg {
-    width: 100%;
-    height: 100%;
-}
-.res-card--animals .res-card__icon svg,
-.res-card:nth-child(1) .res-card__icon svg { color: var(--res-green); }
-.res-card:nth-child(2) .res-card__icon svg { color: var(--res-teal); }
-.res-card:nth-child(3) .res-card__icon svg { color: var(--res-gold); }
-
+.res-card__icon svg { width: 100%; height: 100%; }
+.res-card--wildlife .res-card__icon svg { color: var(--res-green); }
+.res-card--flora    .res-card__icon svg { color: var(--res-teal);  }
+.res-card--mission  .res-card__icon svg { color: var(--res-gold);  }
 .res-card:hover .res-card__icon {
     opacity: 1;
-    transform: translateY(-4px) scale(1.1);
+    transform: translateY(-7px) scale(1.1);
 }
 
 /* Category tag */
 .res-card__tag {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 2px;
-    padding: 3px 10px;
+    letter-spacing: 2.5px;
+    padding: 4px 12px;
     border-radius: 100px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     border: 1px solid;
-    transition: background 0.35s ease;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
 }
-.res-card:nth-child(1) .res-card__tag {
+.res-card--wildlife .res-card__tag {
     color: var(--res-green);
-    border-color: rgba(143, 223, 143, 0.35);
-    background: rgba(143, 223, 143, 0.08);
+    border-color: rgba(143, 223, 143, 0.28);
+    background:   rgba(143, 223, 143, 0.06);
 }
-.res-card:nth-child(2) .res-card__tag {
+.res-card--flora .res-card__tag {
     color: var(--res-teal);
-    border-color: rgba(77, 217, 192, 0.35);
-    background: rgba(77, 217, 192, 0.08);
+    border-color: rgba(77, 217, 192, 0.28);
+    background:   rgba(77, 217, 192, 0.06);
 }
-.res-card:nth-child(3) .res-card__tag {
+.res-card--mission .res-card__tag {
     color: var(--res-gold);
-    border-color: rgba(255, 215, 0, 0.35);
-    background: rgba(255, 215, 0, 0.08);
+    border-color: rgba(255, 215, 0, 0.28);
+    background:   rgba(255, 215, 0, 0.06);
 }
-.res-card:nth-child(1):hover .res-card__tag { background: rgba(143, 223, 143, 0.18); }
-.res-card:nth-child(2):hover .res-card__tag { background: rgba(77, 217, 192, 0.18); }
-.res-card:nth-child(3):hover .res-card__tag { background: rgba(255, 215, 0, 0.18); }
+.res-card--wildlife:hover .res-card__tag {
+    background: rgba(143, 223, 143, 0.14);
+    box-shadow: 0 0 14px rgba(143, 223, 143, 0.22);
+}
+.res-card--flora:hover .res-card__tag {
+    background: rgba(77, 217, 192, 0.14);
+    box-shadow: 0 0 14px rgba(77, 217, 192, 0.22);
+}
+.res-card--mission:hover .res-card__tag {
+    background: rgba(255, 215, 0, 0.14);
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.22);
+}
 
 /* Title */
 .res-card__title {
-    font-size: clamp(18px, 1.8vw, 24px);
-    font-weight: 700;
+    font-size: clamp(20px, 2vw, 30px);
+    font-weight: 800;
     color: #fff;
-    margin: 0 0 10px;
-    line-height: 1.2;
-    letter-spacing: 0.2px;
+    margin: 0 0 12px;
+    line-height: 1.22;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
 }
 
-/* Description */
+/* Description — hidden until hover */
 .res-card__desc {
     font-size: 13.5px;
-    color: rgba(220, 235, 220, 0.7);
-    line-height: 1.75;
-    margin: 0 0 14px;
-    max-width: 300px;
+    color: rgba(225, 240, 225, 0.72);
+    line-height: 1.82;
+    margin: 0 0 16px;
+    max-width: 320px;
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+    transform: translateY(10px);
+    transition: opacity 0.45s ease 0.08s, transform 0.45s ease 0.08s;
 }
-.res-card:hover .res-card__desc {
-    opacity: 1;
-    transform: translateY(0);
-}
+.res-card:hover .res-card__desc { opacity: 1; transform: translateY(0); }
 
 /* Meta badges */
 .res-card__meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
     font-size: 11px;
-    color: rgba(200, 220, 200, 0.45);
-    margin-bottom: 20px;
-    letter-spacing: 0.3px;
+    color: rgba(200, 220, 200, 0.38);
+    margin-bottom: 22px;
+    letter-spacing: 0.2px;
 }
+.res-dot { opacity: 0.4; }
 
-/* CTA row */
+/* CTA row — hidden until hover */
 .res-card__cta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity 0.35s ease 0.1s, transform 0.35s ease 0.1s;
+    transform: translateX(-10px);
+    transition: opacity 0.4s ease 0.12s, transform 0.4s ease 0.12s;
 }
-.res-card:nth-child(1) .res-card__cta { color: var(--res-green); }
-.res-card:nth-child(2) .res-card__cta { color: var(--res-teal); }
-.res-card:nth-child(3) .res-card__cta { color: var(--res-gold); }
-.res-card__cta svg { flex-shrink: 0; }
-.res-card:hover .res-card__cta {
-    opacity: 1;
-    transform: translateX(0);
-}
+.res-card--wildlife .res-card__cta { color: var(--res-green); }
+.res-card--flora    .res-card__cta { color: var(--res-teal);  }
+.res-card--mission  .res-card__cta { color: var(--res-gold);  }
+.res-card__cta svg { flex-shrink: 0; transition: transform 0.3s ease; }
+.res-card:hover .res-card__cta { opacity: 1; transform: translateX(0); }
+.res-card:hover .res-card__cta svg { transform: translateX(5px); }
 
-/* ── Card glow effect ── */
+/* ── Ambient glow ── */
 .res-card__glow {
     position: absolute;
-    bottom: -60px;
+    bottom: -55px;
     left: 50%;
     transform: translateX(-50%);
-    width: 70%;
-    height: 120px;
+    width: 65%;
+    height: 150px;
     border-radius: 50%;
-    filter: blur(30px);
+    filter: blur(38px);
     opacity: 0;
-    transition: opacity 0.5s ease, bottom 0.5s ease;
+    z-index: 3;
     pointer-events: none;
-    z-index: 2;
+    transition: opacity 0.65s ease, bottom 0.65s ease;
 }
-.res-card__glow--green  { background: rgba(143, 223, 143, 0.28); }
-.res-card__glow--teal   { background: rgba(77, 217, 192, 0.28); }
-.res-card__glow--gold   { background: rgba(255, 215, 0, 0.22); }
+.res-card__glow--green { background: rgba(143, 223, 143, 0.3);  }
+.res-card__glow--teal  { background: rgba(77,  217, 192, 0.3);  }
+.res-card__glow--gold  { background: rgba(255, 215,   0, 0.25); }
+.res-card:hover .res-card__glow { opacity: 1; bottom: -8px; }
 
-.res-card:hover .res-card__glow {
-    opacity: 1;
-    bottom: -20px;
+/* ── Floating particles ── */
+.res-card__particles {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    overflow: hidden;
+    pointer-events: none;
+}
+.res-card__particles span {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 8s ease-in-out infinite;
+}
+.res-card--wildlife .res-card__particles span { background: rgba(143, 223, 143, 0.55); }
+.res-card--flora    .res-card__particles span { background: rgba(77,  217, 192, 0.55); }
+.res-card--mission  .res-card__particles span { background: rgba(255, 215,   0, 0.55); }
+
+.res-card__particles span:nth-child(1) { width:5px;  height:5px;  top:18%; left:12%; animation-delay:0s;   animation-duration:7s;  }
+.res-card__particles span:nth-child(2) { width:3px;  height:3px;  top:52%; left:73%; animation-delay:1.8s; animation-duration:9s;  }
+.res-card__particles span:nth-child(3) { width:7px;  height:7px;  top:72%; left:28%; animation-delay:3.2s; animation-duration:6s;  }
+.res-card__particles span:nth-child(4) { width:3px;  height:3px;  top:38%; left:87%; animation-delay:4.6s; animation-duration:8s;  }
+.res-card__particles span:nth-child(5) { width:4px;  height:4px;  top:12%; left:58%; animation-delay:2.2s; animation-duration:10s; }
+.res-card:hover .res-card__particles span { opacity: 1; }
+
+@keyframes particleFloat {
+    0%   { transform: translateY(0)     scale(0.7); opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 0.7; }
+    100% { transform: translateY(-72px) scale(1.3); opacity: 0; }
 }
 
-/* ── Dividers between cards ── */
+/* ── Vertical dividers ── */
 .res-card + .res-card {
-    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ── Resource modal (unchanged look) ── */
+/* ════════════════════════════════════
+   RESOURCE MODAL (unchanged)
+   ════════════════════════════════════ */
 .resource-modal {
     display: none;
     position: fixed;
     z-index: 3000;
     inset: 0;
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(0, 0, 0, 0.74);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 }
-
 .resource-modal-content {
     background: linear-gradient(135deg, #0d2416 0%, #111a12 100%);
-    color: white;
+    color: #fff;
     width: 90%;
     max-width: 640px;
     margin: 110px auto 0;
     padding: 40px;
     border-radius: 20px;
     border: 1px solid rgba(143, 223, 143, 0.25);
-    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(143,223,143,0.08);
+    box-shadow:
+        0 12px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(143, 223, 143, 0.08);
     animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .resource-modal-content h2 {
@@ -385,13 +549,12 @@
     color: rgba(220, 235, 220, 0.85);
     font-size: 15px;
 }
-
 .resource-close {
     float: right;
     font-size: 28px;
     font-weight: 300;
     cursor: pointer;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255, 255, 255, 0.5);
     width: 38px;
     height: 38px;
     display: flex;
@@ -413,29 +576,34 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Responsive ── */
+/* ════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════ */
 @media (max-width: 900px) {
     .res-gateway {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, auto);
     }
     .res-card {
-        min-height: 300px;
+        min-height: 380px;
     }
     .res-card + .res-card {
         border-left: none;
-        border-top: 1px solid rgba(255,255,255,0.06);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
-    /* Disable flex expand on narrow screens */
+    /* Disable accordion on touch */
     .res-gateway:has(.res-card:hover) .res-card { flex: 1; }
-    .res-card__desc { opacity: 1; transform: none; }
-    .res-card__cta  { opacity: 1; transform: none; }
+    .res-card__desc    { opacity: 1; transform: none; }
+    .res-card__cta     { opacity: 1; transform: none; }
     .res-card__content { transform: none; }
-    :root { --res-card-h: 300px; }
+    .res-card__mission-badge { opacity: 1; transform: none; bottom: 170px; }
+    :root { --res-card-h: 380px; }
 }
 
 @media (max-width: 600px) {
-    .res-header { padding: 52px 20px 36px; }
-    .res-card__content { padding: 24px 22px 30px; }
-    .resource-modal-content { padding: 28px 22px; margin-top: 90px; }
+    .res-header { padding: 44px 18px 30px; }
+    .res-card__content { padding: 22px 20px 30px; }
+    .res-card { min-height: 320px; }
+    .resource-modal-content { padding: 26px 20px; margin-top: 88px; }
+    :root { --res-card-h: 320px; }
 }

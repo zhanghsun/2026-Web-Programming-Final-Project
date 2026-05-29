@@ -54,7 +54,7 @@
         <div class="hp-hero__vignette"></div>
         <div class="hp-hero__content">
             <span class="hp-eyebrow">NATIONAL CENTRAL UNIVERSITY · 國立中央大學</span>
-            <h1 class="hp-hero__headline">生活在這片土地，<br>你認識多少<br>校園生靈？</h1>
+            <h1 class="hp-hero__headline">生活在這片土地，<br>你認識多少<br>校園生態？</h1>
             <p class="hp-hero__sub">探索物種多樣性 &nbsp;·&nbsp; 認識校園生態 &nbsp;·&nbsp; 參與自然保育</p>
             <div class="hp-hero__actions">
                 <a class="hp-btn hp-btn--primary" href="map.html">探索生態地圖</a>
@@ -228,117 +228,191 @@
 <div id="resources-page" class="page">
 <div class="res-inner">
 
-    <!-- Section header -->
+    <!-- ── Mission Briefing Header ── -->
     <div class="res-header">
-        <p class="res-eyebrow">EXPLORE · DISCOVER · LEARN</p>
-        <h1 class="res-title">生態探索中心</h1>
-        <p class="res-subtitle">深入中央大學的自然世界 — 探索物種、認識生態、體驗保育</p>
+        <div class="res-header__line">
+            <span class="res-header__dot"></span>
+            <span class="res-header__rule"></span>
+            <span class="res-header__dot"></span>
+        </div>
+        <p class="res-eyebrow">RESOURCE CENTER · 生態探索中心</p>
+        <h1 class="res-title">選擇你的探索任務</h1>
+        <p class="res-subtitle">每條探索路徑都通往生態智慧的深處 — 選擇你的方式，踏上中大自然的旅程</p>
     </div>
 
-    <!-- Three gateway cards -->
+    <!-- ── Three Immersive Gateway Cards ── -->
     <div class="res-gateway">
 
-        <!-- Card 1: Animal Encyclopedia -->
-        <article class="res-card scroll-reveal" tabindex="0" role="button"
+        <!-- ══ Card 1: Campus Wildlife Explorer ══ -->
+        <article class="res-card res-card--wildlife scroll-reveal" tabindex="0" role="button"
                  data-resource-title="NCU 動物百科"
                  data-resource-text="探索中央大學校園內記錄的所有動物物種，包含哺乳類、鳥類、兩棲類、爬行類與昆蟲。每個物種均附有詳細的分類資訊、棲地說明、生態行為與保育現況，協助你認識與我們共享校園的每一種生命。">
-            <div class="res-card__bg res-card__bg--animals">
-                <div class="res-card__particles">
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
+
+            <!-- Background: real wildlife photo + color treatment -->
+            <div class="res-card__bg">
+                <img src="images/animal1.jpg" alt="Campus Wildlife — 台灣藍鵲" loading="lazy">
+                <div class="res-card__bg-tint res-card__bg-tint--wildlife"></div>
             </div>
+
+            <!-- Explorer chrome elements -->
+            <div class="res-card__scan"></div>
+            <div class="res-card__corners">
+                <span class="res-corner res-corner--tl"></span>
+                <span class="res-corner res-corner--tr"></span>
+                <span class="res-corner res-corner--bl"></span>
+                <span class="res-corner res-corner--br"></span>
+            </div>
+            <div class="res-card__num">01</div>
+            <div class="res-card__coord">FAUNA · 動物類</div>
+
             <div class="res-card__overlay"></div>
+
             <div class="res-card__content">
                 <div class="res-card__icon">
+                    <!-- Binoculars / wildlife explorer icon -->
                     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="18" cy="20" rx="9" ry="11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M27 20c0-5.523 2.686-10 6-10s6 4.477 6 10-2.686 10-6 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M18 31c-7 0-13 4-14 9h36c-1-5-7-9-14-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="13" cy="31" r="9" stroke="currentColor" stroke-width="2.2"/>
+                        <circle cx="35" cy="31" r="9" stroke="currentColor" stroke-width="2.2"/>
+                        <path d="M22 31h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M13 22V16l4-4 3 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 22V16l-4-4-3 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="13" cy="31" r="4" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+                        <circle cx="35" cy="31" r="4" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
                     </svg>
                 </div>
-                <div class="res-card__tag">FAUNA</div>
-                <h2 class="res-card__title">NCU 動物百科</h2>
-                <p class="res-card__desc">探索校園哺乳類、鳥類、兩棲類、爬行類與昆蟲，了解每個物種的生態行為與保育現況。</p>
+                <div class="res-card__tag">WILDLIFE EXPLORER</div>
+                <h2 class="res-card__title">校園野生動物<br>探索圖鑑</h2>
+                <p class="res-card__desc">穿越森林、湖畔與草地，追蹤中央大學記錄在案的五大動物類群。每個物種都是一個等待解鎖的生態故事。</p>
                 <div class="res-card__meta">
                     <span>5 大類群</span>
-                    <span>·</span>
-                    <span>詳細物種資訊</span>
+                    <span class="res-dot">·</span>
+                    <span>5 記錄物種</span>
+                    <span class="res-dot">·</span>
+                    <span>詳細生態資訊</span>
                 </div>
                 <div class="res-card__cta">
-                    <span>立即探索</span>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="res-card__cta-text">進入探索</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
             <div class="res-card__glow res-card__glow--green"></div>
+            <div class="res-card__particles">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
         </article>
 
-        <!-- Card 2: Plant Encyclopedia -->
-        <article class="res-card scroll-reveal" tabindex="0" role="button"
+        <!-- ══ Card 2: Campus Flora Explorer ══ -->
+        <article class="res-card res-card--flora scroll-reveal" tabindex="0" role="button"
                  data-resource-title="NCU 植物百科"
                  data-resource-text="深入認識中央大學校園種植的原生及外來植物物種。從高聳的台灣肖楠到盛開的春季櫻花，本百科詳細記載每種植物的形態特徵、生態功能、分布區域與生物多樣性貢獻，帶你重新認識腳下這片土地的植物世界。">
-            <div class="res-card__bg res-card__bg--plants">
-                <div class="res-card__particles">
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
+
+            <!-- Background: botanical photo -->
+            <div class="res-card__bg">
+                <img src="images/plant1.jpg" alt="Campus Flora — 台灣肖楠" loading="lazy">
+                <div class="res-card__bg-tint res-card__bg-tint--flora"></div>
             </div>
+
+            <div class="res-card__scan"></div>
+            <div class="res-card__corners">
+                <span class="res-corner res-corner--tl"></span>
+                <span class="res-corner res-corner--tr"></span>
+                <span class="res-corner res-corner--bl"></span>
+                <span class="res-corner res-corner--br"></span>
+            </div>
+            <div class="res-card__num">02</div>
+            <div class="res-card__coord">FLORA · 植物類</div>
+
             <div class="res-card__overlay"></div>
+
             <div class="res-card__content">
                 <div class="res-card__icon">
+                    <!-- Botanical leaf icon -->
                     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 42V22" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                        <path d="M24 22C24 22 14 18 10 8c8 0 16 6 14 14z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M24 30C24 30 34 26 38 16c-8 0-16 6-14 14z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 42V20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        <path d="M24 20C24 20 11 14 8 5c10 0 20 8 16 15z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 30C24 30 37 24 40 15c-10 0-20 8-16 15z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18 39c2-3 4-6 6-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
                     </svg>
                 </div>
-                <div class="res-card__tag">FLORA</div>
-                <h2 class="res-card__title">NCU 植物百科</h2>
-                <p class="res-card__desc">從台灣肖楠到春季櫻花，認識校園原生植物的形態特徵、生態功能與生物多樣性貢獻。</p>
+                <div class="res-card__tag">FLORA EXPLORER</div>
+                <h2 class="res-card__title">校園植物<br>探索圖鑑</h2>
+                <p class="res-card__desc">從高聳的台灣肖楠到嬌豔的山櫻花，解讀每一片葉脈背後的生態密碼。沉靜而深刻的植物世界等待你的到來。</p>
                 <div class="res-card__meta">
                     <span>原生 &amp; 外來種</span>
-                    <span>·</span>
+                    <span class="res-dot">·</span>
+                    <span>5 記錄物種</span>
+                    <span class="res-dot">·</span>
                     <span>形態與生態資訊</span>
                 </div>
                 <div class="res-card__cta">
-                    <span>立即探索</span>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="res-card__cta-text">進入探索</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
             <div class="res-card__glow res-card__glow--teal"></div>
+            <div class="res-card__particles">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
         </article>
 
-        <!-- Card 3: Ecology Game -->
-        <article class="res-card scroll-reveal" tabindex="0" role="button"
+        <!-- ══ Card 3: Ecology Challenge Mission ══ -->
+        <article class="res-card res-card--mission scroll-reveal" tabindex="0" role="button"
                  data-resource-title="互動生態遊戲"
                  data-resource-text="透過趣味互動遊戲體驗生態保育的挑戰與樂趣！辨識校園物種、解開生態謎題、學習食物鏈與棲地保護知識。遊戲化的學習方式讓生態保育不再枯燥，適合所有年齡層的師生一同體驗。">
-            <div class="res-card__bg res-card__bg--game">
-                <div class="res-card__particles">
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
+
+            <!-- Background: campus ecology photo -->
+            <div class="res-card__bg">
+                <img src="images/ncu.jpg" alt="Ecology Mission — NCU Campus" loading="lazy">
+                <div class="res-card__bg-tint res-card__bg-tint--mission"></div>
             </div>
+
+            <div class="res-card__scan"></div>
+            <div class="res-card__corners">
+                <span class="res-corner res-corner--tl"></span>
+                <span class="res-corner res-corner--tr"></span>
+                <span class="res-corner res-corner--bl"></span>
+                <span class="res-corner res-corner--br"></span>
+            </div>
+            <div class="res-card__num">03</div>
+            <div class="res-card__coord">MISSION · ACTIVE</div>
+
+            <!-- Pulsing mission indicator -->
+            <div class="res-card__mission-badge">
+                <span class="res-mission-pulse"></span>
+                <span class="res-mission-label">任務進行中</span>
+            </div>
+
             <div class="res-card__overlay"></div>
+
             <div class="res-card__content">
                 <div class="res-card__icon">
+                    <!-- Target / mission crosshair icon -->
                     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="6" y="14" width="36" height="24" rx="5" stroke="currentColor" stroke-width="2.2"/>
-                        <path d="M17 22v6M14 25h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                        <circle cx="31" cy="24" r="1.5" fill="currentColor"/>
-                        <circle cx="35" cy="26" r="1.5" fill="currentColor"/>
+                        <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.2"/>
+                        <circle cx="24" cy="24" r="9"  stroke="currentColor" stroke-width="1.8" opacity="0.8"/>
+                        <circle cx="24" cy="24" r="3"  fill="currentColor"/>
+                        <path d="M24 6v6M24 36v6M6 24h6M36 24h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <div class="res-card__tag">INTERACTIVE</div>
-                <h2 class="res-card__title">互動生態遊戲</h2>
-                <p class="res-card__desc">辨識物種、解開生態謎題、學習食物鏈知識，以遊戲化方式深入體驗校園生態保育。</p>
+                <div class="res-card__tag">ECOLOGY MISSION</div>
+                <h2 class="res-card__title">生態挑戰<br>任務基地</h2>
+                <p class="res-card__desc">接受任務指令，辨識物種、解開生態謎題、挑戰食物鏈知識。每一關都是一次真實的保育行動體驗。</p>
                 <div class="res-card__meta">
                     <span>趣味互動</span>
-                    <span>·</span>
+                    <span class="res-dot">·</span>
+                    <span>知識挑戰</span>
+                    <span class="res-dot">·</span>
                     <span>適合所有年齡</span>
                 </div>
                 <div class="res-card__cta">
-                    <span>開始遊玩</span>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="res-card__cta-text">接受任務</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
             <div class="res-card__glow res-card__glow--gold"></div>
+            <div class="res-card__particles">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
         </article>
 
     </div><!-- /.res-gateway -->
