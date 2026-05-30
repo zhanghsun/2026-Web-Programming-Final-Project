@@ -259,11 +259,19 @@
             });
         });
 
+        // Pre-compute each section's document-relative top position using
+        // getBoundingClientRect (works regardless of offsetParent chain)
+        function getSectionTop(sec) {
+            if (!sec) return Infinity;
+            return sec.getBoundingClientRect().top + window.scrollY;
+        }
+
         function updateActive() {
-            var scrollY = window.scrollY + window.innerHeight * 0.4;
-            var activeIdx = -1;
+            // Trigger at 120px below viewport top (clears sticky nav height)
+            var trigger = window.scrollY + 120;
+            var activeIdx = 0; // default: first section (春日盛放)
             sections.forEach(function (sec, i) {
-                if (sec && sec.offsetTop <= scrollY) activeIdx = i;
+                if (sec && getSectionTop(sec) <= trigger) activeIdx = i;
             });
             pills.forEach(function (pill, i) {
                 pill.classList.toggle('active', i === activeIdx);
