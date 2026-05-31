@@ -1,24 +1,36 @@
 /* ==========================================================================
    species.css — Wildlife Character Detail Page
-   Style language: National Geographic × Apple × Modern Museum
+   Design System: Campus Nature Explorer — Wildlife Section
+   Accent: Forest Green | Background: #FAFAF7 (light)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    CSS Variables
    -------------------------------------------------------------------------- */
 :root {
-    --sp-bg:          #050d07;
-    --sp-surface:     #0a1a0e;
-    --sp-surface-2:   rgba(255,255,255,.04);
-    --sp-border:      rgba(143,223,143,.1);
-    --sp-text:        #e8f5e9;
-    --sp-muted:       rgba(232,245,233,.5);
-    --sp-accent:      #8fdf8f;   /* overridden per group via JS */
+    --sp-bg:          #FAFAF7;
+    --sp-surface:     #ffffff;
+    --sp-surface-2:   #f3f7f4;          /* very light green tint */
+    --sp-border:      rgba(45, 106, 79, 0.11);
+    --sp-border-hover:rgba(45, 106, 79, 0.25);
+    --sp-text:        #1a2a1a;
+    --sp-text-body:   #344d34;
+    --sp-muted:       rgba(26, 42, 26, 0.52);
+    --sp-accent:      #2d6a4f;   /* overridden per group via JS */
+    --sp-accent-light:#52b788;
+    --sp-accent-pale: #d8f3dc;
 
-    --sp-challenge-bg:  rgba(180, 60, 40, .08);
-    --sp-challenge-border: rgba(220, 100, 70, .25);
-    --sp-action-bg:  rgba(40, 120, 60, .1);
-    --sp-action-border: rgba(80, 180, 100, .25);
+    --sp-challenge-bg:    rgba(200, 60, 40, .05);
+    --sp-challenge-border:rgba(200, 80, 60, .20);
+    --sp-action-bg:       rgba(45, 106, 79, .06);
+    --sp-action-border:   rgba(45, 106, 79, .18);
+
+    --sp-radius:     24px;
+    --sp-radius-sm:  12px;
+    --sp-shadow:     0 4px 24px rgba(0, 0, 0, 0.07);
+    --sp-shadow-md:  0 10px 40px rgba(0, 0, 0, 0.10);
+    --sp-shadow-hover: 0 20px 56px rgba(0, 0, 0, 0.13);
+    --sp-nav-bg:     rgba(250, 250, 247, 0.92);
 
     --font-display: 'Noto Sans TC', 'Segoe UI', system-ui, sans-serif;
     --section-pad: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 80px);
@@ -48,7 +60,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 em  { font-style: italic; }
 
 /* --------------------------------------------------------------------------
-   Top navigation bar
+   Top navigation bar — unified light glass
    -------------------------------------------------------------------------- */
 .sp-topnav {
     position: fixed;
@@ -59,9 +71,11 @@ em  { font-style: italic; }
     align-items: center;
     padding: 0 24px;
     gap: 20px;
-    background: rgba(5,13,7,.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--sp-border);
+    background: var(--sp-nav-bg);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(45, 106, 79, 0.10);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 20px rgba(0,0,0,0.06);
     transition: background .3s;
 }
 
@@ -72,10 +86,11 @@ em  { font-style: italic; }
     font-size: .82rem;
     color: var(--sp-muted);
     letter-spacing: .04em;
-    transition: color .2s;
+    transition: color .2s, gap .2s;
     flex-shrink: 0;
+    font-weight: 500;
 }
-.sp-topnav__back:hover { color: var(--sp-accent); }
+.sp-topnav__back:hover { color: var(--sp-accent); gap: 12px; }
 
 .sp-topnav__name {
     font-size: .9rem;
@@ -89,14 +104,15 @@ em  { font-style: italic; }
 
 .sp-topnav__progress-pill {
     margin-left: auto;
-    padding: 4px 12px;
+    padding: 4px 14px;
     border-radius: 20px;
-    background: var(--sp-surface-2);
+    background: var(--sp-accent-pale);
     border: 1px solid var(--sp-border);
     font-size: .75rem;
-    color: var(--sp-muted);
+    color: var(--sp-text-body);
+    letter-spacing: .02em;
 }
-.sp-topnav__progress-pill b { color: var(--sp-accent); }
+.sp-topnav__progress-pill b { color: var(--sp-accent); font-weight: 700; }
 
 /* --------------------------------------------------------------------------
    Right-side section navigation (scroll-spy dots)
@@ -115,7 +131,7 @@ em  { font-style: italic; }
 .sp-nav-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,.2);
+    background: rgba(26, 42, 26, 0.18);
     border: none;
     padding: 0;
     cursor: pointer;
@@ -137,7 +153,7 @@ em  { font-style: italic; }
     transition: opacity .2s;
 }
 .sp-nav-dot:hover::after { opacity: 1; }
-.sp-nav-dot:hover { background: rgba(255,255,255,.5); transform: scale(1.3); }
+.sp-nav-dot:hover { background: rgba(26,42,26,0.45); transform: scale(1.3); }
 .sp-nav-dot.active {
     background: var(--sp-accent);
     transform: scale(1.4);
@@ -150,7 +166,7 @@ em  { font-style: italic; }
     padding: var(--section-pad);
     min-height: 60vh;
 }
-.sp-section--alt { background: var(--sp-surface); }
+.sp-section--alt { background: var(--sp-surface-2); }
 
 .sp-section-inner {
     max-width: var(--max-w);
@@ -166,7 +182,7 @@ em  { font-style: italic; }
     text-transform: uppercase;
     color: var(--sp-accent);
     margin-bottom: 14px;
-    opacity: .8;
+    font-weight: 600;
 }
 
 .sp-section-title {
@@ -174,7 +190,18 @@ em  { font-style: italic; }
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -.01em;
+    margin-bottom: 8px;   /* subtitle follows */
+}
+
+.sp-section-subtitle {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--sp-accent-light);
+    opacity: .75;
     margin-bottom: 36px;
+    display: block;
 }
 
 /* --------------------------------------------------------------------------
@@ -211,7 +238,7 @@ em  { font-style: italic; }
     transform: scale(1.1);
     transition: transform 10s ease-out;
     will-change: transform;
-    filter: brightness(.55) saturate(.85);
+    filter: brightness(.52) saturate(.88);
 }
 .sp-hero.loaded .sp-hero__bg { transform: scale(1); }
 
@@ -219,12 +246,12 @@ em  { font-style: italic; }
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at center top, transparent 30%, rgba(5,13,7,.4) 70%),
+        radial-gradient(ellipse at center top, transparent 30%, rgba(26,42,26,.35) 70%),
         linear-gradient(180deg,
-            rgba(5,13,7,.05) 0%,
-            rgba(5,13,7,.15) 40%,
-            rgba(5,13,7,.75) 75%,
-            rgba(5,13,7,.95) 100%
+            rgba(15,25,15,.04) 0%,
+            rgba(15,25,15,.12) 40%,
+            rgba(15,25,15,.72) 75%,
+            rgba(15,25,15,.93) 100%
         );
 }
 
@@ -251,19 +278,19 @@ em  { font-style: italic; }
     font-size: .7rem;
     font-weight: 600;
     letter-spacing: .05em;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.22);
     backdrop-filter: blur(6px);
-    color: var(--sp-text);
+    color: rgba(255,255,255,.95);
 }
 .sp-badge--group {
-    background: rgba(var(--sp-accent-rgb, 143,223,143), .15);
-    border-color: rgba(var(--sp-accent-rgb, 143,223,143), .3);
-    color: var(--sp-accent);
+    background: rgba(var(--sp-accent-rgb, 45,106,79), .25);
+    border-color: rgba(var(--sp-accent-rgb, 45,106,79), .5);
+    color: #ffffff;
 }
-.sp-badge--endemic { background: rgba(212,168,67,.15); border-color: rgba(212,168,67,.3); color: #fde68a; }
-.sp-badge--diff  { background: rgba(255,255,255,.06); }
-.sp-badge--time  { background: rgba(255,255,255,.06); }
+.sp-badge--endemic { background: rgba(212,168,67,.2); border-color: rgba(212,168,67,.4); color: #fde68a; }
+.sp-badge--diff  { background: rgba(255,255,255,.10); }
+.sp-badge--time  { background: rgba(255,255,255,.10); }
 
 .sp-hero__character {
     font-size: clamp(.85rem, 1.5vw, 1rem);
@@ -353,9 +380,9 @@ em  { font-style: italic; }
 
 .sp-gallery__main {
     position: relative;
-    border-radius: 12px;
+    border-radius: var(--sp-radius-sm);
     overflow: hidden;
-    background: #000;
+    background: #f0f0f0;
 }
 
 .sp-gallery__main-img {
@@ -369,9 +396,9 @@ em  { font-style: italic; }
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: 16px 20px;
-    background: linear-gradient(transparent, rgba(5,13,7,.92));
+    background: linear-gradient(transparent, rgba(0,0,0,.75));
     font-size: .82rem;
-    color: rgba(232,245,233,.8);
+    color: rgba(255,255,255,.85);
     letter-spacing: .03em;
     line-height: 1.5;
 }
@@ -381,10 +408,10 @@ em  { font-style: italic; }
     top: 14px; right: 14px;
     padding: 4px 10px;
     border-radius: 100px;
-    background: rgba(0,0,0,.5);
+    background: rgba(0,0,0,.45);
     backdrop-filter: blur(6px);
     font-size: .72rem;
-    color: var(--sp-muted);
+    color: rgba(255,255,255,.85);
     letter-spacing: .05em;
 }
 
@@ -432,11 +459,12 @@ em  { font-style: italic; }
 }
 
 .sp-clue-card {
-    background: var(--sp-surface-2);
+    background: var(--sp-surface);
     border: 1px solid var(--sp-border);
     border-left: 3px solid var(--sp-accent);
-    border-radius: 10px;
+    border-radius: var(--sp-radius-sm);
     padding: 20px 20px 20px 22px;
+    box-shadow: var(--sp-shadow);
     transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
     opacity: 0;
     transform: translateY(20px);
@@ -444,8 +472,8 @@ em  { font-style: italic; }
 }
 .sp-clue-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,.4);
-    border-color: rgba(143,223,143,.3);
+    box-shadow: var(--sp-shadow-md);
+    border-color: rgba(45,106,79,.22);
     border-left-color: var(--sp-accent);
 }
 
@@ -461,7 +489,7 @@ em  { font-style: italic; }
 
 .sp-clue-card__text {
     font-size: .92rem;
-    color: var(--sp-text);
+    color: var(--sp-text-body);
     line-height: 1.6;
     letter-spacing: .02em;
 }
@@ -470,15 +498,16 @@ em  { font-style: italic; }
    SECTION 4 — Story / Fun Facts
    -------------------------------------------------------------------------- */
 #sp-story {
-    background: var(--sp-bg);
+    background: var(--sp-surface-2);
 }
 
 .sp-story-card {
     position: relative;
     padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 56px);
-    border-radius: 16px;
+    border-radius: var(--sp-radius);
     background: var(--sp-surface);
     border: 1px solid var(--sp-border);
+    box-shadow: var(--sp-shadow);
     overflow: hidden;
 }
 
@@ -486,7 +515,7 @@ em  { font-style: italic; }
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at top left, rgba(143,223,143,.05) 0%, transparent 60%);
+    background: radial-gradient(ellipse at top left, rgba(45,106,79,.04) 0%, transparent 60%);
     pointer-events: none;
 }
 
@@ -494,7 +523,7 @@ em  { font-style: italic; }
     font-size: clamp(6rem, 12vw, 10rem);
     line-height: .7;
     color: var(--sp-accent);
-    opacity: .12;
+    opacity: .10;
     font-family: Georgia, serif;
     letter-spacing: -.04em;
     margin-bottom: -20px;
@@ -504,7 +533,7 @@ em  { font-style: italic; }
 .sp-story-card__text {
     font-size: clamp(1rem, 1.8vw, 1.2rem);
     line-height: 1.9;
-    color: rgba(232,245,233,.85);
+    color: var(--sp-text-body);
     letter-spacing: .025em;
     position: relative;
     z-index: 1;
@@ -525,16 +554,17 @@ em  { font-style: italic; }
     align-items: center;
     gap: 12px;
     padding: 14px 18px;
-    border-radius: 10px;
-    background: var(--sp-surface-2);
+    border-radius: var(--sp-radius-sm);
+    background: var(--sp-surface);
     border: 1px solid var(--sp-border);
+    box-shadow: var(--sp-shadow);
     font-size: .9rem;
-    transition: background .2s, border-color .2s;
+    transition: background .2s, border-color .2s, box-shadow .2s;
 }
-.sp-location-card:hover { background: rgba(255,255,255,.07); border-color: rgba(143,223,143,.2); }
+.sp-location-card:hover { background: var(--sp-accent-pale); border-color: var(--sp-border-hover); box-shadow: var(--sp-shadow-md); }
 
 .sp-location-card__icon { font-size: 1.1rem; flex-shrink: 0; }
-.sp-location-card__name { color: var(--sp-text); letter-spacing: .02em; }
+.sp-location-card__name { color: var(--sp-text); letter-spacing: .02em; font-weight: 500; }
 
 .sp-location-meta {
     display: flex;
@@ -554,12 +584,13 @@ em  { font-style: italic; }
     align-items: center;
     gap: 6px;
     padding: 7px 14px;
-    border-radius: 8px;
-    background: rgba(143,223,143,.08);
-    border: 1px solid rgba(143,223,143,.18);
+    border-radius: var(--sp-radius-sm);
+    background: var(--sp-accent-pale);
+    border: 1px solid var(--sp-border);
     font-size: .8rem;
     color: var(--sp-accent);
     letter-spacing: .03em;
+    font-weight: 500;
 }
 .sp-time-chip::before { content: '🕒'; font-size: .85rem; }
 
@@ -573,14 +604,14 @@ em  { font-style: italic; }
 .sp-diff-track {
     width: 160px;
     height: 5px;
-    background: rgba(255,255,255,.1);
+    background: rgba(45,106,79,.12);
     border-radius: 100px;
     overflow: hidden;
 }
 
 .sp-diff-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--sp-accent), rgba(143,223,143,.5));
+    background: linear-gradient(90deg, var(--sp-accent-light), var(--sp-accent));
     border-radius: 100px;
     transition: width .8s cubic-bezier(.4,0,.2,1);
 }
@@ -595,15 +626,17 @@ em  { font-style: italic; }
 }
 
 .sp-profile-card {
-    background: var(--sp-surface-2);
+    background: var(--sp-surface);
     border: 1px solid var(--sp-border);
-    border-radius: 12px;
+    border-radius: var(--sp-radius-sm);
+    box-shadow: var(--sp-shadow);
     padding: 20px 18px;
-    transition: border-color .2s, transform .2s;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
 }
 .sp-profile-card:hover {
-    border-color: rgba(143,223,143,.22);
+    border-color: var(--sp-border-hover);
     transform: translateY(-3px);
+    box-shadow: var(--sp-shadow-md);
 }
 
 .sp-profile-card__icon {
@@ -625,13 +658,13 @@ em  { font-style: italic; }
     color: var(--sp-text);
     line-height: 1.45;
 }
-.sp-profile-card__value em { color: rgba(143,223,143,.8); }
+.sp-profile-card__value em { color: var(--sp-accent); }
 
 /* --------------------------------------------------------------------------
    SECTION 7 — Challenges
    -------------------------------------------------------------------------- */
 #sp-challenges {
-    background: #06100a;
+    background: #fdf8f6;   /* very light warm tint for contrast */
 }
 
 .sp-challenges {
@@ -643,8 +676,8 @@ em  { font-style: italic; }
 .sp-challenge-card {
     background: var(--sp-challenge-bg);
     border: 1px solid var(--sp-challenge-border);
-    border-left: 3px solid #e05c44;
-    border-radius: 10px;
+    border-left: 3px solid #d9534f;
+    border-radius: var(--sp-radius-sm);
     padding: 20px 24px;
     opacity: 0;
     transform: translateX(-16px);
@@ -670,7 +703,7 @@ em  { font-style: italic; }
 .sp-challenge-card__desc {
     font-size: .85rem;
     line-height: 1.65;
-    color: var(--sp-muted);
+    color: var(--sp-text-body);
     letter-spacing: .02em;
     padding-left: 26px;
 }
@@ -678,7 +711,7 @@ em  { font-style: italic; }
 /* --------------------------------------------------------------------------
    SECTION 8 — Conservation Actions
    -------------------------------------------------------------------------- */
-#sp-actions { background: var(--sp-bg); }
+#sp-actions { background: var(--sp-surface-2); }
 
 .sp-actions {
     display: flex;
@@ -690,18 +723,19 @@ em  { font-style: italic; }
     display: flex;
     gap: 18px;
     align-items: flex-start;
-    background: var(--sp-action-bg);
+    background: var(--sp-surface);
     border: 1px solid var(--sp-action-border);
-    border-radius: 12px;
+    border-radius: var(--sp-radius-sm);
+    box-shadow: var(--sp-shadow);
     padding: 20px 24px;
     opacity: 0;
     transform: translateX(-16px);
     animation: sp-slideIn .5s ease forwards;
-    transition: border-color .2s, background .2s;
+    transition: border-color .2s, box-shadow .2s;
 }
 .sp-action-card:hover {
-    background: rgba(40,120,60,.15);
-    border-color: rgba(80,180,100,.35);
+    border-color: rgba(45, 106, 79, .30);
+    box-shadow: var(--sp-shadow-md);
 }
 
 .sp-action-card__num {
@@ -730,14 +764,14 @@ em  { font-style: italic; }
 .sp-action-card__desc {
     font-size: .84rem;
     line-height: 1.65;
-    color: var(--sp-muted);
+    color: var(--sp-text-body);
     letter-spacing: .02em;
 }
 
 /* --------------------------------------------------------------------------
    SECTION 9 — Related Species
    -------------------------------------------------------------------------- */
-#sp-related { background: var(--sp-surface); }
+#sp-related { background: var(--sp-bg); }
 
 .sp-related-grid {
     display: grid;
@@ -746,18 +780,19 @@ em  { font-style: italic; }
 }
 
 .sp-related-card {
-    border-radius: 12px;
+    border-radius: var(--sp-radius);
     overflow: hidden;
-    background: var(--sp-surface-2);
+    background: var(--sp-surface);
     border: 1px solid var(--sp-border);
+    box-shadow: var(--sp-shadow);
     display: block;
     transition: transform .28s ease, box-shadow .28s ease, border-color .28s;
     cursor: pointer;
 }
 .sp-related-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 48px rgba(0,0,0,.45);
-    border-color: rgba(143,223,143,.25);
+    box-shadow: var(--sp-shadow-hover);
+    border-color: var(--sp-border-hover);
 }
 
 .sp-related-card__photo-wrap {
@@ -780,6 +815,7 @@ em  { font-style: italic; }
     font-size: 1.05rem;
     font-weight: 700;
     margin-bottom: 2px;
+    color: var(--sp-text);
 }
 
 .sp-related-card__en {
@@ -793,7 +829,6 @@ em  { font-style: italic; }
     font-size: .75rem;
     font-style: italic;
     color: var(--sp-accent);
-    opacity: .8;
     letter-spacing: .03em;
 }
 

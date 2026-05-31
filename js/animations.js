@@ -140,6 +140,9 @@ function initAnimations() {
     // Initialize scroll reveal
     initScrollRevealAnimations();
 
+    // Initialize habitat and stats animations
+    initHabitatAnimations();
+
     // Expose reinitialize hook (used by navigation.js)
     window.reinitializeAnimations = reinitializeAnimations;
 }
@@ -154,3 +157,32 @@ function cleanupAnimations() {
         window.revealObserver = null;
     }
 }
+
+/**
+ * Initialize habitat items parallax and in-view animations
+ */
+function initHabitatAnimations() {
+    const habitatItems = document.querySelectorAll('.hp-habitat-item');
+    const statBoxes = document.querySelectorAll('.hp-stat-box');
+
+    if (!habitatItems.length && !statBoxes.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                // Continue observing for repeat animations on scroll
+            } else {
+                // Optional: remove class when out of view for repeat animations
+                // entry.target.classList.remove('in-view');
+            }
+        });
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px'
+    });
+
+    habitatItems.forEach(item => observer.observe(item));
+    statBoxes.forEach(box => observer.observe(box));
+}
+

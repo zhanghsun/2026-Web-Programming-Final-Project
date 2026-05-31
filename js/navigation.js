@@ -120,6 +120,12 @@ function initNavigation() {
 
     // Home page species tabs
     initHomeSpeciesTabs();
+
+    // Hash-based deep link: index.html#resources navigates directly to resource center
+    const hash = window.location.hash.replace('#', '');
+    if (hash && hash !== 'home') {
+        showPage(hash);
+    }
 }
 
 /**

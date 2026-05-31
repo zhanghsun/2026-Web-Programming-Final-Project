@@ -1,0 +1,467 @@
+/* ================================================
+   Home Page — Enhanced Multi-Section Layout
+   ================================================ 
+   New sections for immersive scrolling experience:
+   - Mission Statement (about our conservation work)
+   - Campus Habitats (parallax showcase)
+   - Impact Statistics (data visualization)
+   - Enhanced integrations with existing sections
+   ================================================ */
+
+/* ────────────────────────────────────────────────
+   SECTION: About & Mission Statement
+   ──────────────────────────────────────────────── */
+.hp-mission {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(165deg, #0a1508 0%, #162412 35%, #1e3618 70%, #0f1d0c 100%);
+}
+
+.hp-mission__bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.25;
+    z-index: 0;
+}
+
+.hp-mission__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: grayscale(0.4) brightness(0.7);
+}
+
+.hp-mission__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(82, 183, 136, 0.08) 0%, transparent 60%);
+    z-index: 1;
+}
+
+.hp-mission__content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 8% 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.hp-mission__text {
+    color: #fff;
+}
+
+.hp-mission__eyebrow {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: rgba(160, 225, 185, 0.7);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.hp-mission__title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 28px;
+    letter-spacing: -.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #d0f0d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hp-mission__desc {
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: rgba(210, 235, 215, 0.85);
+    margin-bottom: 32px;
+    font-weight: 300;
+}
+
+.hp-mission__values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.hp-value-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px 20px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.hp-value-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(82, 183, 136, 0.3);
+    transform: translateY(-4px);
+}
+
+.hp-value-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.hp-value-title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #b8e8a8;
+    margin-bottom: 6px;
+}
+
+.hp-value-text {
+    font-size: .82rem;
+    color: rgba(200, 230, 210, 0.65);
+    line-height: 1.5;
+}
+
+/* ────────────────────────────────────────────────
+   SECTION: Campus Habitats (Parallax Showcase)
+   ──────────────────────────────────────────────── */
+.hp-habitats {
+    position: relative;
+    background: #0a1208;
+}
+
+.hp-habitats__header {
+    text-align: center;
+    padding: 80px 8% 60px;
+    background: linear-gradient(180deg, #0f1d0c 0%, #0a1208 100%);
+}
+
+.hp-habitat-item {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hp-habitat-item:nth-child(even) .hp-habitat__content {
+    margin-left: auto;
+    text-align: right;
+}
+
+.hp-habitat__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hp-habitat__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.15);
+    transition: transform 8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.hp-habitat-item.in-view .hp-habitat__bg img {
+    transform: scale(1);
+}
+
+.hp-habitat__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hp-habitat-item:nth-child(odd) .hp-habitat__overlay {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+}
+
+.hp-habitat-item:nth-child(even) .hp-habitat__overlay {
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+}
+
+.hp-habitat__content {
+    position: relative;
+    z-index: 2;
+    max-width: 520px;
+    padding: 0 8%;
+    color: #fff;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.hp-habitat-item.in-view .hp-habitat__content {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.hp-habitat-item:nth-child(even) .hp-habitat__content {
+    transform: translateX(40px);
+}
+
+.hp-habitat-item:nth-child(even).in-view .hp-habitat__content {
+    transform: translateX(0);
+}
+
+.hp-habitat__tag {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(160, 225, 185, 0.8);
+    background: rgba(45, 106, 79, 0.3);
+    border: 1px solid rgba(82, 183, 136, 0.4);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+}
+
+.hp-habitat__title {
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: -.02em;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+.hp-habitat__desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(215, 235, 220, 0.9);
+    margin-bottom: 24px;
+}
+
+.hp-habitat__species {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hp-habitat__species-tag {
+    font-size: .8rem;
+    color: rgba(200, 230, 210, 0.75);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+}
+
+/* ────────────────────────────────────────────────
+   SECTION: Impact Statistics
+   ──────────────────────────────────────────────── */
+.hp-stats {
+    position: relative;
+    padding: 100px 8%;
+    background: linear-gradient(180deg, #0a1208 0%, #162412 50%, #0f1d0c 100%);
+    overflow: hidden;
+}
+
+.hp-stats::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(82, 183, 136, 0.3) 50%, transparent 100%);
+}
+
+.hp-stats__header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.hp-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hp-stat-box {
+    text-align: center;
+    padding: 40px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hp-stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--stat-color, #52b788) 50%, transparent 100%);
+    transform: scaleX(0);
+    transition: transform 0.6s ease;
+}
+
+.hp-stat-box:hover::before,
+.hp-stat-box.in-view::before {
+    transform: scaleX(1);
+}
+
+.hp-stat-box:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(82, 183, 136, 0.3);
+    transform: translateY(-6px);
+}
+
+.hp-stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: block;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.hp-stat-number {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: var(--stat-color, #52b788);
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.hp-stat-label {
+    font-size: .95rem;
+    color: rgba(200, 230, 210, 0.7);
+    font-weight: 600;
+    letter-spacing: .05em;
+}
+
+/* ────────────────────────────────────────────────
+   SECTION: Call to Action
+   ──────────────────────────────────────────────── */
+.hp-cta {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a3a28 0%, #0f2419 50%, #162d1f 100%);
+}
+
+.hp-cta__bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+}
+
+.hp-cta__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.6);
+}
+
+.hp-cta__content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    padding: 60px 8%;
+    color: #fff;
+}
+
+.hp-cta__title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    letter-spacing: -.02em;
+}
+
+.hp-cta__desc {
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: rgba(210, 235, 215, 0.85);
+    margin-bottom: 40px;
+}
+
+.hp-cta__buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ────────────────────────────────────────────────
+   Responsive Adjustments
+   ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .hp-mission__content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding: 60px 6% 60px;
+    }
+
+    .hp-mission__values {
+        grid-template-columns: 1fr;
+    }
+
+    .hp-habitat-item {
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .hp-habitat__content {
+        max-width: 100%;
+    }
+
+    .hp-habitat-item:nth-child(even) .hp-habitat__content {
+        text-align: left;
+        margin-left: 0;
+    }
+
+    .hp-stats__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hp-mission__content {
+        padding: 50px 5% 50px;
+    }
+
+    .hp-stats {
+        padding: 60px 5%;
+    }
+
+    .hp-stats__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hp-cta__content {
+        padding: 50px 6%;
+    }
+
+    .hp-cta__buttons {
+        flex-direction: column;
+    }
+}

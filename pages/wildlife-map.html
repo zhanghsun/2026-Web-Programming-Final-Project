@@ -210,139 +210,397 @@ body::before {
 .spot--juniper   { top: 34.7%; left: 50.3%; }
 .spot--acacia    { top: 58.8%; left: 70.2%; }
 
-/* ── Side panel ── */
+/* ── Side panel - Modern Species Detail Drawer ── */
 .side-panel {
     position: fixed;
     top: 0;
-    right: calc(var(--panel-width) * -1 - 12px);
-    width: var(--panel-width);
+    right: -520px;
+    width: 480px;
     height: 100vh;
-    background: rgba(2, 11, 5, 0.97);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border-left: 1px solid rgba(143, 223, 143, 0.1);
-    color: white;
-    box-shadow: -8px 0 56px rgba(0, 0, 0, 0.75);
-    transition: right 0.5s var(--panel-ease);
+    background: #FAFAF7;
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.15);
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 5000;
+    overflow: hidden;
+}
+.side-panel.show { right: 0; }
+
+/* Close Button */
+.sp-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(45, 106, 79, 0.1);
+    color: #2d6a4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+.sp-close:hover {
+    background: #2d6a4f;
+    color: white;
+    transform: rotate(90deg);
+    box-shadow: 0 4px 20px rgba(45, 106, 79, 0.3);
+}
+.sp-close svg { width: 20px; height: 20px; }
+
+/* Scrollable Content */
+.sp-scroll {
+    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
-.side-panel.show { right: 0; }
-.side-panel::-webkit-scrollbar { width: 3px; }
-.side-panel::-webkit-scrollbar-track { background: transparent; }
-.side-panel::-webkit-scrollbar-thumb { background: rgba(143,223,143,0.18); border-radius: 2px; }
+.sp-scroll::-webkit-scrollbar { width: 6px; }
+.sp-scroll::-webkit-scrollbar-track { background: transparent; }
+.sp-scroll::-webkit-scrollbar-thumb { background: rgba(45, 106, 79, 0.2); border-radius: 3px; }
+.sp-scroll::-webkit-scrollbar-thumb:hover { background: rgba(45, 106, 79, 0.4); }
 
-/* Sticky topbar */
-.panel-topbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px 13px;
-    background: rgba(2, 11, 5, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(143, 223, 143, 0.08);
+/* Hero Image */
+.sp-hero {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
 }
-.panel-category-tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.8px;
-    color: rgba(143, 223, 143, 0.55);
-    text-transform: uppercase;
-}
-.close-panel-btn {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.38);
-    font-size: 22px;
-    cursor: pointer;
-    width: 34px; height: 34px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    line-height: 1;
-    transition: background 0.22s, color 0.22s, transform 0.22s;
-}
-.close-panel-btn:hover {
-    background: rgba(143,223,143,0.12);
-    color: var(--green-primary);
-    transform: rotate(90deg);
-}
-
-/* Hero area */
-.panel-hero {
-    padding: 26px 22px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.panel-hero-inner { display: flex; align-items: flex-start; gap: 15px; }
-.panel-hero img.hero-avatar {
-    width: 82px; height: 82px;
-    border-radius: 12px;
-    border: 2px solid rgba(143,223,143,0.32);
+.sp-hero__img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    flex-shrink: 0;
-    box-shadow: 0 4px 22px rgba(0,0,0,0.5);
+    transition: transform 0.6s ease;
 }
-.panel-hero-text { flex: 1; min-width: 0; }
-.panel-hero h2 {
-    margin: 0 0 5px;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--green-primary);
-    line-height: 1.15;
-    letter-spacing: 0.3px;
+.side-panel.show .sp-hero__img { transform: scale(1.05); }
+.sp-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(250, 250, 247, 0.3) 60%, rgba(250, 250, 247, 0.95) 100%);
 }
-.scientific-name {
-    font-style: italic;
-    font-size: 12px;
-    color: var(--gold);
-    opacity: 0.78;
-    line-height: 1.5;
+.sp-hero__badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2d6a4f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(45, 106, 79, 0.15);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Data sections */
-.panel-body { padding: 18px 22px 44px; }
-.panel-section { margin-bottom: 20px; }
-.panel-section h3 {
+/* Content Container */
+.sp-content { padding: 0 28px 32px; }
+
+/* Title Section */
+.sp-title-section {
+    margin-top: -40px;
+    position: relative;
+    z-index: 2;
+}
+.sp-title-flex {
     display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.sp-title-text { flex: 1; }
+.sp-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2d6a4f;
+    font-weight: 700;
+    margin-bottom: 8px;
+    padding: 4px 12px;
+    background: rgba(45, 106, 79, 0.08);
+    border-radius: 12px;
+}
+.sp-title {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: #1a3a2e;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+}
+.sp-subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(143,223,143,0.62);
-    margin: 0 0 9px;
+    line-height: 1.6;
 }
-.panel-section h3::before {
-    content: '';
-    display: block;
-    width: 3px; height: 13px;
-    background: var(--green-primary);
-    border-radius: 2px;
+.sp-scientific {
+    font-style: italic;
+    color: #8B5E3C;
+    font-weight: 500;
+}
+.sp-divider { color: #d1d5db; }
+.sp-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     flex-shrink: 0;
 }
-.panel-section p, .panel-section li {
-    font-size: 13px;
-    line-height: 1.88;
-    color: rgba(205,228,205,0.84);
-    margin: 3px 0;
+
+/* Quick Stats Grid */
+.sp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
 }
-.panel-section ul { padding-left: 0; margin: 0; list-style: none; }
-.panel-section strong { color: var(--green-primary); font-weight: 600; }
+.sp-stat-item {
+    padding: 16px 12px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(45, 106, 79, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+.sp-stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(45, 106, 79, 0.12);
+    border-color: rgba(45, 106, 79, 0.25);
+}
+.sp-stat-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+.sp-stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.sp-stat-label {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.sp-stat-value {
+    font-size: 0.85rem;
+    color: #1a3a2e;
+    font-weight: 600;
+}
+
+/* Section Block */
+.sp-section { margin-bottom: 28px; }
+.sp-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(45, 106, 79, 0.1);
+}
+.sp-section-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+.sp-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a3a2e;
+    margin: 0;
+    flex: 1;
+}
+.sp-section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+/* Story Text */
+.sp-story-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #4b5563;
+    margin: 0;
+    text-align: justify;
+}
+
+/* ID Clues List */
+.sp-id-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sp-id-list li {
+    padding: 12px 16px;
+    background: rgba(45, 106, 79, 0.04);
+    border-left: 3px solid #52b788;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #374151;
+    line-height: 1.6;
+    transition: all 0.2s ease;
+}
+.sp-id-list li:hover {
+    background: rgba(45, 106, 79, 0.08);
+    transform: translateX(4px);
+}
+.sp-id-list li::before {
+    content: '✓';
+    color: #52b788;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Info Box */
+.sp-info-box {
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(45, 106, 79, 0.1);
+}
+.sp-info-box p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #4b5563;
+    margin: 0;
+}
+
+/* Distribution / Threats / Conservation Content */
+.sp-dist-content ul,
+.sp-threats-content ul,
+.sp-conservation-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.sp-dist-content li,
+.sp-threats-content li,
+.sp-conservation-content li {
+    padding: 14px 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(45, 106, 79, 0.08);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+.sp-dist-content li:hover,
+.sp-threats-content li:hover,
+.sp-conservation-content li:hover {
+    border-color: rgba(45, 106, 79, 0.2);
+    box-shadow: 0 2px 8px rgba(45, 106, 79, 0.08);
+}
+.sp-dist-content strong,
+.sp-threats-content strong,
+.sp-conservation-content strong {
+    color: #2d6a4f;
+    font-weight: 600;
+}
+
+/* Action Buttons */
+.sp-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(45, 106, 79, 0.1);
+}
+.sp-btn {
+    flex: 1;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+}
+.sp-btn--primary {
+    background: #2d6a4f;
+    color: white;
+    box-shadow: 0 2px 12px rgba(45, 106, 79, 0.2);
+}
+.sp-btn--primary:hover {
+    background: #1e4935;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(45, 106, 79, 0.3);
+}
+.sp-btn--ghost {
+    background: transparent;
+    color: #2d6a4f;
+    border: 1.5px solid rgba(45, 106, 79, 0.3);
+}
+.sp-btn--ghost:hover {
+    background: rgba(45, 106, 79, 0.05);
+    border-color: #2d6a4f;
+}
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-    :root { --panel-width: 100vw; }
-    .side-panel { right: -100vw; }
+    .side-panel {
+        width: 100%;
+        right: -100%;
+    }
+    .sp-hero { height: 240px; }
+    .sp-content { padding: 0 20px 24px; }
+    .sp-stats {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .sp-stat-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+    }
+    .sp-avatar {
+        width: 70px;
+        height: 70px;
+    }
+    .sp-actions { flex-direction: column; }
     .map-stage.panel-open { padding-right: 0; }
     .spot { width: 42px; height: 42px; }
     .spot::after { display: none; }
 }
 @media (max-width: 480px) {
+    .sp-hero { height: 200px; }
+    .sp-title-flex {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+    }
+    .sp-avatar { margin-bottom: 12px; }
+    .sp-subtitle { justify-content: center; }
     .spot { width: 34px; height: 34px; }
     .back-btn span { display: none; }
     .back-btn { padding: 9px 11px; border-radius: 50%; gap: 0; }
@@ -383,35 +641,134 @@ body::before {
 
 <!-- Side panel -->
 <div id="sidePanel" class="side-panel">
-    <div class="panel-topbar">
-        <span class="panel-category-tag" id="panelCategoryTag">物種資訊</span>
-        <button class="close-panel-btn" id="closePanelBtn" aria-label="關閉面板">×</button>
-    </div>
-    <div class="panel-hero">
-        <div class="panel-hero-inner">
-            <img id="panelAvatar" class="hero-avatar" src="" alt="物種圖片">
-            <div class="panel-hero-text">
-                <h2 id="panelTitle">—</h2>
-                <div id="panelScientific" class="scientific-name"></div>
+    <button class="sp-close" id="closePanelBtn" aria-label="關閉側邊欄">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+    </button>
+    
+    <div class="sp-scroll">
+        <!-- Hero Image -->
+        <div class="sp-hero">
+            <img id="panelHeroImage" class="sp-hero__img" src="" alt="">
+            <div class="sp-hero__overlay"></div>
+            <div class="sp-hero__badge" id="panelCategory">動物</div>
+        </div>
+
+        <div class="sp-content">
+            <!-- Title Section -->
+            <div class="sp-title-section">
+                <div class="sp-title-flex">
+                    <div class="sp-title-text">
+                        <span class="sp-eyebrow" id="panelCharacterTitle">物種稱號</span>
+                        <h2 class="sp-title" id="panelTitle">中文名</h2>
+                        <p class="sp-subtitle">
+                            <span id="panelEnglishName">English Name</span>
+                            <span class="sp-divider">·</span>
+                            <span id="panelScientific" class="sp-scientific">Scientific name</span>
+                        </p>
+                    </div>
+                    <img id="panelAvatar" class="sp-avatar" src="" alt="">
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="panel-body">
-        <div class="panel-section">
-            <h3>分類</h3>
-            <p id="panelClass"></p>
-        </div>
-        <div class="panel-section">
-            <h3>分布區域</h3>
-            <div id="panelDist"></div>
-        </div>
-        <div class="panel-section">
-            <h3>威脅因素</h3>
-            <div id="panelThreats"></div>
-        </div>
-        <div class="panel-section">
-            <h3>保育行動</h3>
-            <div id="panelConservation"></div>
+
+            <!-- Quick Stats -->
+            <div class="sp-stats" id="panelStats">
+                <div class="sp-stat-item">
+                    <span class="sp-stat-icon">⭐</span>
+                    <div class="sp-stat-info">
+                        <span class="sp-stat-label">常見度</span>
+                        <span class="sp-stat-value" id="panelCommonness">—</span>
+                    </div>
+                </div>
+                <div class="sp-stat-item">
+                    <span class="sp-stat-icon">🕒</span>
+                    <div class="sp-stat-info">
+                        <span class="sp-stat-label">活動時間</span>
+                        <span class="sp-stat-value" id="panelActivityTime">—</span>
+                    </div>
+                </div>
+                <div class="sp-stat-item">
+                    <span class="sp-stat-icon">📍</span>
+                    <div class="sp-stat-info">
+                        <span class="sp-stat-label">熱點位置</span>
+                        <span class="sp-stat-value" id="panelHotspot">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <section class="sp-section" id="panelStorySection">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">📖</span>
+                    <h3 class="sp-section-title">物種故事</h3>
+                    <span class="sp-section-label">Story</span>
+                </div>
+                <p class="sp-story-text" id="panelStory"></p>
+            </section>
+
+            <!-- ID Clues -->
+            <section class="sp-section" id="panelIdSection">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">🔍</span>
+                    <h3 class="sp-section-title">辨識線索</h3>
+                    <span class="sp-section-label">Identification</span>
+                </div>
+                <ul class="sp-id-list" id="panelIdClues"></ul>
+            </section>
+
+            <!-- Classification -->
+            <section class="sp-section">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">🧬</span>
+                    <h3 class="sp-section-title">分類資訊</h3>
+                    <span class="sp-section-label">Classification</span>
+                </div>
+                <div class="sp-info-box">
+                    <p id="panelClass"></p>
+                </div>
+            </section>
+
+            <!-- Distribution -->
+            <section class="sp-section">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">🌍</span>
+                    <h3 class="sp-section-title">分布區域</h3>
+                    <span class="sp-section-label">Distribution</span>
+                </div>
+                <div class="sp-dist-content" id="panelDist"></div>
+            </section>
+
+            <!-- Threats -->
+            <section class="sp-section">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">⚠️</span>
+                    <h3 class="sp-section-title">威脅因素</h3>
+                    <span class="sp-section-label">Threats</span>
+                </div>
+                <div class="sp-threats-content" id="panelThreats"></div>
+            </section>
+
+            <!-- Conservation -->
+            <section class="sp-section">
+                <div class="sp-section-header">
+                    <span class="sp-section-icon">🛡️</span>
+                    <h3 class="sp-section-title">保育行動</h3>
+                    <span class="sp-section-label">Conservation</span>
+                </div>
+                <div class="sp-conservation-content" id="panelConservation"></div>
+            </section>
+
+            <!-- Action Buttons -->
+            <div class="sp-actions">
+                <a class="sp-btn sp-btn--primary" id="viewFullGuideBtn" href="pages/animals.html">
+                    <span>查看完整圖鑑</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3 8h10M10 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <button class="sp-btn sp-btn--ghost" id="closePanelBtn2">關閉</button>
+            </div>
         </div>
     </div>
 </div>
@@ -477,6 +834,8 @@ body::before {
         setTimeout(fitMap, 520);
     }
     document.getElementById('closePanelBtn').addEventListener('click', closePanel);
+    var closePanelBtn2 = document.getElementById('closePanelBtn2');
+    if (closePanelBtn2) closePanelBtn2.addEventListener('click', closePanel);
 
     /* ── Field helper ── */
     function set(id, value, prop) {
@@ -484,20 +843,95 @@ body::before {
         if (el && value !== undefined) el[prop] = value;
     }
 
+    /* ── Generate star rating ── */
+    function getCommonnessStars(level) {
+        if (!level) return '—';
+        var filled = '★', empty = '☆', stars = '';
+        for (var i = 1; i <= 5; i++) {
+            stars += i <= level ? filled : empty;
+        }
+        return stars;
+    }
+
     /* ── Display species info ── */
     var ANIMALS = ['squirrel','magpie','dragonfly','frog','lizard'];
     function displayInfo(key) {
         var data = (typeof speciesData !== 'undefined') ? speciesData[key] : null;
         if (!data) return;
-        set('panelTitle',        data.name,           'innerText');
-        set('panelScientific',   data.scientific,     'innerText');
-        set('panelClass',        data.classification, 'innerText');
-        set('panelDist',         data.dist,           'innerHTML');
-        set('panelThreats',      data.threats,        'innerHTML');
-        set('panelConservation', data.conservation,   'innerHTML');
+        
+        // Basic info
+        set('panelTitle', data.name, 'innerText');
+        set('panelEnglishName', data.englishName || data.name, 'innerText');
+        set('panelScientific', data.scientific, 'innerText');
+        set('panelCharacterTitle', data.characterTitle || '校園物種', 'innerText');
+        
+        // Category badge
+        var categoryText = data.category === 'animal' ? '動物' : '植物';
+        set('panelCategory', categoryText, 'innerText');
+        
+        // Hero image
+        var heroImg = document.getElementById('panelHeroImage');
+        if (heroImg) {
+            heroImg.src = data.photos && data.photos[0] ? data.photos[0] : data.avatar;
+            heroImg.alt = data.name;
+        }
+        
+        // Avatar
         var avatar = document.getElementById('panelAvatar');
-        if (avatar) { avatar.src = data.avatar; avatar.alt = data.name; }
-        if (catTag) catTag.textContent = ANIMALS.indexOf(key) !== -1 ? '動物 · FAUNA' : '植物 · FLORA';
+        if (avatar) {
+            avatar.src = data.avatar;
+            avatar.alt = data.name;
+        }
+        
+        // Quick stats (animals only)
+        var statsEl = document.getElementById('panelStats');
+        if (data.category === 'animal') {
+            set('panelCommonness', getCommonnessStars(data.commonness), 'innerHTML');
+            set('panelActivityTime', data.activityTime || '未知', 'innerText');
+            set('panelHotspot', data.hotspot || '校園各處', 'innerText');
+            if (statsEl) statsEl.style.display = 'grid';
+        } else {
+            if (statsEl) statsEl.style.display = 'none';
+        }
+        
+        // Story (animals only)
+        var storySection = document.getElementById('panelStorySection');
+        if (data.story && data.category === 'animal') {
+            set('panelStory', data.story, 'innerText');
+            if (storySection) storySection.style.display = 'block';
+        } else {
+            if (storySection) storySection.style.display = 'none';
+        }
+        
+        // ID Clues (animals only)
+        var idSection = document.getElementById('panelIdSection');
+        var idList = document.getElementById('panelIdClues');
+        if (data.idClues && data.category === 'animal') {
+            if (idList) {
+                idList.innerHTML = '';
+                data.idClues.forEach(function(clue) {
+                    var li = document.createElement('li');
+                    li.textContent = clue;
+                    idList.appendChild(li);
+                });
+            }
+            if (idSection) idSection.style.display = 'block';
+        } else {
+            if (idSection) idSection.style.display = 'none';
+        }
+        
+        // Classification, Distribution, Threats, Conservation
+        set('panelClass', data.classification, 'innerText');
+        set('panelDist', data.dist, 'innerHTML');
+        set('panelThreats', data.threats, 'innerHTML');
+        set('panelConservation', data.conservation, 'innerHTML');
+        
+        // 更新按鈕連結
+        var guideBtn = document.getElementById('viewFullGuideBtn');
+        if (guideBtn) {
+            guideBtn.href = data.category === 'animal' ? 'pages/animals.html' : 'pages/plants.html';
+        }
+        
         openPanel();
     }
 

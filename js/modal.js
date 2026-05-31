@@ -73,21 +73,97 @@ function displayInfo(key) {
         return;
     }
 
-    setPanelField('panelTitle',        data.name,           'innerText');
-    setPanelField('panelScientific',   data.scientific,     'innerText');
-    setPanelField('panelClass',        data.classification, 'innerText');
-    setPanelField('panelDist',         data.dist,           'innerHTML');
-    setPanelField('panelThreats',      data.threats,        'innerHTML');
-    setPanelField('panelConservation', data.conservation,   'innerHTML');
+    // Basic info
+    setPanelField('panelTitle', data.name, 'innerText');
+    setPanelField('panelEnglishName', data.englishName || data.name, 'innerText');
+    setPanelField('panelScientific', data.scientific, 'innerText');
+    setPanelField('panelCharacterTitle', data.characterTitle || '校園物種', 'innerText');
+    
+    // Category badge
+    const categoryText = data.category === 'animal' ? '動物' : '植物';
+    setPanelField('panelCategory', categoryText, 'innerText');
+    
+    // Hero image
+    const heroImg = document.getElementById('panelHeroImage');
+    if (heroImg) {
+        heroImg.src = data.photos && data.photos[0] ? data.photos[0] : data.avatar;
+        heroImg.alt = data.name;
+    }
 
+    // Avatar
     const avatar = document.getElementById('panelAvatar');
     if (avatar) {
         avatar.src = data.avatar;
         avatar.alt = data.name;
     }
 
+    // Quick stats
+    if (data.category === 'animal') {
+        setPanelField('panelCommonness', getCommonnessStars(data.commonness), 'innerHTML');
+        setPanelField('panelActivityTime', data.activityTime || '未知', 'innerText');
+        setPanelField('panelHotspot', data.hotspot || '校園各處', 'innerText');
+        document.getElementById('panelStats').style.display = 'grid';
+    } else {
+        document.getElementById('panelStats').style.display = 'none';
+    }
+
+    // Story (animals only)
+    const storySection = document.getElementById('panelStorySection');
+    if (data.story && data.category === 'animal') {
+        setPanelField('panelStory', data.story, 'innerText');
+        storySection.style.display = 'block';
+    } else {
+        storySection.style.display = 'none';
+    }
+
+    // ID Clues (animals only)
+    const idSection = document.getElementById('panelIdSection');
+    const idList = document.getElementById('panelIdClues');
+    if (data.idClues && data.category === 'animal') {
+        idList.innerHTML = '';
+        data.idClues.forEach(function(clue) {
+            const li = document.createElement('li');
+            li.textContent = clue;
+            idList.appendChild(li);
+        });
+        idSection.style.display = 'block';
+    } else {
+        idSection.style.display = 'none';
+    }
+
+    // Classification
+    setPanelField('panelClass', data.classification, 'innerText');
+    
+    // Distribution, Threats, Conservation (HTML content)
+    setPanelField('panelDist', data.dist, 'innerHTML');
+    setPanelField('panelThreats', data.threats, 'innerHTML');
+    setPanelField('panelConservation', data.conservation, 'innerHTML');
+
+    // Update action button link
+    const actionBtn = document.querySelector('.sp-btn--primary');
+    if (actionBtn) {
+        actionBtn.href = data.category === 'animal' ? 'pages/animals.html' : 'pages/plants.html';
+    }
+
+    // Open panel
     const panel = getSidePanel();
     if (panel) panel.classList.add('show');
+}
+
+/**
+ * Generate star rating HTML for commonness
+ * @param {number} level - 1 to 5
+ * @returns {string} HTML string with stars
+ */
+function getCommonnessStars(level) {
+    if (!level) return '—';
+    const filled = '★';
+    const empty = '☆';
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        stars += i <= level ? filled : empty;
+    }
+    return stars;
 }
 
 /**

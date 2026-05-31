@@ -1,7 +1,7 @@
 /* ==========================================================================
    plant-detail.css — Campus Plant Detail Page
-   Theme: National Geographic · Premium Editorial · Botanical Science
-   Palette: Deep forest, parchment whites, NatGeo gold, botanical greens
+   Design System: Campus Nature Explorer — Plant Section
+   Accent: Warm Wood Brown | Background: #FAFAF7
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -12,46 +12,45 @@
     --pd-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
     --pd-font-sans:  'Noto Sans TC', 'Segoe UI', system-ui, sans-serif;
 
-    /* Core palette */
-    --pd-forest:      #1c3a1c;
-    --pd-forest-deep: #152515;
-    --pd-green:       #2d5a27;
-    --pd-green-mid:   #4a7a44;
-    --pd-green-light: #6bab65;
+    /* Core palette — warm wood brown accent */
+    --pd-brown:       #5c3a1e;
+    --pd-brown-deep:  #3d2410;
+    --pd-brown-mid:   #8B5E3C;
+    --pd-brown-light: #C4956A;
     --pd-gold:        #c9a227;
     --pd-gold-light:  #e0bc50;
     --pd-amber-warn:  #d97706;
 
     /* Text */
     --pd-text-dark:   #1a2a1a;
-    --pd-text-body:   #2d3d2d;
-    --pd-text-muted:  #5a6a5a;
+    --pd-text-body:   #3d4d2d;
+    --pd-text-muted:  #5a6a4a;
     --pd-text-light:  rgba(240, 248, 240, 0.88);
 
-    /* Backgrounds */
+    /* Backgrounds — all based on #FAFAF7 */
     --pd-bg-white:    #ffffff;
-    --pd-bg-cream:    #f7f4ed;
-    --pd-bg-parchment:#f2ede4;
-    --pd-bg-greentint:#f0f6f1;
+    --pd-bg-cream:    #FAFAF7;
+    --pd-bg-parchment:#f5f0ea;
+    --pd-bg-greentint:#f5f0ea;
     --pd-bg-amber:    #fdf6ee;
-    --pd-bg-action:   #f0f9f2;
-    --pd-bg-dark:     #1c3a1c;
+    --pd-bg-action:   #fdf6ee;
+    --pd-bg-dark:     #3d2410;
 
     /* Shadows */
     --pd-shadow-sm:   0 2px 12px rgba(26, 42, 26, 0.07);
-    --pd-shadow-md:   0 6px 28px rgba(26, 42, 26, 0.11);
-    --pd-shadow-lg:   0 16px 56px rgba(26, 42, 26, 0.16);
+    --pd-shadow-md:   0 8px 32px rgba(26, 42, 26, 0.10);
+    --pd-shadow-lg:   0 20px 56px rgba(26, 42, 26, 0.13);
 
-    /* Collection accent colors */
+    /* Collection accent colors (section identity) */
     --pd-col-spring:    #c0396c;
     --pd-col-seasonal:  #c05e0a;
     --pd-col-landmarks: #2e7d32;
     --pd-col-evergreen: #00695c;
-    --pd-col-default:   #2d5a27;
+    --pd-col-default:   #8B5E3C;   /* warm wood brown as default */
 
     /* Active accent (set via JS dataset or default) */
     --pd-accent:     var(--pd-col-default);
-    --pd-accent-rgb: 45, 90, 39;
+    --pd-accent-rgb: 139, 94, 60;
 
     --pd-nav-h:  60px;
     --pd-inner-max: 1200px;
@@ -72,7 +71,7 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: var(--pd-font-sans);
-    background: var(--pd-bg-white);
+    background: #FAFAF7;
     color: var(--pd-text-body);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -89,7 +88,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--pd-forest-deep);
+    background: var(--pd-brown-deep);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -143,7 +142,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 /* --------------------------------------------------------------------------
-   Top Navigation
+   Top Navigation — unified light glass with warm brown accent
    -------------------------------------------------------------------------- */
 .pd-topnav {
     position: fixed;
@@ -154,44 +153,45 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     align-items: center;
     padding: 0 28px;
     gap: 14px;
-    background: rgba(28, 58, 28, 0.92);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(139, 94, 60, 0.10);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.80) inset, 0 4px 20px rgba(0,0,0,0.06);
     transition: background .3s;
 }
 
 .pd-topnav--scrolled {
-    background: rgba(20, 38, 20, 0.97);
+    background: rgba(250, 250, 247, 0.97);
 }
 
 .pd-topnav__back {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: rgba(200, 230, 200, 0.7);
+    color: rgba(60, 40, 20, 0.6);
     font-size: .8rem;
     font-weight: 600;
-    letter-spacing: .06em;
+    letter-spacing: .04em;
     text-transform: uppercase;
-    transition: color .2s;
+    transition: color .2s, gap .2s;
     flex-shrink: 0;
 }
-.pd-topnav__back:hover { color: var(--pd-gold-light); }
+.pd-topnav__back:hover { color: var(--pd-accent); gap: 12px; }
 .pd-topnav__back svg { flex-shrink: 0; }
 
 .pd-topnav__name {
     font-family: var(--pd-font-serif);
     font-size: 1rem;
     font-weight: 700;
-    color: rgba(240, 250, 240, 0.0);
+    color: rgba(30, 20, 10, 0.0);
     transition: color .4s, opacity .4s;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.pd-topnav__name.visible { color: rgba(240, 250, 240, 0.9); }
+.pd-topnav__name.visible { color: rgba(30, 20, 10, 0.9); }
 
 .pd-topnav__collection {
     margin-left: auto;
@@ -201,9 +201,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     text-transform: uppercase;
     padding: 4px 12px;
     border-radius: 20px;
-    background: rgba(var(--pd-accent-rgb), .2);
-    color: var(--pd-gold-light);
-    border: 1px solid rgba(var(--pd-accent-rgb), .3);
+    background: rgba(139, 94, 60, 0.15);
+    color: var(--pd-brown-light);
+    border: 1px solid rgba(139, 94, 60, 0.25);
     flex-shrink: 0;
 }
 
@@ -234,8 +234,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-sidenav-dot:hover,
 .pd-sidenav-dot.active {
-    background: var(--pd-gold);
-    border-color: var(--pd-gold-light);
+    background: var(--pd-accent);
+    border-color: var(--pd-brown-light);
     transform: scale(1.4);
 }
 
@@ -245,8 +245,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     right: 18px;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(26, 42, 26, 0.88);
-    color: rgba(220, 240, 220, 0.9);
+    background: rgba(60, 40, 20, 0.88);
+    color: rgba(255, 240, 220, 0.9);
     font-size: .68rem;
     font-weight: 600;
     padding: 3px 8px;
@@ -319,7 +319,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     aspect-ratio: 3 / 4;
     border-radius: 6px;
     overflow: hidden;
-    background: rgba(44, 80, 44, 0.06);
+    background: rgba(139, 94, 60, 0.06);
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
@@ -440,11 +440,27 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     color: var(--pd-text-dark);
     letter-spacing: -.02em;
     line-height: 1.18;
-    margin-bottom: 40px;
+    margin-bottom: 8px;   /* subtitle follows */
 }
 
 .pd-section-title--light {
     color: rgba(240, 250, 240, 0.95);
+}
+
+.pd-section-subtitle {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--pd-accent);
+    opacity: .6;
+    margin-bottom: 40px;
+    display: block;
+}
+
+.pd-section-subtitle--light {
+    color: rgba(200, 210, 195, 0.65);
+    opacity: 1;
 }
 
 .pd-section-intro {
@@ -478,7 +494,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     justify-content: flex-end;
     padding: 0 80px 100px;
     overflow: hidden;
-    background: var(--pd-forest-deep);
+    background: var(--pd-brown-deep);
 }
 
 .pd-hero__bg {
@@ -752,10 +768,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-stat-card {
     background: var(--pd-bg-white);
-    border-radius: 14px;
+    border-radius: 24px;
     padding: 28px 24px;
     box-shadow: var(--pd-shadow-sm);
-    border: 1px solid rgba(44, 80, 44, 0.1);
+    border: 1px solid rgba(139, 94, 60, 0.10);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -806,7 +822,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .pd-stat-card__bar {
     height: 5px;
     border-radius: 3px;
-    background: rgba(44, 80, 44, 0.1);
+    background: rgba(139, 94, 60, 0.10);
     overflow: hidden;
     margin-top: 6px;
 }
@@ -835,13 +851,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-clue-card {
     background: var(--pd-bg-white);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 20px 22px;
     display: flex;
     align-items: flex-start;
     gap: 16px;
     box-shadow: var(--pd-shadow-sm);
-    border: 1px solid rgba(44, 80, 44, 0.08);
+    border: 1px solid rgba(139, 94, 60, 0.08);
     border-left: 4px solid var(--pd-accent);
     transition: transform .25s ease, box-shadow .25s ease;
 }
@@ -953,7 +969,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     flex: 1;
     width: 100%;
     max-width: 52px;
-    background: rgba(44, 80, 44, 0.08);
+    background: rgba(139, 94, 60, 0.08);
     border-radius: 6px 6px 0 0;
     position: relative;
     overflow: hidden;
@@ -974,8 +990,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 /* rating-based colors */
 .pd-cal-bar-fill[data-score="5"] { background: var(--pd-accent); opacity: 1; }
-.pd-cal-bar-fill[data-score="4"] { background: var(--pd-green-mid); opacity: .9; }
-.pd-cal-bar-fill[data-score="3"] { background: var(--pd-green-light); opacity: .8; }
+.pd-cal-bar-fill[data-score="4"] { background: var(--pd-brown-mid); opacity: .9; }
+.pd-cal-bar-fill[data-score="3"] { background: var(--pd-brown-light); opacity: .8; }
 .pd-cal-bar-fill[data-score="2"] { background: var(--pd-gold); opacity: .65; }
 .pd-cal-bar-fill[data-score="1"] { background: var(--pd-gold); opacity: .4; }
 .pd-cal-bar-fill[data-score="0"] { background: rgba(100,100,100,.15); opacity: 1; }
@@ -1008,8 +1024,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     top: -32px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--pd-forest);
-    color: rgba(220, 240, 220, 0.9);
+    background: var(--pd-brown-deep);
+    color: rgba(240, 210, 180, 0.9);
     font-size: .68rem;
     padding: 4px 8px;
     border-radius: 5px;
@@ -1058,10 +1074,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-spot-card {
     background: var(--pd-bg-white);
-    border-radius: 14px;
+    border-radius: 24px;
     padding: 26px 24px;
     box-shadow: var(--pd-shadow-sm);
-    border: 1px solid rgba(44, 80, 44, 0.1);
+    border: 1px solid rgba(139, 94, 60, 0.10);
     transition: transform .28s ease, box-shadow .28s ease;
 }
 
@@ -1121,8 +1137,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-passport-card {
     flex: 1;
-    border: 1px solid rgba(44, 80, 44, 0.12);
-    border-radius: 14px;
+    border: 1px solid rgba(139, 94, 60, 0.12);
+    border-radius: 24px;
     overflow: hidden;
     box-shadow: var(--pd-shadow-sm);
 }
@@ -1130,7 +1146,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .pd-passport-row {
     display: grid;
     grid-template-columns: 160px 1fr;
-    border-bottom: 1px solid rgba(44, 80, 44, 0.07);
+    border-bottom: 1px solid rgba(139, 94, 60, 0.07);
     min-height: 52px;
 }
 
@@ -1138,7 +1154,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-passport-row:nth-child(even) .pd-passport-label,
 .pd-passport-row:nth-child(even) .pd-passport-value {
-    background: rgba(44, 80, 44, 0.03);
+    background: rgba(139, 94, 60, 0.03);
 }
 
 .pd-passport-label {
@@ -1151,7 +1167,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     background: var(--pd-bg-white);
     display: flex;
     align-items: center;
-    border-right: 1px solid rgba(44, 80, 44, 0.07);
+    border-right: 1px solid rgba(139, 94, 60, 0.07);
 }
 
 .pd-passport-value {
@@ -1167,7 +1183,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .pd-passport-value em {
     font-family: var(--pd-font-serif);
     font-style: italic;
-    color: var(--pd-green);
+    color: var(--pd-accent);
 }
 
 .pd-passport-emblem {
@@ -1197,7 +1213,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-challenge-card {
     background: var(--pd-bg-white);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 24px;
     box-shadow: var(--pd-shadow-sm);
     border: 1px solid rgba(217, 119, 6, 0.15);
@@ -1246,10 +1262,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pd-action-card {
     background: var(--pd-bg-white);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 28px 24px;
     box-shadow: var(--pd-shadow-sm);
-    border: 1px solid rgba(44, 80, 44, 0.1);
+    border: 1px solid rgba(139, 94, 60, 0.10);
     border-bottom: 4px solid var(--pd-accent);
     display: flex;
     align-items: flex-start;
@@ -1406,7 +1422,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
    Footer
    -------------------------------------------------------------------------- */
 .pd-footer {
-    background: var(--pd-forest-deep);
+    background: var(--pd-brown-deep);
     padding: 28px 40px;
     border-top: 1px solid rgba(255,255,255,.06);
 }
@@ -1463,10 +1479,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     .pd-related-grid { grid-template-columns: 1fr; }
     .pd-hero__name { font-size: clamp(2.2rem, 12vw, 4rem); }
     .pd-passport-row { grid-template-columns: 1fr; }
-    .pd-passport-label { border-right: none; border-bottom: 1px solid rgba(44,80,44,.07); }
-}
-
-    .pd-passport-label { border-right: none; border-bottom: 1px solid rgba(44,80,44,.07); }
+    .pd-passport-label { border-right: none; border-bottom: 1px solid rgba(139,94,60,.07); }
 }
 
 /* ==========================================================================
@@ -1477,7 +1490,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
    Gallery Section wrapper
    -------------------------------------------------------------------------- */
 .pd-gallery {
-    background: var(--pd-forest-deep);
+    background: var(--pd-brown-deep);
     padding: 0;
     position: relative;
     overflow: hidden;

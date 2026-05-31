@@ -1,7 +1,7 @@
 /* ==========================================================================
    plants.css — Campus Plant Explorer Page
-   Theme: Seasons · Relaxation · Campus Memories
-   Palette: Warm ivory background, pastel botanicals, soft green accents
+   Design System: Campus Nature Explorer — Plant Section
+   Accent: Warm Wood Brown | Background: #FAFAF7 (light)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -9,21 +9,24 @@
    -------------------------------------------------------------------------- */
 :root {
     /* Page foundations */
-    --pe-bg:            #f8f4ea;   /* warm botanical ivory */
+    --pe-bg:            #FAFAF7;   /* unified background */
     --pe-surface:       #ffffff;
-    --pe-text-primary:  #1c3320;
-    --pe-text-secondary:#4a7050;
-    --pe-text-muted:    #7a9a7e;
-    --pe-accent:        #3a7545;
-    --pe-accent-light:  #6aaa76;
-    --pe-border:        rgba(58, 117, 69, 0.14);
-    --pe-shadow:        0 4px 24px rgba(30, 60, 35, 0.09);
-    --pe-shadow-hover:  0 20px 56px rgba(20, 50, 28, 0.22);
+    --pe-text-primary:  #1c2a1a;
+    --pe-text-secondary:#4a5038;
+    --pe-text-muted:    #7a826e;
+
+    /* Plant section accent: warm wood brown */
+    --pe-accent:        #8B5E3C;
+    --pe-accent-light:  #C4956A;
+    --pe-accent-pale:   #f5e6d3;
+    --pe-border:        rgba(139, 94, 60, 0.14);
+    --pe-shadow:        0 4px 24px rgba(0, 0, 0, 0.07);
+    --pe-shadow-hover:  0 20px 56px rgba(0, 0, 0, 0.13);
     --pe-font-serif:    'Playfair Display', Georgia, 'Times New Roman', serif;
     --pe-gold:          #c8922a;
     --pe-gold-soft:     rgba(200, 146, 42, 0.15);
 
-    /* Collection palettes */
+    /* Collection palettes (seasonal identity — preserved) */
     --spring-hue:       #c0396c;
     --spring-bg:        linear-gradient(180deg, #fdf0f5 0%, #faf2f6 60%, #f7eff4 100%);
     --spring-border:    rgba(192, 57, 108, 0.18);
@@ -57,8 +60,8 @@
     --evergreen-accent-rgb: 0, 105, 92;
 
     --nav-height: 62px;
-    --card-radius: 16px;
-    --section-radius: 20px;
+    --card-radius: 24px;   /* unified 24px */
+    --section-radius: 24px;
 }
 
 /* --------------------------------------------------------------------------
@@ -75,9 +78,6 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    /* Warm paper grain texture */
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
 }
 
 img { display: block; max-width: 100%; }
@@ -126,7 +126,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 /* --------------------------------------------------------------------------
-   Navigation — warm botanical glassmorphism
+   Navigation — unified light glass with warm wood accent
    -------------------------------------------------------------------------- */
 .pe-nav {
     position: fixed;
@@ -137,13 +137,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     align-items: center;
     padding: 0 32px;
     gap: 16px;
-    background: rgba(248, 244, 234, 0.88);
+    background: rgba(250, 250, 247, 0.92);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(58, 117, 69, 0.10);
+    border-bottom: 1px solid rgba(139, 94, 60, 0.10);
     box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.7) inset,
-        0 4px 24px rgba(30, 60, 35, 0.07);
+        0 1px 0 rgba(255, 255, 255, 0.80) inset,
+        0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .pe-nav__back {
@@ -159,24 +159,22 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .pe-nav__back svg { flex-shrink: 0; }
 
 .pe-nav__title {
-    font-family: var(--pe-font-serif);
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
-    font-style: italic;
     color: var(--pe-text-primary);
-    letter-spacing: .01em;
+    letter-spacing: .02em;
 }
 
 .pe-nav__badge {
     margin-left: auto;
-    background: linear-gradient(135deg, var(--pe-accent), #5aa866);
+    background: linear-gradient(135deg, var(--pe-accent), var(--pe-accent-light));
     color: #fff;
     font-size: .72rem;
     font-weight: 600;
     padding: 4px 14px;
     border-radius: 20px;
     letter-spacing: .05em;
-    box-shadow: 0 2px 8px rgba(58, 117, 69, 0.3);
+    box-shadow: 0 2px 8px rgba(139, 94, 60, 0.28);
 }
 
 /* --------------------------------------------------------------------------
@@ -390,7 +388,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .pe-hero__title {
     font-family: var(--pe-font-serif);
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
     font-weight: 800;
     color: #ffffff;
     line-height: 1.08;
@@ -414,7 +412,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .pe-hero__subtitle {
-    font-size: clamp(1rem, 2.2vw, 1.18rem);
+    font-size: clamp(.95rem, 2vw, 1.1rem);
     color: rgba(215, 250, 220, 0.80);
     line-height: 1.78;
     max-width: 600px;
@@ -527,11 +525,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     position: sticky;
     top: var(--nav-height);
     z-index: 150;
-    background: rgba(248, 244, 234, 0.94);
+    background: rgba(250, 250, 247, 0.96);
     backdrop-filter: blur(20px) saturate(1.3);
     -webkit-backdrop-filter: blur(20px) saturate(1.3);
-    border-bottom: 1px solid rgba(58, 117, 69, 0.08);
-    box-shadow: 0 2px 20px rgba(30, 60, 35, 0.06);
+    border-bottom: 1px solid rgba(139, 94, 60, 0.08);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
 }
 
 .pe-season-nav__inner {
@@ -1240,10 +1238,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
    Footer — warm botanical signature
    -------------------------------------------------------------------------- */
 .pe-footer {
-    background: linear-gradient(180deg, #1a3a20 0%, #0e2414 100%);
-    color: rgba(200, 230, 200, 0.55);
+    background: linear-gradient(180deg, #3d2010 0%, #261608 100%);
+    color: rgba(240, 210, 180, 0.55);
     padding: 40px 40px;
-    border-top: 1px solid rgba(100, 180, 110, 0.12);
+    border-top: 1px solid rgba(139, 94, 60, 0.18);
 }
 
 .pe-footer__inner {
@@ -1264,14 +1262,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .pe-footer__back {
-    color: rgba(160, 220, 160, 0.75);
+    color: rgba(220, 170, 120, 0.80);
     font-size: .80rem;
     font-weight: 600;
     transition: color .25s ease, letter-spacing .25s ease;
     letter-spacing: .04em;
 }
 .pe-footer__back:hover {
-    color: rgba(180, 240, 180, 0.95);
+    color: rgba(240, 200, 150, 0.95);
     letter-spacing: .08em;
 }
 
@@ -1310,7 +1308,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 @media (max-width: 480px) {
-    .pe-hero__title { font-size: 2.4rem; }
+    .pe-hero__title { font-size: 2.2rem; }
     .pe-hero__stats {
         flex-direction: column;
         gap: 14px;
