@@ -122,6 +122,27 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
     font-weight: 700;
 }
 
+/* Cross-section nav link (to Guardian Mission) */
+.aw-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1px solid var(--aw-border);
+    color: var(--aw-muted);
+    background: var(--aw-surface);
+    white-space: nowrap;
+    transition: color .2s, border-color .2s, background .2s;
+}
+.aw-nav__link:hover {
+    color: var(--aw-accent);
+    border-color: var(--aw-border-hover);
+    background: var(--aw-accent-pale);
+}
+
 /* --------------------------------------------------------------------------
    Hero section
    -------------------------------------------------------------------------- */

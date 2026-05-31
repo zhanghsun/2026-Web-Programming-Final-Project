@@ -165,6 +165,27 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     letter-spacing: .02em;
 }
 
+/* Cross-section nav link (to Guardian Mission) */
+.pe-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1px solid rgba(139, 94, 60, 0.15);
+    color: var(--pe-text-muted);
+    background: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+    transition: color .2s, border-color .2s, background .2s;
+}
+.pe-nav__link:hover {
+    color: var(--pe-accent);
+    border-color: rgba(139, 94, 60, 0.35);
+    background: var(--pe-accent-pale);
+}
+
 .pe-nav__badge {
     margin-left: auto;
     background: linear-gradient(135deg, var(--pe-accent), var(--pe-accent-light));

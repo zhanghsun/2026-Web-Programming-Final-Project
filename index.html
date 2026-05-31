@@ -203,8 +203,8 @@
 
             <!-- Card 3: Mission Challenge -->
             <article class="hp-explore-card hp-explore-card--mission scroll-reveal" tabindex="0" role="button"
-                     onclick="alert('生態挑戰任務基地即將推出！敬請期待 🎮')"
-                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();alert('生態挑戰任務基地即將推出！敬請期待 🎮');}">
+                     onclick="location.href='pages/ecosystem-guardian.html'"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='pages/ecosystem-guardian.html';}">
                 <div class="hp-explore-card__bg">
                     <img src="assets/images/ncu.jpg" alt="生態挑戰" loading="lazy">
                     <div class="hp-explore-card__bg-tint hp-explore-card__bg-tint--mission"></div>
@@ -218,10 +218,6 @@
                 </div>
                 <div class="hp-explore-card__num">03</div>
                 <div class="hp-explore-card__coord">MISSION · ACTIVE</div>
-                <div class="hp-explore-card__mission-badge">
-                    <span class="hp-mission-pulse"></span>
-                    <span class="hp-mission-label">即將推出</span>
-                </div>
                 <div class="hp-explore-card__overlay"></div>
                 <div class="hp-explore-card__content">
                     <div class="hp-explore-card__icon">
@@ -241,7 +237,7 @@
                         <span>知識挑戰</span>
                     </div>
                     <div class="hp-explore-card__cta">
-                        <span class="hp-explore-card__cta-text">敬請期待</span>
+                        <span class="hp-explore-card__cta-text">進入基地</span>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                 </div>
@@ -537,7 +533,9 @@
         <!-- ══ Card 3: Ecology Challenge Mission ══ -->
         <article class="res-card res-card--mission scroll-reveal" tabindex="0" role="button"
                  data-resource-title="互動生態遊戲"
-                 data-resource-text="透過趣味互動遊戲體驗生態保育的挑戰與樂趣！辨識校園物種、解開生態謎題、學習食物鏈與棲地保護知識。遊戲化的學習方式讓生態保育不再枯燥，適合所有年齡層的師生一同體驗。">
+                 data-resource-text="透過趣味互動遊戲體驗生態保育的挑戰與樂趣！辨識校園物種、解開生態謎題、學習食物鏈與棲地保護知識。遊戲化的學習方式讓生態保育不再枯燥，適合所有年齡層的師生一同體驗。"
+                 data-href="pages/ecosystem-guardian.html"
+                 style="cursor:pointer;">
 
             <!-- Background: campus ecology photo -->
             <div class="res-card__bg">

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>守護成果 — 校園生態系統守護者 | 國立中央大學</title>
+    <base href="../" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/ecosystem-results.css" />
+</head>
+<body>
+
+<!-- ── Cinematic background ─────────────────────────── -->
+<div class="er-bg" aria-hidden="true">
+    <img class="er-bg__img"
+         src="assets/images/background/ncu-lake-sunset.jpg"
+         alt="" />
+    <div class="er-bg__overlay"></div>
+    <div class="er-particles">
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+        <div class="er-particle"></div>
+    </div>
+</div>
+
+<!-- ── Main content ──────────────────────────────────── -->
+<main class="er-content">
+
+    <!-- ─── HERO: Score + Title ─────────────────────── -->
+    <section class="er-hero" aria-label="守護成果">
+
+        <!-- Score ring -->
+        <div class="er-ring-wrap" role="img" aria-label="生態健康值環形圖">
+            <svg class="er-ring" viewBox="0 0 220 220" aria-hidden="true">
+                <circle class="er-ring__track" cx="110" cy="110" r="96" />
+                <circle class="er-ring__fill" id="scoreRing" cx="110" cy="110" r="96" />
+            </svg>
+            <div class="er-ring-center">
+                <span class="er-score-num" id="scoreNum" aria-live="polite">0</span>
+                <span class="er-score-label">生態健康值</span>
+            </div>
+        </div>
+
+        <!-- Title badge + flavor -->
+        <div class="er-title-block">
+            <div class="er-tier-badge" id="tierBadge" role="status">
+                <span class="er-tier-badge__emoji" id="tierEmoji" aria-hidden="true">🌿</span>
+                <div class="er-tier-badge__inner">
+                    <div class="er-tier-badge__label">你的稱號</div>
+                    <div class="er-tier-badge__name" id="tierName">Campus Guardian</div>
+                </div>
+            </div>
+            <p class="er-hero-flavor" id="heroFlavor">
+                正在載入你的守護成果……
+            </p>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="er-scroll-hint" aria-hidden="true">
+            <span>查看守護成果</span>
+            <div class="er-scroll-hint__arrow"></div>
+        </div>
+
+    </section>
+
+    <!-- ─── SPECIES IMPACT ──────────────────────────── -->
+    <section class="er-species-section" aria-labelledby="speciesHeading">
+        <div class="er-section">
+            <div class="er-section-header">
+                <span class="er-section-label">Ecosystem Impact</span>
+                <h2 class="er-section-title" id="speciesHeading">你守護的生命</h2>
+                <p class="er-section-desc" id="speciesDesc">
+                    透過你的每一個決策，這些校園生物的棲地與族群獲得了庇護。
+                </p>
+            </div>
+
+            <!-- Cards injected by JS -->
+            <div class="er-species-grid" id="speciesGrid" aria-label="受益物種列表">
+            </div>
+
+            <!-- Empty state -->
+            <div class="er-species-empty" id="speciesEmpty" hidden>
+                <p>這一次的旅程對生態造成了衝擊。<br>
+                   但每一次的嘗試，都讓我們更了解自然的韌性與脆弱。<br>
+                   <strong>再試一次，讓更多生命因你而守護。</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── JOURNEY TIMELINE ────────────────────────── -->
+    <section class="er-journey-section" aria-labelledby="journeyHeading">
+        <div class="er-section">
+            <div class="er-section-header">
+                <span class="er-section-label">Your Journey</span>
+                <h2 class="er-section-title" id="journeyHeading">守護之旅回顧</h2>
+                <p class="er-section-desc">你在五個關鍵情境中所做的每一個決策。</p>
+            </div>
+
+            <!-- Timeline steps injected by JS -->
+            <div class="er-timeline" id="journeyTimeline" aria-label="五章節決策時間軸">
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CTA ─────────────────────────────────────── -->
+    <section class="er-cta-section" aria-label="繼續探索">
+        <h2>繼續探索校園生態</h2>
+        <p>每一次的選擇都在改變校園的生態故事。</p>
+        <div class="er-cta-btns">
+            <a href="pages/ecosystem-game.html" class="er-btn er-btn--primary" id="restartBtn">
+                ↺ 再戰一次
+            </a>
+            <a href="pages/animals.html" class="er-btn er-btn--secondary">
+                🦅 探索野生動物
+            </a>
+            <a href="pages/plants.html" class="er-btn er-btn--secondary">
+                🌿 探索校園植物
+            </a>
+            <a href="pages/ecosystem-guardian.html" class="er-btn er-btn--ghost">
+                ← 返回任務基地
+            </a>
+        </div>
+    </section>
+
+</main>
+
+<!-- Scripts -->
+<script src="js/ecosystem-game-data.js" defer></script>
+<script src="js/ecosystem-results.js" defer></script>
+
+</body>
+</html>

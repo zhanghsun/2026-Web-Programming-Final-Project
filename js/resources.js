@@ -15,6 +15,11 @@ function initResources() {
 function setupGatewayCards() {
     document.querySelectorAll('.res-card[data-resource-title]').forEach(card => {
         card.addEventListener('click', function () {
+            const href = this.getAttribute('data-href');
+            if (href) {
+                window.location.href = href;
+                return;
+            }
             const title = this.getAttribute('data-resource-title');
             const text  = this.getAttribute('data-resource-text');
             if (title && text && typeof showResource === 'function') {
