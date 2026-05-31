@@ -1,0 +1,451 @@
+/* ================================================
+   Homepage Explore Cards — Exploration Gateway
+   ================================================
+   Components:
+   - .hp-explore                   : Section wrapper
+   - .hp-explore__grid             : Card grid layout
+   - .hp-explore-card              : Individual exploration card
+   - .hp-explore-card--wildlife/flora/mission : Card themes
+   - Card components (bg, scan, corners, etc.)
+   ================================================ */
+
+/* ── Section variables ── */
+:root {
+    --explore-green:  #8fdf8f;
+    --explore-teal:   #4dd9c0;
+    --explore-gold:   #ffd700;
+}
+
+/* ════════════════════════════════════
+   EXPLORE SECTION
+   ════════════════════════════════════ */
+.hp-explore {
+    padding: 100px 6% 120px;
+    background: linear-gradient(165deg, #0a1508 0%, #162412 50%, #0f1d0c 100%);
+    position: relative;
+    z-index: 1;
+}
+
+.hp-explore__header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 70px;
+}
+
+/* ════════════════════════════════════
+   CARD GRID
+   ════════════════════════════════════ */
+.hp-explore__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ════════════════════════════════════
+   INDIVIDUAL CARD
+   ════════════════════════════════════ */
+.hp-explore-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    background: #040c06;
+    border-radius: 16px;
+    min-height: 520px;
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+}
+
+.hp-explore-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(143, 223, 143, 0.15);
+}
+
+.hp-explore-card:focus-visible {
+    box-shadow: 0 0 0 3px rgba(143, 223, 143, 0.5);
+}
+
+/* ── Background: photo + color tint ── */
+.hp-explore-card__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hp-explore-card__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.8s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__bg img {
+    transform: scale(1.12);
+    filter: brightness(1.15) saturate(1.3) contrast(1.05);
+}
+
+/* Color tint overlays */
+.hp-explore-card__bg-tint {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.5s ease;
+}
+
+.hp-explore-card__bg-tint--wildlife {
+    background: linear-gradient(155deg,
+        rgba(0, 28, 10, 0.65) 0%,
+        rgba(0, 50, 20, 0.25) 60%,
+        transparent 100%);
+}
+
+.hp-explore-card__bg-tint--flora {
+    background: linear-gradient(155deg,
+        rgba(0, 22, 20, 0.65) 0%,
+        rgba(0, 42, 36, 0.25) 60%,
+        transparent 100%);
+}
+
+.hp-explore-card__bg-tint--mission {
+    background: linear-gradient(155deg,
+        rgba(22, 15, 0, 0.7) 0%,
+        rgba(42, 28, 0, 0.3) 60%,
+        transparent 100%);
+}
+
+/* ── Scan-line texture ── */
+.hp-explore-card__scan {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.12) 3px);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/* ── Animated corner brackets ── */
+.hp-explore-card__corners {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hp-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity 0.4s ease, width 0.4s ease, height 0.4s ease;
+}
+
+.hp-explore-card:hover .hp-corner {
+    opacity: 0.5;
+    width: 32px;
+    height: 32px;
+}
+
+.hp-corner--tl {
+    top: 14px;
+    left: 14px;
+    border-top: 2px solid var(--explore-green);
+    border-left: 2px solid var(--explore-green);
+}
+.hp-corner--tr {
+    top: 14px;
+    right: 14px;
+    border-top: 2px solid var(--explore-green);
+    border-right: 2px solid var(--explore-green);
+}
+.hp-corner--bl {
+    bottom: 14px;
+    left: 14px;
+    border-bottom: 2px solid var(--explore-green);
+    border-left: 2px solid var(--explore-green);
+}
+.hp-corner--br {
+    bottom: 14px;
+    right: 14px;
+    border-bottom: 2px solid var(--explore-green);
+    border-right: 2px solid var(--explore-green);
+}
+
+/* ── Card number badge ── */
+.hp-explore-card__num {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 3;
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 1px;
+    pointer-events: none;
+    transition: color 0.4s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__num {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Category coordinate badge ── */
+.hp-explore-card__coord {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(143, 223, 143, 0.45);
+    pointer-events: none;
+    transition: color 0.4s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__coord {
+    color: rgba(143, 223, 143, 0.7);
+}
+
+/* ── Mission badge (for challenge card) ── */
+.hp-explore-card__mission-badge {
+    position: absolute;
+    top: 54px;
+    right: 20px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+}
+
+.hp-mission-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--explore-gold);
+    box-shadow: 0 0 10px var(--explore-gold);
+    animation: missionPulse 2s ease-in-out infinite;
+}
+
+@keyframes missionPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hp-mission-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgba(255, 215, 0, 0.8);
+}
+
+/* ── Overlay gradient ── */
+.hp-explore-card__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.5) 40%,
+        transparent 75%);
+    transition: background 0.5s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__overlay {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.35) 40%,
+        transparent 75%);
+}
+
+/* ════════════════════════════════════
+   CARD CONTENT
+   ════════════════════════════════════ */
+.hp-explore-card__content {
+    position: relative;
+    z-index: 3;
+    padding: 36px 32px 40px;
+    width: 100%;
+}
+
+/* Icon */
+.hp-explore-card__icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    color: var(--explore-green);
+    opacity: 0.85;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__icon {
+    transform: translateY(-4px) scale(1.08);
+    opacity: 1;
+}
+
+/* Tag */
+.hp-explore-card__tag {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(143, 223, 143, 0.5);
+    margin-bottom: 10px;
+}
+
+/* Title */
+.hp-explore-card__title {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    letter-spacing: -0.3px;
+}
+
+/* Description */
+.hp-explore-card__desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(220, 240, 220, 0.65);
+    margin: 0 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease, margin 0.5s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__desc {
+    max-height: 200px;
+    opacity: 1;
+    margin-bottom: 18px;
+}
+
+/* Meta info */
+.hp-explore-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: rgba(180, 220, 180, 0.5);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.hp-dot {
+    color: rgba(143, 223, 143, 0.3);
+}
+
+/* CTA */
+.hp-explore-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--explore-green);
+    font-size: 14px;
+    font-weight: 600;
+    transition: gap 0.3s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__cta {
+    gap: 12px;
+}
+
+.hp-explore-card__cta svg {
+    transition: transform 0.3s ease;
+}
+
+.hp-explore-card:hover .hp-explore-card__cta svg {
+    transform: translateX(4px);
+}
+
+/* ── Glow effect ── */
+.hp-explore-card__glow {
+    position: absolute;
+    bottom: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.6s ease, bottom 0.6s ease;
+}
+
+.hp-explore-card__glow--green {
+    background: radial-gradient(circle, rgba(143, 223, 143, 0.25) 0%, transparent 70%);
+}
+
+.hp-explore-card__glow--teal {
+    background: radial-gradient(circle, rgba(77, 217, 192, 0.25) 0%, transparent 70%);
+}
+
+.hp-explore-card__glow--gold {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, transparent 70%);
+}
+
+.hp-explore-card:hover .hp-explore-card__glow {
+    opacity: 0.6;
+    bottom: -40%;
+}
+
+/* ════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════ */
+@media (max-width: 1024px) {
+    .hp-explore__grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+    }
+    
+    .hp-explore-card {
+        min-height: 480px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hp-explore {
+        padding: 60px 5% 80px;
+    }
+    
+    .hp-explore__header {
+        margin-bottom: 50px;
+    }
+    
+    .hp-explore__grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .hp-explore-card {
+        min-height: 420px;
+    }
+    
+    .hp-explore-card__content {
+        padding: 28px 24px 32px;
+    }
+    
+    .hp-explore-card__desc {
+        max-height: 200px;
+        opacity: 1;
+        margin-bottom: 18px;
+    }
+}

@@ -10,13 +10,18 @@
     <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="css/home-sections.css">
     <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/explore-cards.css">
     <link rel="stylesheet" href="css/map.css">
     <link rel="stylesheet" href="css/resources.css">
     <link rel="stylesheet" href="css/forms.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/mouse-spotlight.css">
 </head>
 
 <body>
+
+<!-- Mouse Spotlight Effect -->
+<div id="mouse-spotlight"></div>
 
 <!-- Loading Overlay — visible during initial page parse, fades out after DOMContentLoaded -->
 <div id="loadingOverlay" class="loading-overlay" role="status" aria-label="頁面載入中">
@@ -58,8 +63,7 @@
             <h1 class="hp-hero__headline">生活在這片土地，<br>你認識多少<br>校園生態？</h1>
             <p class="hp-hero__sub">探索物種多樣性 &nbsp;·&nbsp; 認識校園生態 &nbsp;·&nbsp; 參與自然保育</p>
             <div class="hp-hero__actions">
-                <a class="hp-btn hp-btn--primary" href="pages/wildlife-map.html">探索生態地圖</a>
-                <a class="hp-btn hp-btn--ghost" href="#" data-page="resources">了解資源中心</a>
+                <a class="hp-btn hp-btn--primary" href="#explore-section">開始探索</a>
             </div>
         </div>
         <div class="hp-hero__scroll-hint">
@@ -72,7 +76,7 @@
     <section class="hp-map-gateway">
         <div class="hp-map-gateway__inner">
             <div class="hp-map-gateway__text">
-                <span class="hp-section-label">EXPLORE · 探索</span>
+                <span class="hp-section-label">MAP · 地圖</span>
                 <h2 class="hp-section-title">中大常見物種地圖</h2>
                 <p class="hp-section-desc">互動式校園地圖，標注動植物的確切棲息地點，帶你深入每種物種的生態故事。點擊地圖上的標記，開始一場沉浸式的自然之旅。</p>
                 <a href="pages/wildlife-map.html" class="hp-map-cta">
@@ -98,131 +102,153 @@
         </div>
     </section>
 
-    <!-- ══ 3. SPECIES DISCOVERY ══ -->
-    <section class="hp-species">
-        <div class="hp-species__header">
-            <span class="hp-section-label">DISCOVER · 發現</span>
-            <h2 class="hp-section-title">校園常見物種</h2>
-            <p class="hp-section-desc">點擊物種卡片，了解其生態行為、棲地分布與保育現況</p>
+    <!-- ══ 3. EXPLORE SECTIONS ══ -->
+    <section class="hp-explore" id="explore-section">
+        <div class="hp-explore__header">
+            <span class="hp-section-label">EXPLORE · 探索</span>
+            <h2 class="hp-section-title">開始你的生態探索之旅</h2>
+            <p class="hp-section-desc">選擇你的探索路徑，深入了解中央大學校園的生物多樣性</p>
         </div>
 
-        <div class="hp-species__tabs" role="tablist">
-            <button class="hp-species-tab hp-species-tab--active" data-tab="animals" role="tab" aria-selected="true">
-                動物&ensp;<span class="hp-tab-label">FAUNA</span>
-            </button>
-            <button class="hp-species-tab" data-tab="plants" role="tab" aria-selected="false">
-                植物&ensp;<span class="hp-tab-label">FLORA</span>
-            </button>
-        </div>
+        <div class="hp-explore__grid">
+            
+            <!-- Card 1: Wildlife Explorer -->
+            <article class="hp-explore-card hp-explore-card--wildlife scroll-reveal" tabindex="0" role="button"
+                     onclick="location.href='pages/animals.html'"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='pages/animals.html';}">
+                <div class="hp-explore-card__bg">
+                    <img src="assets/images/台灣藍鵲.jpg" alt="校園野生動物" loading="lazy">
+                    <div class="hp-explore-card__bg-tint hp-explore-card__bg-tint--wildlife"></div>
+                </div>
+                <div class="hp-explore-card__scan"></div>
+                <div class="hp-explore-card__corners">
+                    <span class="hp-corner hp-corner--tl"></span>
+                    <span class="hp-corner hp-corner--tr"></span>
+                    <span class="hp-corner hp-corner--bl"></span>
+                    <span class="hp-corner hp-corner--br"></span>
+                </div>
+                <div class="hp-explore-card__num">01</div>
+                <div class="hp-explore-card__coord">FAUNA · 動物類</div>
+                <div class="hp-explore-card__overlay"></div>
+                <div class="hp-explore-card__content">
+                    <div class="hp-explore-card__icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="13" cy="31" r="9" stroke="currentColor" stroke-width="2.2"/>
+                            <circle cx="35" cy="31" r="9" stroke="currentColor" stroke-width="2.2"/>
+                            <path d="M22 31h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M13 22V16l4-4 3 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M35 22V16l-4-4-3 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="13" cy="31" r="4" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+                            <circle cx="35" cy="31" r="4" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <div class="hp-explore-card__tag">WILDLIFE EXPLORER</div>
+                    <h3 class="hp-explore-card__title">校園野生動物<br>探索圖鑑</h3>
+                    <p class="hp-explore-card__desc">穿越森林、湖畔與草地，追蹤中央大學記錄在案的五大動物類群。每個物種都是一個等待解鎖的生態故事。</p>
+                    <div class="hp-explore-card__meta">
+                        <span>6 大類群</span>
+                        <span class="hp-dot">·</span>
+                        <span>17 記錄物種</span>
+                    </div>
+                    <div class="hp-explore-card__cta">
+                        <span class="hp-explore-card__cta-text">進入探索</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                </div>
+                <div class="hp-explore-card__glow hp-explore-card__glow--green"></div>
+            </article>
 
-        <!-- Animals grid -->
-        <div class="hp-species__grid hp-species__grid--active" id="hp-grid-animals" role="tabpanel">
-            <article class="hp-sc scroll-reveal" data-species="magpie" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/台灣藍鵲.jpg" alt="台灣藍鵲" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">BIRD · 鳥類</span>
-                    <h3 class="hp-sc__name">台灣藍鵲</h3>
-                    <p class="hp-sc__latin">Urocissa caerulea</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+            <!-- Card 2: Flora Explorer -->
+            <article class="hp-explore-card hp-explore-card--flora scroll-reveal" tabindex="0" role="button"
+                     onclick="location.href='pages/plants.html'"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='pages/plants.html';}">
+                <div class="hp-explore-card__bg">
+                    <img src="assets/images/台灣肖楠.jpg" alt="校園植物" loading="lazy">
+                    <div class="hp-explore-card__bg-tint hp-explore-card__bg-tint--flora"></div>
                 </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="squirrel" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/赤腹松鼠.jpg" alt="赤腹松鼠" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">MAMMAL · 哺乳類</span>
-                    <h3 class="hp-sc__name">赤腹松鼠</h3>
-                    <p class="hp-sc__latin">Callosciurus erythraeus</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+                <div class="hp-explore-card__scan"></div>
+                <div class="hp-explore-card__corners">
+                    <span class="hp-corner hp-corner--tl"></span>
+                    <span class="hp-corner hp-corner--tr"></span>
+                    <span class="hp-corner hp-corner--bl"></span>
+                    <span class="hp-corner hp-corner--br"></span>
                 </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="lizard" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/斯文豪氏攀蜥.jpg" alt="斯文豪氏攀蜥" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">REPTILE · 爬行類</span>
-                    <h3 class="hp-sc__name">斯文豪氏攀蜥</h3>
-                    <p class="hp-sc__latin">Japalura swinhonis</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+                <div class="hp-explore-card__num">02</div>
+                <div class="hp-explore-card__coord">FLORA · 植物類</div>
+                <div class="hp-explore-card__overlay"></div>
+                <div class="hp-explore-card__content">
+                    <div class="hp-explore-card__icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 42V20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                            <path d="M24 20C24 20 11 14 8 5c10 0 20 8 16 15z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M24 30C24 30 37 24 40 15c-10 0-20 8-16 15z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18 39c2-3 4-6 6-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <div class="hp-explore-card__tag">FLORA EXPLORER</div>
+                    <h3 class="hp-explore-card__title">校園植物<br>探索圖鑑</h3>
+                    <p class="hp-explore-card__desc">從高聳的台灣肖楠到嬌豔的山櫻花，解讀每一片葉脈背後的生態密碼。沉靜而深刻的植物世界等待你的到來。</p>
+                    <div class="hp-explore-card__meta">
+                        <span>原生 &amp; 外來種</span>
+                        <span class="hp-dot">·</span>
+                        <span>10 記錄物種</span>
+                    </div>
+                    <div class="hp-explore-card__cta">
+                        <span class="hp-explore-card__cta-text">進入探索</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
+                <div class="hp-explore-card__glow hp-explore-card__glow--teal"></div>
             </article>
-            <article class="hp-sc scroll-reveal" data-species="frog" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/澤蛙.jpg" alt="澤蛙" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">AMPHIBIAN · 兩棲類</span>
-                    <h3 class="hp-sc__name">澤蛙</h3>
-                    <p class="hp-sc__latin">Fejervarya multistriata</p>
-                    <span class="hp-sc__cta">查看詳情</span>
-                </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="dragonfly" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/霜白蜻蜓.jpg" alt="霜白蜻蜓" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">INSECT · 昆蟲</span>
-                    <h3 class="hp-sc__name">霜白蜻蜓</h3>
-                    <p class="hp-sc__latin">Orthetrum poecilops</p>
-                    <span class="hp-sc__cta">查看詳情</span>
-                </div>
-            </article>
-        </div>
 
-        <!-- Plants grid (hidden by default) -->
-        <div class="hp-species__grid" id="hp-grid-plants" role="tabpanel">
-            <article class="hp-sc scroll-reveal" data-species="cedar" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/台灣肖楠.jpg" alt="台灣肖楠" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">CONIFER · 針葉樹</span>
-                    <h3 class="hp-sc__name">台灣肖楠</h3>
-                    <p class="hp-sc__latin">Calocedrus formosana</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+            <!-- Card 3: Mission Challenge -->
+            <article class="hp-explore-card hp-explore-card--mission scroll-reveal" tabindex="0" role="button"
+                     onclick="alert('生態挑戰任務基地即將推出！敬請期待 🎮')"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();alert('生態挑戰任務基地即將推出！敬請期待 🎮');}">
+                <div class="hp-explore-card__bg">
+                    <img src="assets/images/ncu.jpg" alt="生態挑戰" loading="lazy">
+                    <div class="hp-explore-card__bg-tint hp-explore-card__bg-tint--mission"></div>
                 </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="juniper" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/龍柏.jpg" alt="龍柏" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">CONIFER · 針葉樹</span>
-                    <h3 class="hp-sc__name">龍柏</h3>
-                    <p class="hp-sc__latin">Juniperus chinensis</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+                <div class="hp-explore-card__scan"></div>
+                <div class="hp-explore-card__corners">
+                    <span class="hp-corner hp-corner--tl"></span>
+                    <span class="hp-corner hp-corner--tr"></span>
+                    <span class="hp-corner hp-corner--bl"></span>
+                    <span class="hp-corner hp-corner--br"></span>
                 </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="paperbark" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/白千層.jpg" alt="白千層" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
-                    <h3 class="hp-sc__name">白千層</h3>
-                    <p class="hp-sc__latin">Melaleuca leucadendra</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+                <div class="hp-explore-card__num">03</div>
+                <div class="hp-explore-card__coord">MISSION · ACTIVE</div>
+                <div class="hp-explore-card__mission-badge">
+                    <span class="hp-mission-pulse"></span>
+                    <span class="hp-mission-label">即將推出</span>
                 </div>
-            </article>
-            <article class="hp-sc scroll-reveal" data-species="acacia" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/相思樹.jpg" alt="相思樹" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
-                    <h3 class="hp-sc__name">相思樹</h3>
-                    <p class="hp-sc__latin">Acacia confusa</p>
-                    <span class="hp-sc__cta">查看詳情</span>
+                <div class="hp-explore-card__overlay"></div>
+                <div class="hp-explore-card__content">
+                    <div class="hp-explore-card__icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.2"/>
+                            <circle cx="24" cy="24" r="9" stroke="currentColor" stroke-width="1.8" opacity="0.8"/>
+                            <circle cx="24" cy="24" r="3" fill="currentColor"/>
+                            <path d="M24 6v6M24 36v6M6 24h6M36 24h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="hp-explore-card__tag">ECOLOGY MISSION</div>
+                    <h3 class="hp-explore-card__title">生態挑戰<br>任務基地</h3>
+                    <p class="hp-explore-card__desc">接受任務指令，辨識物種、解開生態謎題、挑戰食物鏈知識。每一關都是一次真實的保育行動體驗。</p>
+                    <div class="hp-explore-card__meta">
+                        <span>趣味互動</span>
+                        <span class="hp-dot">·</span>
+                        <span>知識挑戰</span>
+                    </div>
+                    <div class="hp-explore-card__cta">
+                        <span class="hp-explore-card__cta-text">敬請期待</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M11 6l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
                 </div>
+                <div class="hp-explore-card__glow hp-explore-card__glow--gold"></div>
             </article>
-            <article class="hp-sc scroll-reveal" data-species="cherry" tabindex="0" role="button">
-                <div class="hp-sc__img"><img src="assets/images/山櫻花.jpg" alt="山櫻花" loading="lazy"></div>
-                <div class="hp-sc__overlay"></div>
-                <div class="hp-sc__body">
-                    <span class="hp-sc__cat">TREE · 闊葉樹</span>
-                    <h3 class="hp-sc__name">山櫻花</h3>
-                    <p class="hp-sc__latin">Prunus campanulata</p>
-                    <span class="hp-sc__cta">查看詳情</span>
-                </div>
-            </article>
-        </div>
 
+        </div>
     </section>
 
     <!-- ══ 4. MISSION STATEMENT ══ -->
@@ -375,22 +401,6 @@
         </div>
     </section>
 
-    <!-- ══ 7. CALL TO ACTION ══ -->
-    <section class="hp-cta">
-        <div class="hp-cta__bg">
-            <img src="assets/images/background/campus-lawn.jpg" alt="Campus" loading="lazy">
-        </div>
-        <div class="hp-cta__content">
-            <h2 class="hp-cta__title">一起守護<br>校園生態</h2>
-            <p class="hp-cta__desc">
-                無論你是學生、教職員或訪客，都可以成為校園生態守護者。從認識物種開始，從參與觀察開始，讓我們一起為永續校園盡一份心力。
-            </p>
-            <div class="hp-cta__buttons">
-                <a href="pages/wildlife-map.html" class="hp-btn hp-btn--primary">探索生態地圖</a>
-                <a href="#" data-page="join" class="hp-btn hp-btn--ghost">參與我們的行動</a>
-            </div>
-        </div>
-    </section>
 
 </div>
 
@@ -995,6 +1005,7 @@
 <script src="js/resources.js"></script>
 <script src="js/form.js"></script>
 <script src="js/animations.js"></script>
+<script src="js/mouse-spotlight.js"></script>
 
 <!-- Application Initialization -->
 <script src="js/main.js"></script>
