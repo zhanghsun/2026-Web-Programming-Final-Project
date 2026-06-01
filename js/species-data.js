@@ -220,7 +220,7 @@ const animals = {
         photos: [
             'assets/images/species/黑冠麻鷺/黑冠麻鷺1.jpg',
             'assets/images/species/黑冠麻鷺/黑冠麻鷺2.jpg',
-            'assets/images/species/黑冠麻鷺/黑冠麻鷺3.JPG'
+            'assets/images/species/黑冠麻鷺/黑冠麻鷺3.jpg'
         ],
         commonness: 5,
         activityTime: '全天（晨昏最活躍）',

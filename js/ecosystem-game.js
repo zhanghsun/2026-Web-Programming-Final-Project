@@ -69,6 +69,7 @@
         endScoreNum:  document.getElementById('endScoreNum'),
         endVerdict:   document.getElementById('endVerdict'),
         restartBtn:   document.getElementById('restartBtn'),
+        viewResultsBtn: document.getElementById('viewResultsBtn'),
     };
 
     /* ─────────────────────────────────────────────
@@ -349,12 +350,27 @@
             }));
         } catch (e) { /* ignore storage errors */ }
 
-        // Cinematic fade-out then navigate to results page
-        document.body.style.transition = 'opacity 0.9s ease';
-        document.body.style.opacity    = '0';
-        setTimeout(() => {
-            window.location.href = 'ecosystem-results.html';
-        }, 900);
+        // Populate end screen content
+        DOM.endScoreNum.textContent = state.health;
+
+        // Animate ring fill (circumference = 2π × 50 ≈ 314)
+        requestAnimationFrame(() => {
+            DOM.ringFill.style.strokeDashoffset =
+                Math.round(314 * (1 - state.health / 100));
+        });
+
+        // Verdict text based on final health
+        DOM.endVerdict.textContent =
+            state.health >= 80
+                ? '出色！你在每一個關鍵時刻都展現了對自然的深刻理解，讓校園生命更加繁盛。'
+            : state.health >= 60
+                ? '稱職的生態顧問，在多數決策中找到了人與自然的平衡點。'
+            : state.health >= 40
+                ? '你開始感受生態兩難的複雜性，每次嘗試都讓理解更深一層。再試一次！'
+            : '這次旅程讓生態承受了考驗，但每次嘗試都是寶貴的學習。再試一次吧！';
+
+        // Show the end screen
+        DOM.endScreen.hidden = false;
     }
 
     /* ─────────────────────────────────────────────
@@ -395,6 +411,15 @@
 
     DOM.nextBtn.addEventListener('click', advanceChapter);
     DOM.restartBtn.addEventListener('click', restartGame);
+
+    DOM.viewResultsBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.body.style.transition = 'opacity 0.9s ease';
+        document.body.style.opacity    = '0';
+        setTimeout(() => {
+            window.location.href = 'pages/ecosystem-results.html';
+        }, 900);
+    });
 
     // Subtle 3-D card tilt (pointer devices only)
     if (window.matchMedia('(hover: hover)').matches) {
