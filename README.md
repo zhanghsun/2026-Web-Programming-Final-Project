@@ -1,72 +1,72 @@
 ﻿# Campus Nature Explorer
 **國立中央大學 生態與保育資訊網**
 
-A multi-page educational website built for National Central University's campus ecology and conservation program. Developed as a Web Programming course project.
+為國立中央大學校園生態保育推廣計畫所開發的多頁靜態教育網站，作為網頁程式設計課程期末專題提交。
 
 ---
 
-## Table of Contents
+## 目錄
 
-1. [Project Overview](#project-overview)
-2. [Technology Stack](#technology-stack)
-3. [System Architecture](#system-architecture)
-4. [Project Structure](#project-structure)
-5. [Content Management Design](#content-management-design)
-6. [Feature Implementation](#feature-implementation)
-7. [Routing Architecture](#routing-architecture)
-8. [Responsive Design Strategy](#responsive-design-strategy)
-9. [UI/UX Design Decisions](#uiux-design-decisions)
-10. [Installation & Local Development](#installation--local-development)
-11. [Build and Deployment](#build-and-deployment)
-12. [Future Technical Improvements](#future-technical-improvements)
-13. [Contributors](#contributors)
-14. [Conclusion](#conclusion)
-
----
-
-## Project Overview
-
-Campus Nature Explorer is a zero-dependency, static multi-page website that catalogues 17 wildlife species and 10 plant species found on the NCU campus. The site integrates an interactive ecology map, a 5-chapter decision-based game engine, and a Google Sheets–backed participation form.
-
-The project was built without any front-end framework. All interactivity is implemented in vanilla JavaScript using module-per-feature organisation, demonstrating core web fundamentals: DOM manipulation, the Fetch API, Intersection Observer, sessionStorage, and CSS custom properties.
-
-**Scale:** ~4,500 lines of JavaScript across 17 modules, ~3,200 lines of CSS across 18 stylesheets, 17 HTML pages (including sub-pages), and 51+ image assets.
+1. [專案概述](#專案概述)
+2. [技術棧](#技術棧)
+3. [系統架構](#系統架構)
+4. [專案結構](#專案結構)
+5. [內容管理設計](#內容管理設計)
+6. [功能實作](#功能實作)
+7. [路由架構](#路由架構)
+8. [響應式設計策略](#響應式設計策略)
+9. [UI/UX 設計決策](#uiux-設計決策)
+10. [安裝與本地開發](#安裝與本地開發)
+11. [建置與部署](#建置與部署)
+12. [未來技術改善方向](#未來技術改善方向)
+13. [貢獻成員](#貢獻成員)
+14. [總結](#總結)
 
 ---
 
-## Technology Stack
+## 專案概述
 
-### HTML5 (Semantic Markup)
-All pages use semantic HTML5 elements (`<article>`, `<section>`, `<nav>`, `<figure>`). Sub-pages under `pages/` use `<base href="../">` to resolve all asset paths relative to the project root, eliminating duplicated path logic across every sub-page.
+Campus Nature Explorer 是一個零依賴的靜態多頁網站，收錄了中央大學校園內 17 種野生動物與 10 種植物物種。網站整合了互動式生態地圖、5 章節決策式遊戲引擎，以及以 Google Sheets 為後端的參與表單。
 
-### Vanilla CSS3 (No Framework)
-All styling is hand-authored CSS3. CSS custom properties (`--var`) are used throughout `shared.css` for theming. Layout is achieved with CSS Grid and Flexbox. No preprocessor (Sass/Less) or utility-class framework (Tailwind) is used — this was a deliberate choice to demonstrate mastery of the cascade and specificity without abstraction.
+本專案不使用任何前端框架，所有互動功能均以原生 JavaScript 實作，採用功能模組化的組織方式，展示 DOM 操作、Fetch API、Intersection Observer、sessionStorage 與 CSS 自訂屬性等核心網頁技術。
 
-Key CSS techniques used:
-- `@keyframes` for the SVG score ring `stroke-dashoffset` animation on the results page
-- `backdrop-filter: blur()` for glassmorphism panels (map side panel, navbar)
-- `clip-path` and `radial-gradient` for the hero spotlight and card glow effects
-- `Intersection Observer`-driven `.scroll-reveal` class toggling (no scroll-listener polling)
-
-### Vanilla JavaScript (ES6+, IIFE Modules)
-No bundler, no transpiler. Each JS file is either an IIFE (`(function(){ 'use strict'; ... })()`) or a plain function exposed on `window`. This sidesteps ES module `import`/`export` while still preventing global scope pollution for the more complex modules.
-
-Module loading order is managed explicitly through `<script>` tag ordering in each HTML file. Data-providing scripts (`species-data.js`, `ecosystem-game-data.js`) are loaded before the scripts that consume them, enforcing a simple dependency contract.
-
-### Markdown (Content Authoring)
-Plant detail content is authored in `.md` files under `data/plants/`. The `plant-detail.js` module fetches the file via the Fetch API and parses Markdown tables, headings, and lists with custom regex-based parser functions — no external Markdown library is used. This separates content from presentation without introducing a build step.
-
-### Google Sheets API (Form Backend)
-The participation form in `form.js` submits to a Google Apps Script web app endpoint via `fetch()` with a `FormData` payload. This provides a serverless, zero-cost backend for collecting user submissions without requiring any server infrastructure.
-
-### Intersection Observer API (Scroll Animations)
-`animations.js` registers an `IntersectionObserver` for all `.scroll-reveal` elements. When 10% of an element enters the viewport, the `reveal` CSS class is added. The observer then `unobserve()`s the element immediately, preventing redundant callback invocations on scroll-back.
+**規模：** 17 個模組約 4,500 行 JavaScript、18 個樣式表約 3,200 行 CSS、17 個 HTML 頁面（含子頁面）、51 張以上圖片資源。
 
 ---
 
-## System Architecture
+## 技術棧
 
-The site uses two distinct navigation patterns depending on context:
+### HTML5（語義化標記）
+所有頁面使用語義化 HTML5 元素（`<article>`、`<section>`、`<nav>`、`<figure>`）。`pages/` 下的子頁面統一使用 `<base href="../">` 將所有資源路徑解析至專案根目錄，避免每個子頁面重複撰寫路徑前綴。
+
+### 原生 CSS3（無框架）
+所有樣式均為手寫 CSS3。`shared.css` 全域使用 CSS 自訂屬性（`--var`）管理主題色彩。版面配置以 CSS Grid 與 Flexbox 實現，刻意不使用預處理器（Sass/Less）或工具類框架（Tailwind），以展示對層疊規則與優先權的掌握。
+
+主要 CSS 技術：
+- `@keyframes` — 結果頁 SVG 分數環的 `stroke-dashoffset` 動畫
+- `backdrop-filter: blur()` — 地圖側邊欄與導覽列的玻璃擬態效果
+- `clip-path` 與 `radial-gradient` — 首頁 hero 聚光燈與卡片光暈效果
+- Intersection Observer 驅動的 `.scroll-reveal` 類別切換（無 scroll 事件監聽輪詢）
+
+### 原生 JavaScript（ES6+、IIFE 模組）
+無打包工具、無轉譯器。每個 JS 檔案採用 IIFE（`(function(){ 'use strict'; ... })()`）或掛載至 `window` 的普通函式，在不引入 ES module 語法的前提下防止全域作用域污染。
+
+模組載入順序透過各 HTML 檔案中 `<script>` 標籤的排列順序明確管理。資料提供腳本（`species-data.js`、`ecosystem-game-data.js`）必須在消費它們的腳本之前載入，形成簡單的依賴契約。
+
+### Markdown（內容撰寫）
+植物詳細資訊以 `.md` 檔案存放於 `data/plants/`。`plant-detail.js` 透過 Fetch API 取得檔案後，以自製 regex 解析器解析 Markdown 表格、標題與清單，不依賴任何外部 Markdown 函式庫，實現無建置步驟的內容與呈現分離。
+
+### Google Sheets API（表單後端）
+`form.js` 中的參與表單透過 `fetch()` 搭配 `FormData` 提交至 Google Apps Script 網路應用程式端點，以零成本的無伺服器架構收集使用者回饋，不需要任何後端伺服器基礎設施。
+
+### Intersection Observer API（捲動動畫）
+`animations.js` 為所有 `.scroll-reveal` 元素註冊 `IntersectionObserver`。當元素進入可視區 10% 時加入 `reveal` 類別，並立即呼叫 `unobserve()`，避免捲回時重複觸發回呼。
+
+---
+
+## 系統架構
+
+網站依使用情境採用兩種不同的導覽模式：
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -78,7 +78,7 @@ The site uses two distinct navigation patterns depending on context:
 │  └───────────┘  └────────────────┘  └──────────────────────┘ │
 │       ↑                 ↑                      ↑             │
 │       └────────── navigation.js (showPage) ───┘             │
-│              [data-page] attribute binding                   │
+│              [data-page] 屬性綁定                             │
 └──────────────────────────────────────────────────────────────┘
          │ location.href                │ location.href
          ▼                              ▼
@@ -91,56 +91,56 @@ The site uses two distinct navigation patterns depending on context:
                                pages/ecosystem-results.html
 ```
 
-**Pattern A — SPA simulation (index.html):**
-`index.html` contains three page `<div>` elements (`#home-page`, `#resources-page`, `#join-page`). Only one is visible at a time via `.active` class toggling. `navigation.js` exposes `showPage(id)` globally. All `[data-page]` elements in the DOM are bound to this function on `DOMContentLoaded`. This avoids full-page reloads for the three primary sections.
+**模式 A — SPA 模擬（index.html）：**
+`index.html` 包含三個頁面 `<div>` 元素（`#home-page`、`#resources-page`、`#join-page`），每次僅透過 `.active` 類別切換顯示其中一個。`navigation.js` 將 `showPage(id)` 暴露為全域函式，並在 `DOMContentLoaded` 時綁定所有 `[data-page]` 元素，避免三個主要區塊的頁面重載。
 
-**Pattern B — Multi-page navigation (pages/):**
-Feature-heavy pages (`animals.html`, `plants.html`, `ecosystem-game.html`, etc.) are separate HTML files. They use `<base href="../">` so all relative asset URLs (`js/`, `css/`, `assets/`) resolve from the project root regardless of physical file location.
+**模式 B — 多頁面導覽（pages/）：**
+功能較複雜的頁面（`animals.html`、`plants.html`、`ecosystem-game.html` 等）為獨立 HTML 檔案，使用 `<base href="../">` 確保所有相對資源路徑（`js/`、`css/`、`assets/`）從專案根目錄解析，不受實體檔案位置影響。
 
-**State propagation between pages:**
-The game engine writes results to `sessionStorage` under the key `eg_results` as a serialised JSON object. The results page reads this key on load. If the key is absent (direct URL access without playing), a static demo dataset is rendered. This avoids URL query string clutter and keeps game state scoped to the browser tab session.
+**跨頁面狀態傳遞：**
+遊戲引擎將結果以 JSON 序列化後寫入 `sessionStorage`（鍵名：`eg_results`）。結果頁面載入時讀取此鍵；若鍵不存在（直接以 URL 存取），則渲染靜態示範資料。此方式避免 URL query string 雜亂，並將遊戲狀態限制在瀏覽器分頁的 session 範圍內。
 
 ---
 
-## Project Structure
+## 專案結構
 
 ```
 NCU_WebsiteDesign_/
 │
-├── index.html                   # SPA shell: home, resources, join pages
+├── index.html                   # SPA 殼層：首頁、資源中心、參與表單
 │
-├── pages/                       # Full-page sub-routes
-│   ├── animals.html             # Wildlife explorer grid
-│   ├── species.html             # Individual species detail (query-param driven)
-│   ├── plants.html              # Plant explorer card grid
-│   ├── plant-detail.html        # Individual plant detail (query-param driven)
-│   ├── wildlife-map.html        # Full-screen interactive campus map
-│   ├── ecosystem-guardian.html  # Game briefing / challenge mission base
-│   ├── ecosystem-game.html      # 5-chapter decision game engine
-│   └── ecosystem-results.html   # Guardian score + decision timeline
+├── pages/                       # 獨立子頁面
+│   ├── animals.html             # 野生動物探索卡片網格
+│   ├── species.html             # 單一物種詳細頁（URL 參數驅動）
+│   ├── plants.html              # 植物探索卡片網格
+│   ├── plant-detail.html        # 單一植物詳細頁（URL 參數驅動）
+│   ├── wildlife-map.html        # 全螢幕互動校園生態地圖
+│   ├── ecosystem-guardian.html  # 遊戲簡報 / 挑戰任務基地
+│   ├── ecosystem-game.html      # 5 章節決策遊戲引擎
+│   └── ecosystem-results.html   # 守護分數 + 決策時間軸
 │
-├── js/                          # One file per feature module
-│   ├── species-data.js          # Global data store: 17 species (window.speciesData)
-│   ├── ecosystem-game-data.js   # Global data store: 5 scenarios (window.GAME_SCENARIOS)
-│   ├── navigation.js            # SPA page switching, role switching
-│   ├── modal.js                 # Map side-panel population (displayInfo)
-│   ├── map.js                   # Map modal, spot interaction, pin state
-│   ├── animals.js               # Species grid, filter tabs, drawer open/close
-│   ├── species-page.js          # Species detail page (URL param: ?species=key)
-│   ├── plants.js                # Plant card grid, floating leaf particle effect
-│   ├── plant-images.js          # Image probe loader (PlantImages API)
-│   ├── plant-detail.js          # MD fetch + parser, 10-section layout builder
-│   ├── ecosystem-guardian.js    # Challenge card interactions
-│   ├── ecosystem-game.js        # Game engine: state machine, health bar, chapters
-│   ├── ecosystem-results.js     # Results renderer: tier classification, timeline
-│   ├── resources.js             # Resource card click → external page routing
-│   ├── form.js                  # Google Sheets form submission
-│   ├── animations.js            # Intersection Observer scroll-reveal
-│   ├── mouse-spotlight.js       # Radial gradient cursor spotlight effect
-│   └── main.js                  # App entry point: init orchestration, load overlay
+├── js/                          # 每個功能一個模組檔案
+│   ├── species-data.js          # 全域資料儲存：17 物種（window.speciesData）
+│   ├── ecosystem-game-data.js   # 全域資料儲存：5 劇本（window.GAME_SCENARIOS）
+│   ├── navigation.js            # SPA 頁面切換、角色切換
+│   ├── modal.js                 # 地圖側邊欄填充（displayInfo）
+│   ├── map.js                   # 地圖 Modal、標記點互動、釘選狀態
+│   ├── animals.js               # 物種網格、篩選標籤、抽屜開關
+│   ├── species-page.js          # 物種詳細頁（URL 參數：?species=key）
+│   ├── plants.js                # 植物卡片網格、飄落葉片粒子效果
+│   ├── plant-images.js          # 圖片探測載入器（PlantImages API）
+│   ├── plant-detail.js          # MD 取得 + 解析器、10 區塊版面建構
+│   ├── ecosystem-guardian.js    # 挑戰卡片互動
+│   ├── ecosystem-game.js        # 遊戲引擎：狀態機、血量條、章節推進
+│   ├── ecosystem-results.js     # 結果渲染：等級分類、決策時間軸
+│   ├── resources.js             # 資源卡片點擊 → 外部頁面路由
+│   ├── form.js                  # Google Sheets 表單提交
+│   ├── animations.js            # Intersection Observer 捲動揭示
+│   ├── mouse-spotlight.js       # 游標聚光燈效果（radial-gradient）
+│   └── main.js                  # 應用程式入口：模組初始化、載入遮罩
 │
-├── css/                         # Stylesheet per feature / component
-│   ├── shared.css               # CSS custom properties, resets, typography
+├── css/                         # 每個功能 / 元件一個樣式表
+│   ├── shared.css               # CSS 自訂屬性、重置、字型
 │   ├── navbar.css
 │   ├── hero.css
 │   ├── home-sections.css
@@ -160,34 +160,34 @@ NCU_WebsiteDesign_/
 │   └── ecosystem-results.css
 │
 ├── data/
-│   ├── plants/                  # 10 × .md files (one per plant species)
-│   └── species/                 # 17 × .md files (one per wildlife species)
+│   ├── plants/                  # 10 個 .md 檔（每種植物一份）
+│   └── species/                 # 17 個 .md 檔（每種動物一份）
 │
 └── assets/
     ├── icons/
     └── images/
-        ├── background/          # 10 scenario background images
-        ├── plants/              # 10 folders × 3 images each
-        └── species/             # 17 folders × 3 images each
+        ├── background/          # 10 張劇本背景圖
+        ├── plants/              # 10 個資料夾 × 每種 3 張圖
+        └── species/             # 17 個資料夾 × 每種 3 張圖
 ```
 
-**Module responsibilities:**
+**模組職責說明：**
 
-| Module | Responsibility |
-|--------|----------------|
-| `species-data.js` | Single source of truth for all 17 species. Exposes `window.speciesData`. Consumed by `modal.js`, `animals.js`, `map.js`, and `ecosystem-results.js`. |
-| `ecosystem-game-data.js` | 5 game scenario definitions including choices, health deltas, and feedback text. Must be loaded before `ecosystem-game.js`. |
-| `navigation.js` | `showPage(id)` — activates one `.page` div, deactivates all others. Also handles role-based resource centre switching. |
-| `plant-images.js` | Probes candidate image URLs with `new Image()` before injecting them, preventing broken `<img>` elements when images are absent. |
-| `main.js` | Orchestrates module initialisation order. Calls `init*()` functions only if they exist (graceful no-op if a module is not loaded on a given page). |
+| 模組 | 職責 |
+|------|------|
+| `species-data.js` | 17 種物種的唯一資料來源，暴露 `window.speciesData`，被 `modal.js`、`animals.js`、`map.js`、`ecosystem-results.js` 共用。 |
+| `ecosystem-game-data.js` | 5 個遊戲劇本定義，包含選項、血量變化值與回饋文字，必須在 `ecosystem-game.js` 之前載入。 |
+| `navigation.js` | `showPage(id)` — 啟用一個 `.page` div、停用其餘所有頁面，並處理角色切換邏輯。 |
+| `plant-images.js` | 以 `new Image()` 探測候選圖片 URL，確認存在後才注入，避免破圖的 `<img>` 元素。 |
+| `main.js` | 協調模組初始化順序，僅在函式存在時才呼叫 `init*()`（對當前頁面未載入的模組採無操作處理）。 |
 
 ---
 
-## Content Management Design
+## 內容管理設計
 
-### Markdown-Based Plant Content
+### 以 Markdown 為基礎的植物內容
 
-Each of the 10 plant species has a dedicated `.md` file in `data/plants/`. The file is fetched at runtime by `plant-detail.js`:
+10 種植物各有一份 `.md` 檔存放於 `data/plants/`，由 `plant-detail.js` 在執行期間取得：
 
 ```js
 fetch(`data/plants/${plantName}.md`)
@@ -195,33 +195,33 @@ fetch(`data/plants/${plantName}.md`)
   .then(md => parseAndRender(md));
 ```
 
-`plant-detail.js` contains custom parsing functions for:
-- **Markdown tables** → parsed into `string[][]` row arrays via regex on `|`-delimited lines
-- **Section headings** (`## heading`) → mapped to named section `<div>` elements
-- **Bullet lists** → converted to `<ul><li>` structures
+`plant-detail.js` 包含自製解析函式：
+- **Markdown 表格** → 以 `|` 分隔行的 regex 解析為 `string[][]`
+- **區塊標題**（`## heading`）→ 對應到具名區塊 `<div>` 元素
+- **條列清單** → 轉換為 `<ul><li>` 結構
 
-Adding a new plant requires only:
-1. Creating `data/plants/新植物.md` following the standard section schema
-2. Adding `assets/images/plants/新植物/新植物1.jpg`, `新植物2.jpg`, `新植物3.jpg`
+新增一種植物只需：
+1. 建立 `data/plants/新植物.md`（遵循標準區塊綱要）
+2. 新增 `assets/images/plants/新植物/新植物1.jpg`、`新植物2.jpg`、`新植物3.jpg`
 
-No JavaScript changes are needed. `plant-images.js` discovers images dynamically by probing the naming convention.
+不需修改任何 JavaScript 程式碼，`plant-images.js` 會自動透過命名規約探測圖片。
 
-### Species Data Organisation
+### 物種資料組織
 
-Wildlife data lives in `js/species-data.js` as a JavaScript object (`window.speciesData`). Each entry follows a strict schema:
+野生動物資料存放於 `js/species-data.js`，以 JavaScript 物件（`window.speciesData`）呈現，每筆資料遵循嚴格的綱要：
 
 ```js
 squirrel: {
   name:           '赤腹松鼠',
   englishName:    "Pallas's Squirrel",
   category:       'animal',      // 'animal' | 'plant'
-  group:          'ground',      // filter group key
+  group:          'ground',      // 篩選分組鍵
   characterTitle: '樹梢跑酷大師',
   avatar:         'assets/images/赤腹松鼠.jpg',
   photos:         ['...1.jpg', '...2.jpg', '...3.jpg'],
-  commonness:     5,             // 1–5 star rating
+  commonness:     5,             // 1–5 星常見度
   activityTime:   '白天',
-  difficulty:     1,             // observation difficulty 1–5
+  difficulty:     1,             // 觀察難度 1–5
   hotspot:        '校園各大樹群',
   story:          '...',
   idClues:        ['...', '...'],
@@ -233,76 +233,76 @@ squirrel: {
 }
 ```
 
-This centralised object is consumed by four modules without duplication: map modal, animals grid, species detail page, and game results renderer.
+此集中物件被四個模組共用，無任何資料重複：地圖側邊欄、動物網格、物種詳細頁、遊戲結果渲染。
 
-### Image Asset Convention
+### 圖片資源命名規約
 
-Images follow a strict naming convention enforced programmatically:
+圖片遵循以程式強制執行的命名規約：
 
 ```
-assets/images/species/{chineseName}/{chineseName}1.jpg   (indices 1–3)
-assets/images/plants/{chineseName}/{chineseName}1.jpg    (indices 1–3)
+assets/images/species/{中文名稱}/{中文名稱}1.jpg   （索引 1–3）
+assets/images/plants/{中文名稱}/{中文名稱}1.jpg    （索引 1–3）
 ```
 
-`plant-images.js` uses `encodeURIComponent(name)` when building probe URLs to handle Chinese-character folder names in HTTP contexts. All file extensions use lowercase `.jpg` to ensure cross-platform consistency (critical on case-sensitive Linux servers).
+`plant-images.js` 在建構探測 URL 時使用 `encodeURIComponent(name)` 處理中文字元資料夾名稱。所有副檔名統一使用小寫 `.jpg`，確保跨平台一致性（在大小寫敏感的 Linux 伺服器上至關重要）。
 
 ---
 
-## Feature Implementation
+## 功能實作
 
-### Wildlife Explorer (`animals.html` + `animals.js`)
+### 野生動物探索（`animals.html` + `animals.js`）
 
-The explorer renders a filterable card grid from `window.speciesData`. Filter tabs correspond to `group` values in the data schema. Clicking a card opens a drawer (`<div class="drawer">`) that slides in via CSS `transform: translateX()` transition.
+探索頁面從 `window.speciesData` 渲染可篩選的卡片網格，篩選標籤對應資料綱要中的 `group` 欄位。點擊卡片會開啟透過 CSS `transform: translateX()` 過渡滑入的抽屜（`<div class="drawer">`）。
 
-The drawer displays the species' `photos` array as a gallery. Viewed species keys are persisted to `localStorage` under `ncu-wildlife-discovered`, enabling a "discovered" badge state across page loads.
+抽屜展示物種的 `photos` 陣列作為圖片集。已查看的物種鍵值以 `localStorage`（鍵名：`ncu-wildlife-discovered`）持久化儲存，實現跨頁面載入的「已發現」徽章狀態。
 
-Clicking "完整圖鑑" navigates to `pages/species.html?species={key}`, where `species-page.js` reads `URLSearchParams` to look up the matching entry in `speciesData`.
+點擊「完整圖鑑」導覽至 `pages/species.html?species={key}`，由 `species-page.js` 讀取 `URLSearchParams` 查找對應的 `speciesData` 資料。
 
-### Plant Explorer (`plants.html` + `plants.js` + `plant-images.js`)
+### 植物探索（`plants.html` + `plants.js` + `plant-images.js`）
 
-`plants.js` generates floating leaf particles as absolutely-positioned `<div>` elements with randomised `animation-delay`, `animation-duration`, and horizontal `left` values injected as inline styles. This creates the ambient leaf-fall effect without canvas or WebGL.
+`plants.js` 以絕對定位的 `<div>` 元素生成飄落葉片粒子，並透過 inline style 注入隨機化的 `animation-delay`、`animation-duration` 與水平 `left` 值，不需 Canvas 或 WebGL 即可實現環境葉片飄落效果。
 
-Plant cards display primary images loaded via `PlantImages.loadPrimary(name)`, which probes the candidate URL with `new Image()`. On `onload`, the image is injected into the card's photo div; on `onerror`, a placeholder is shown — preventing layout shifts from broken image sources.
+植物卡片圖片透過 `PlantImages.loadPrimary(name)` 載入，以 `new Image()` 探測候選 URL：`onload` 時將圖片注入卡片；`onerror` 時顯示預設佔位圖，防止圖片破損造成版面位移。
 
-Clicking a card navigates to `pages/plant-detail.html?plant={name}`. `plant-detail.js` reads `URLSearchParams`, fetches the `.md` file, and populates a 10-section scrollable layout. A floating side-navigation with dot indicators tracks the active section via a second `IntersectionObserver` instance.
+點擊卡片導覽至 `pages/plant-detail.html?plant={name}`，`plant-detail.js` 讀取 `URLSearchParams`、取得 `.md` 檔案，並填充 10 個捲動區塊的版面。浮動側邊導覽的圓點指示器透過第二個 `IntersectionObserver` 實例追蹤當前作用區塊。
 
-### Campus Ecosystem Guardian (3-page flow)
+### 校園生態守護遊戲（三頁面流程）
 
-The game spans three pages with state passed through `sessionStorage`.
+遊戲橫跨三個頁面，狀態透過 `sessionStorage` 傳遞。
 
-**Briefing page (`ecosystem-guardian.html`):**
-Five challenge cards (`.eg-card`) present distinct ecological scenarios. Each card navigates to the game via `onclick="location.href='pages/ecosystem-game.html'"`. Three SDG reference cards link to official UN SDG pages as `<a>` elements.
+**簡報頁（`ecosystem-guardian.html`）：**
+五張挑戰卡片（`.eg-card`）呈現不同生態場景，每張卡片透過 `onclick="location.href='pages/ecosystem-game.html'"` 進入遊戲。三張 SDG 參考卡片以 `<a>` 元素連結至聯合國官方 SDG 頁面。
 
-**Game engine (`ecosystem-game.js`):**
-Implemented as an IIFE containing a state machine:
+**遊戲引擎（`ecosystem-game.js`）：**
+以包含狀態機的 IIFE 實作：
 
 ```
 State: { currentChapter, health, choices[], deltas[], isAnimating }
 
-Chapter flow:
+章節流程：
   loadChapter(n)
-    → populate DOM from GAME_SCENARIOS[n-1]
-    → fade-in scene background image
-    → bind choice buttons
+    → 從 GAME_SCENARIOS[n-1] 填充 DOM
+    → 淡入場景背景圖片
+    → 綁定選項按鈕
 
   handleChoice(choiceKey)
-    → isAnimating guard (prevents double-submission)
-    → apply health delta (clamped to [0, 100])
-    → record to state.choices / state.deltas
-    → show feedback panel (slide-in CSS animation)
-    → "Next chapter" button: advance or call showEndScreen()
+    → isAnimating 防護（防止重複提交）
+    → 套用血量變化值（限制在 [0, 100]）
+    → 記錄至 state.choices / state.deltas
+    → 顯示回饋面板（CSS 滑入動畫）
+    → 「下一章」按鈕：推進或呼叫 showEndScreen()
 
   showEndScreen()
-    → serialise state to sessionStorage (key: eg_results)
-    → reveal .gm-end overlay
-    → animate SVG score ring via stroke-dashoffset
-    → determine verdict text from health thresholds
+    → 將狀態序列化至 sessionStorage（鍵：eg_results）
+    → 顯示 .gm-end 遮罩
+    → 以 stroke-dashoffset 動畫顯示 SVG 分數環
+    → 依血量門檻決定評語文字
 ```
 
-Health bar colour transitions (green → amber → red) are driven by inline `width` style updates and a CSS class swap on each delta application.
+血量條色彩轉換（綠 → 琥珀 → 紅）由每次套用血量變化時的 inline `width` 樣式更新與 CSS 類別切換驅動。
 
-**Results page (`ecosystem-results.js`):**
-Reads `sessionStorage.getItem('eg_results')` on load. Tier classification uses a threshold array:
+**結果頁（`ecosystem-results.js`）：**
+載入時讀取 `sessionStorage.getItem('eg_results')`。等級分類使用門檻陣列：
 
 ```js
 const TIERS = [
@@ -314,33 +314,33 @@ const TIERS = [
 const tier = TIERS.find(t => health >= t.min);
 ```
 
-Species impact cards are rendered from a `SPECIES_OUTCOMES` map keyed by `'{chapter}-{choiceKey}'`. The decision timeline renders one row per chapter showing the chosen option, health delta, and outcome classification.
+物種影響卡片從以 `'{chapter}-{choiceKey}'` 為鍵的 `SPECIES_OUTCOMES` 映射表渲染。決策時間軸每章節一列，顯示所選選項、血量變化值與結果分類。
 
 ---
 
-## Routing Architecture
+## 路由架構
 
-### Strategy 1 — In-page section switching (index.html)
+### 策略一 — 頁內區塊切換（index.html）
 
-`navigation.js` implements client-side section switching without URL changes:
+`navigation.js` 實作無 URL 變更的客戶端區塊切換：
 
 ```js
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId + '-page').classList.add('active');
     window.scrollTo(0, 0);
-    // Re-run scroll reveal for newly visible content
+    // 重新執行捲動揭示（針對新顯示的內容）
     if (typeof window.reinitializeAnimations === 'function') {
         setTimeout(() => window.reinitializeAnimations(), 100);
     }
 }
 ```
 
-All navigation triggers use `[data-page]` attributes bound at init time. Hash-based deep links (e.g. `index.html#resources`) are handled by reading `window.location.hash` on load.
+所有導覽觸發點使用初始化時綁定的 `[data-page]` 屬性。Hash 深層連結（如 `index.html#resources`）透過載入時讀取 `window.location.hash` 處理。
 
-### Strategy 2 — URL parameter–driven detail pages
+### 策略二 — URL 參數驅動的詳細頁面
 
-`species.html` and `plant-detail.html` are generic templates populated at runtime:
+`species.html` 與 `plant-detail.html` 為執行期間動態填充的通用樣板：
 
 ```js
 // species-page.js
@@ -352,49 +352,49 @@ const plantName = new URLSearchParams(window.location.search).get('plant');
 fetch(`data/plants/${plantName}.md`).then(...);
 ```
 
-### Route Map
+### 路由對照表
 
-| Entry Point | URL | Handler |
-|-------------|-----|---------|
-| Home | `index.html` | `showPage('home')` |
-| Resource Centre | `index.html` → nav click | `showPage('resources')` |
-| Join / Form | `index.html` → nav click | `showPage('join')` |
-| Wildlife Explorer | `pages/animals.html` | `animals.js` |
-| Species Detail | `pages/species.html?species={key}` | `species-page.js` |
-| Plant Explorer | `pages/plants.html` | `plants.js` |
-| Plant Detail | `pages/plant-detail.html?plant={name}` | `plant-detail.js` |
-| Campus Map | `pages/wildlife-map.html` | `map.js` (standalone) |
-| Game Briefing | `pages/ecosystem-guardian.html` | `ecosystem-guardian.js` |
-| Game | `pages/ecosystem-game.html` | `ecosystem-game.js` |
-| Results | `pages/ecosystem-results.html` | `ecosystem-results.js` |
-
----
-
-## Responsive Design Strategy
-
-All layouts are built mobile-first using CSS Grid and Flexbox. No JavaScript-based layout switching is used — all adaptation is handled in CSS.
-
-### Key Responsive Patterns
-
-**Card Grids:** Species and plant card grids use `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`. This is intrinsically responsive — no breakpoint-specific column overrides are needed.
-
-**Navigation:** On mobile (`< 768px`), the navbar collapses to a hamburger menu toggled by adding/removing a CSS class — no inline style manipulation.
-
-**Game Scene:** The background (`#sceneBg`) uses `object-fit: cover` on a full-viewport `<div>`, adapting to any aspect ratio without JavaScript.
-
-**Wildlife Map:** Uses `vw`/`vh` units and `object-fit: contain` for the campus map image. The back button collapses to icon-only on screens narrower than `480px` by hiding the label `<span>` via media query.
-
-**Plant Detail Side-nav:** The 10-section dot navigation is hidden on mobile (`display: none`) to avoid obstruction on narrow viewports.
+| 進入點 | URL | 處理模組 |
+|--------|-----|---------|
+| 首頁 | `index.html` | `showPage('home')` |
+| 資源中心 | `index.html` → 點擊導覽列 | `showPage('resources')` |
+| 加入 / 表單 | `index.html` → 點擊導覽列 | `showPage('join')` |
+| 野生動物探索 | `pages/animals.html` | `animals.js` |
+| 物種詳細頁 | `pages/species.html?species={key}` | `species-page.js` |
+| 植物探索 | `pages/plants.html` | `plants.js` |
+| 植物詳細頁 | `pages/plant-detail.html?plant={name}` | `plant-detail.js` |
+| 校園生態地圖 | `pages/wildlife-map.html` | `map.js`（獨立版） |
+| 遊戲簡報 | `pages/ecosystem-guardian.html` | `ecosystem-guardian.js` |
+| 遊戲 | `pages/ecosystem-game.html` | `ecosystem-game.js` |
+| 遊戲結果 | `pages/ecosystem-results.html` | `ecosystem-results.js` |
 
 ---
 
-## UI/UX Design Decisions
+## 響應式設計策略
 
-### Dark Theme with Nature Accent Palette
-The site uses a dark base (`#0a0f0a`, `#111811`) with green accents (`#2d6a4f`, `#52b788`, `#95d5b2`). This palette references forest ecology. All colour combinations meet WCAG AA contrast ratios for body text.
+所有版面採用行動優先的 CSS Grid 與 Flexbox 實作，不使用任何 JavaScript 版面切換邏輯，所有適配均在 CSS 中處理。
 
-### Mouse Spotlight Effect
-`mouse-spotlight.js` tracks `mousemove` and updates a CSS `radial-gradient` on a fixed overlay element via `requestAnimationFrame`. Linear interpolation smooths cursor lag without layout thrashing:
+### 主要響應式模式
+
+**卡片網格：** 物種與植物卡片網格使用 `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`，內在響應式，無需針對各斷點設定欄數。
+
+**導覽列：** 在行動裝置（`< 768px`）以新增/移除 CSS 類別的方式切換漢堡選單，不操作 inline style。
+
+**遊戲場景：** 背景（`#sceneBg`）在全視窗 `<div>` 上使用 `object-fit: cover`，無需 JavaScript 即可適應任何長寬比。
+
+**野生動物地圖：** 校園地圖圖片使用 `vw`/`vh` 單位與 `object-fit: contain`。返回按鈕在螢幕寬度小於 `480px` 時透過媒體查詢隱藏文字 `<span>`，縮減為僅圖示。
+
+**植物詳細頁側邊導覽：** 10 個區塊的圓點導覽在行動裝置上設為 `display: none`，避免遮擋窄視窗內容。
+
+---
+
+## UI/UX 設計決策
+
+### 深色主題搭配自然調色盤
+網站使用深色底色（`#0a0f0a`、`#111811`）與綠色強調色（`#2d6a4f`、`#52b788`、`#95d5b2`），調色盤呼應森林生態。所有色彩組合對內文文字均達 WCAG AA 對比度標準。
+
+### 游標聚光燈效果
+`mouse-spotlight.js` 監聽 `mousemove` 事件，透過 `requestAnimationFrame` 更新固定遮罩元素上的 CSS `radial-gradient`。以線性插值（lerp）平滑游標延遲，避免版面重排：
 
 ```js
 currentX += (targetX - currentX) * 0.08;
@@ -402,47 +402,47 @@ currentY += (targetY - currentY) * 0.08;
 spotlight.style.background = `radial-gradient(600px at ${currentX}px ${currentY}px, ...)`;
 ```
 
-### Glassmorphism Panels
-Map side panels and game feedback overlays use `backdrop-filter: blur(18px) saturate(180%)` with semi-transparent backgrounds. `-webkit-` prefix is included for Safari compatibility.
+### 玻璃擬態面板
+地圖側邊欄與遊戲回饋遮罩使用 `backdrop-filter: blur(18px) saturate(180%)` 搭配半透明背景，包含 `-webkit-` 前綴以支援 Safari。
 
-### SVG Score Ring Animation
-The results page uses an SVG `<circle>` with `stroke-dasharray` / `stroke-dashoffset`. On load, `stroke-dashoffset` is animated from the full circumference to `circumference × (1 − score/100)` via `requestAnimationFrame` with an easing function, allowing the target value to be computed dynamically at runtime.
+### SVG 分數環動畫
+結果頁使用帶有 `stroke-dasharray` / `stroke-dashoffset` 的 SVG `<circle>`，在載入時透過含緩動函式的 `requestAnimationFrame` 將 `stroke-dashoffset` 從完整周長動畫至 `周長 × (1 − 分數/100)`，允許目標值在執行期間動態計算。
 
-### Loading Overlay
-A full-viewport overlay is shown on page parse (no JS needed for initial display). `main.js` adds `fade-out` after `DOMContentLoaded` + 280 ms, letting the browser complete its first paint before the overlay lifts. A `transitionend` listener then sets `display: none` to remove it from the accessibility tree.
+### 載入遮罩
+全視窗遮罩在頁面解析時即顯示（無需 JavaScript 進行初始顯示）。`main.js` 在 `DOMContentLoaded` 後延遲 280 ms 加入 `fade-out` 類別，讓瀏覽器完成首次繪製後才揭開遮罩。`transitionend` 監聽器執行後設定 `display: none`，將遮罩從無障礙樹中移除。
 
-### Scroll Reveal Consistency
-All content sections use `.scroll-reveal` with a unified `translateY(-20px) → translateY(0)` + `opacity: 0 → 1` transition. `animations.js` exposes `reinitializeAnimations()` so dynamically loaded or newly visible content (after page switching) can be re-observed.
+### 捲動揭示一致性
+所有主要內容區塊使用 `.scroll-reveal`，以統一的 `translateY(-20px) → translateY(0)` 與 `opacity: 0 → 1` 過渡進場。`animations.js` 暴露 `reinitializeAnimations()`，使動態載入或頁面切換後新顯示的內容也能重新被觀察。
 
 ---
 
-## Installation & Local Development
+## 安裝與本地開發
 
-This project has **no build step and no dependencies**. All files are static assets.
+本專案**無需建置步驟，亦無任何依賴套件**，所有檔案均為靜態資源。
 
-### Option 1 — VS Code Live Server (recommended)
-1. Install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension.
-2. Right-click `index.html` → **Open with Live Server**.
-3. Site opens at `http://127.0.0.1:5500/`.
+### 方式一 — VS Code Live Server（建議）
+1. 安裝 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) 擴充功能。
+2. 在 `index.html` 上按右鍵 → **Open with Live Server**。
+3. 網站開啟於 `http://127.0.0.1:5500/`。
 
-### Option 2 — Python HTTP server
+### 方式二 — Python HTTP 伺服器
 ```bash
 python -m http.server 8080
-# then open http://localhost:8080
+# 然後開啟 http://localhost:8080
 ```
 
-### Option 3 — Node.js serve
+### 方式三 — Node.js serve
 ```bash
 npx serve .
 ```
 
-> **Important:** Do not open `index.html` directly as a `file://` URL. `fetch()` calls in `plant-detail.js` will be blocked by the browser's CORS policy. An HTTP server is required.
+> **重要：** 請勿直接以 `file://` URL 開啟 `index.html`。`plant-detail.js` 中的 `fetch()` 呼叫將被瀏覽器的 CORS 政策封鎖，必須透過 HTTP 伺服器提供服務。
 
 ---
 
-## Build and Deployment
+## 建置與部署
 
-There is no build process. Deployment requires copying the project directory to any static file host.
+本專案無建置流程，部署只需將專案目錄複製至任何靜態檔案主機。
 
 ### GitHub Pages
 ```bash
@@ -454,7 +454,7 @@ git push -u origin main
 # Settings → Pages → Source: main / (root)
 ```
 
-### Nginx (Self-hosted)
+### Nginx（自架主機）
 ```nginx
 server {
     listen 80;
@@ -466,59 +466,61 @@ server {
 }
 ```
 
-### Asset Optimisation (Pre-deployment)
-All images are uncompressed `.jpg`. Before production deployment:
-- Run images through `sharp` or `imagemin` for compression
-- Convert `ncu_ecology_map.png` (campus map) to WebP — it is the largest single asset
-- Consider lazy-loading `<img loading="lazy">` is already applied on most non-hero images
+### 部署前資源最佳化
+所有圖片為未壓縮 `.jpg`。建議部署前進行以下處理：
+- 使用 `sharp` 或 `imagemin` 壓縮圖片
+- 將 `ncu_ecology_map.png`（校園地圖，為最大單一資源）轉換為 WebP 格式
+- 絕大多數非 hero 圖片已套用 `<img loading="lazy">`，可直接沿用
 
 ---
 
-## Future Technical Improvements
+## 未來技術改善方向
 
-### 1. CMS Integration
-Plant and species content is authored as static `.md` files and a monolithic JS data object. Replacing these with a headless CMS (Contentful, Strapi, or Directus) would decouple content authorship from the codebase and allow non-technical contributors to update species records without touching code.
+### 1. CMS 整合
+植物與物種內容目前以靜態 `.md` 檔案與單體 JS 資料物件撰寫。替換為 Headless CMS（Contentful、Strapi 或 Directus）可將內容撰寫與程式碼解耦，讓非技術人員也能更新物種資料而不需接觸程式碼。
 
-### 2. Backend + Database for Observation Records
-`animals.js` tracks discovered species in `localStorage`. A proper backend (Node.js + PostgreSQL or Firebase Firestore) would enable persistent cross-device records, community observation submissions, and aggregate sighting heatmap visualisation.
+### 2. 後端 + 資料庫（觀察紀錄）
+`animals.js` 目前以 `localStorage` 追蹤已發現物種。建置正式後端（Node.js + PostgreSQL 或 Firebase Firestore）可實現跨裝置持久化紀錄、社群觀察記錄提交，以及目擊地點熱力圖視覺化。
 
-### 3. Full-Text Search
-At current scale (17 species, 10 plants), grid browsing is sufficient. At larger scale, a client-side search index (Fuse.js or MiniSearch) would enable instant fuzzy search across species names, descriptions, and habitats without a server round-trip.
+### 3. 全文搜尋
+以目前規模（17 種動物、10 種植物），網格瀏覽已足夠。規模擴大後，客戶端搜尋索引（Fuse.js 或 MiniSearch）可在無伺服器往返的情況下，對物種名稱、描述與棲地進行即時模糊搜尋。
 
-### 4. GIS-Based Interactive Map
-The current `wildlife-map.html` uses a static campus photograph with hardcoded CSS `position: absolute` pins. Replacing it with Leaflet.js or MapLibre GL would enable accurate geographic coordinates, observation point clustering, and user-submitted sighting pins with real map tiles.
+### 4. GIS 互動地圖
+目前 `wildlife-map.html` 以靜態校園照片搭配硬編碼 CSS 絕對定位標記。改用 Leaflet.js 或 MapLibre GL 可提供精確地理座標、觀測點叢集，以及使用者提交的目擊標記與真實地圖圖磚。
 
-### 5. ES Module Refactor + Bundler
-The current `window.*` pattern avoids ES module syntax to maintain `file://` compatibility during development. Migrating to ES modules with Vite or esbuild would enable tree-shaking, code splitting (load game scripts only on game pages), and TypeScript type checking.
+### 5. ES Module 重構 + 打包工具
+目前 `window.*` 模式為維持 `file://` 開發相容性而迴避 ES module 語法。遷移至搭配 Vite 或 esbuild 的 ES modules 可啟用 Tree-shaking、程式碼分割（遊戲腳本僅在遊戲頁面載入），以及 TypeScript 型別檢查。
 
-### 6. Accessibility Audit
-Current ARIA usage is partial. A WCAG 2.1 AA audit should address: keyboard trap management in modals, `aria-live` regions for game feedback panels, colour contrast review on amber/green accent combinations, and focus-visible outlines on all interactive elements.
+### 6. 無障礙審查
+目前 ARIA 使用較為有限。建議針對 WCAG 2.1 AA 進行完整審查：Modal 中的鍵盤焦點陷阱管理、遊戲回饋面板的 `aria-live` 區域、琥珀色/綠色強調色組合的對比度複查，以及所有互動元素的 focus-visible 外框。
 
-### 7. Service Worker (Offline Support)
-A Cache API service worker would allow the site to function offline after the first visit — relevant for field use during on-campus ecology observation activities.
-
----
-
-## Contributors
-
-| Role | Name | Student ID | Contributions |
-|------|------|------------|---------------|
-| Developer / Designer | 張 勛 | 113522056 | All HTML, CSS, JavaScript, content authoring, and asset organisation |
-
-*National Central University · Department of Information Management*
-*Course: Web Programming · Spring 2026*
+### 7. Service Worker（離線支援）
+Cache API Service Worker 可讓網站在首次訪問後離線運作，適合在校園進行實地生態觀察活動時使用。
 
 ---
 
-## Conclusion
+## 貢獻成員
 
-Campus Nature Explorer demonstrates a complete front-end engineering workflow without relying on any JavaScript framework or CSS utility library. Key technical achievements:
+| 姓名 | 學號 | 主要貢獻 |
+|------|------|---------|
+| **張循** | 113522056 | 專案整合與最終實作。負責整體專案架構規劃、首頁重新設計、互動式下拉導覽列、野生動物探索、植物探索、校園生態守護遊戲、生態地圖強化、資源中心優化、參與表單改版、頁尾設計，以及技術文件撰寫。 |
+| **施竑宇** | — | 初期 UI/UX 設計與視覺素材蒐集。負責第一版資源中心與參與頁面、Google Sheets 表單串接，以及野生動物與植物圖片資源蒐集。 |
+| **彭靖淵** | — | 初期網站架構建置與資料蒐集。負責第一版首頁與生態地圖、Google Sheets 表單串接，以及野生動物與植物資訊資源蒐集。 |
 
-- **Modular JS architecture** — 17 single-responsibility modules communicating through well-defined global interfaces (`window.speciesData`, `window.GAME_SCENARIOS`, `sessionStorage`) rather than tight coupling
-- **Runtime Markdown parsing** — plant content is fetched and parsed at runtime with custom regex-based parsers, achieving content–presentation separation with zero build dependencies
-- **Dynamic image discovery** — `plant-images.js` probes candidate URLs via the `Image` constructor rather than maintaining a static registry, making the naming convention the only contract needed
-- **State machine game engine** — `ecosystem-game.js` implements a 5-chapter progression state machine entirely in vanilla JS, including animated health bars, SVG ring animation, and cross-page state transfer via `sessionStorage`
-- **Dual routing strategy** — combining in-page section switching (SPA-like for the index) with URL-parameter–driven detail pages (for species and plant detail) provides a coherent navigation model without a router library
+*國立中央大學 · 資訊管理學系*
+*課程：網頁程式設計 · 2026 春季學期*
 
-The project prioritises readability and maintainability of plain HTML/CSS/JS over framework convenience, making it an instructive reference for foundational web programming techniques.
+---
+
+## 總結
+
+Campus Nature Explorer 展示了一套不依賴任何 JavaScript 框架或 CSS 工具類函式庫的完整前端工程工作流程。主要技術成果如下：
+
+- **模組化 JS 架構** — 17 個單一職責模組透過明確定義的全域介面（`window.speciesData`、`window.GAME_SCENARIOS`、`sessionStorage`）進行溝通，避免緊耦合
+- **執行期 Markdown 解析** — 植物內容在執行期間以自製 regex 解析器取得並解析，在零建置依賴的前提下實現內容與呈現的分離
+- **動態圖片探測** — `plant-images.js` 透過 `Image` 建構子探測候選 URL，而非維護靜態圖片列表，以命名規約作為唯一契約
+- **狀態機遊戲引擎** — `ecosystem-game.js` 以純 vanilla JS 實作 5 章節推進狀態機，包含動畫化血量條、SVG 環形動畫，以及透過 `sessionStorage` 的跨頁面狀態傳遞
+- **雙重路由策略** — 將頁內區塊切換（首頁的 SPA 模擬）與 URL 參數驅動的詳細頁面（物種/植物詳細頁）結合，在不引入路由函式庫的前提下提供一致的導覽模型
+
+本專案以原生 HTML/CSS/JS 的可讀性與可維護性為優先，而非追求框架的便利性，作為展示基礎網頁程式設計技術的具體參考實作。
 
