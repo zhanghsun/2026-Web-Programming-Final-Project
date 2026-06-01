@@ -398,6 +398,105 @@ p {
 }
 
 /* --- Bottom bar --- */
+.footer-team {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 32px 24px;
+    border-top: 1px solid var(--border-eco);
+}
+
+.footer-team__heading {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-eco-green);
+    opacity: 0.6;
+    margin: 0 0 18px;
+}
+
+.footer-team__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.footer-team__card {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: rgba(143, 223, 143, 0.04);
+    border: 1px solid var(--border-eco);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.footer-team__avatar {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(143, 223, 143, 0.12);
+    border: 1px solid rgba(143, 223, 143, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-eco-green);
+}
+
+.footer-team__info {
+    min-width: 0;
+}
+
+.footer-team__name {
+    margin: 0 0 3px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-accent);
+}
+
+.footer-team__id {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--color-eco-green);
+    opacity: 0.6;
+    margin-left: 4px;
+    letter-spacing: 0.04em;
+}
+
+.footer-team__role {
+    margin: 0 0 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-eco-green);
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+}
+
+.footer-team__desc {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--color-eco-green-light);
+    opacity: 0.6;
+}
+
+@media (max-width: 1024px) {
+    .footer-team__grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-team {
+        padding: 24px 20px 20px;
+    }
+}
+
+/* --- Bottom bar --- */
 .footer-bottom {
     display: flex;
     align-items: center;
