@@ -429,32 +429,48 @@
 
     /** S5 Viewing Calendar */
     function renderCalendar(rows, heading) {
-        if (!rows || !rows.length) return;
+        // Ensure rows is at least an empty array
+        rows = rows || [];
         if (heading) {
             setHtml('pdCalLabel', '📅 ' + stripEmoji(heading).trim().toUpperCase() + ' · 觀賞時曆');
         }
 
         var currentMonth = new Date().getMonth() + 1; // 1-12
-        var html = rows.map(function (row) {
-            var monthLabel = row[0] || '';
-            var ratingStr  = row[1] || '';
-            var score      = countStars(ratingStr);
-            var heightPct  = score * 20;
-            var monthNum   = parseInt(monthLabel, 10);
-            var isCurrent  = monthNum === currentMonth;
-            var tooltip    = monthLabel + '：' + (ratingStr || '無資料');
 
-            return '<div class="pd-cal-bar-wrap' + (isCurrent ? ' current-month' : '') + '" ' +
+        // Normalize provided rows into a month -> rating map, so missing months can be filled
+        var monthMap = {};
+        rows.forEach(function (row) {
+            var mLabel = row[0] || '';
+            var rating = row[1] || '';
+            var mNum = parseInt(mLabel, 10);
+            if (!isNaN(mNum) && mNum >= 1 && mNum <= 12) {
+                monthMap[mNum] = rating;
+            }
+        });
+
+        var htmlParts = [];
+        for (var m = 1; m <= 12; m++) {
+            var monLabel = m + '月';
+            var ratingStr = monthMap[m] || '';
+            var score = countStars(ratingStr);
+            var heightPct = score * 20;
+            var isCurrent = m === currentMonth;
+            var tooltip = monLabel + '：' + (ratingStr || '無資料');
+
+            htmlParts.push(
+                '<div class="pd-cal-bar-wrap' + (isCurrent ? ' current-month' : '') + '" ' +
                    'data-tooltip="' + escAttr(tooltip) + '" ' +
                    'aria-label="' + escAttr(tooltip) + '">' +
                 '<div class="pd-cal-bar-track">' +
                     '<div class="pd-cal-bar-fill pd-reveal" data-score="' + score + '" ' +
                          'style="height:' + heightPct + '%" aria-hidden="true"></div>' +
                 '</div>' +
-                '<span class="pd-cal-month">' + escHtml(monthLabel) + '</span>' +
-            '</div>';
-        }).join('');
-        setHtml('pdCalChart', html);
+                '<span class="pd-cal-month">' + escHtml(monLabel) + '</span>' +
+            '</div>'
+            );
+        }
+
+        setHtml('pdCalChart', htmlParts.join(''));
     }
 
     /** S6 Viewing Spots */
