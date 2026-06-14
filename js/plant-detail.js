@@ -437,12 +437,13 @@
 
         var currentMonth = new Date().getMonth() + 1; // 1-12
 
-        // Normalize provided rows into a month -> rating map, so missing months can be filled
+        // Build a normalized month->rating map. Accept labels like "1", "1月", "Jan 1".
         var monthMap = {};
         rows.forEach(function (row) {
-            var mLabel = row[0] || '';
+            var mLabel = (row[0] || '').toString().trim();
             var rating = row[1] || '';
-            var mNum = parseInt(mLabel, 10);
+            var mMatch = mLabel.match(/(\d{1,2})/);
+            var mNum = mMatch ? parseInt(mMatch[1], 10) : NaN;
             if (!isNaN(mNum) && mNum >= 1 && mNum <= 12) {
                 monthMap[mNum] = rating;
             }
